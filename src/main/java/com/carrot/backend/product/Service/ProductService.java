@@ -3,6 +3,9 @@ package com.carrot.backend.product.Service;
 import com.carrot.backend.product.dao.ProductRepository;
 import com.carrot.backend.product.domain.Product;
 import com.carrot.backend.product.dto.ProductDto;
+import com.carrot.backend.productImage.Service.ProductImageService;
+import com.carrot.backend.productImage.dao.ProductImageRepository;
+import com.carrot.backend.productImage.domain.ProductImages;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +17,9 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
-
-    public Optional<Product> getProduct(String productId) {
+    private final ProductImageRepository productImageRepository;
+    private final ProductImageService productImageService;
+    public Optional<Product> getProduct(Long productId) {
         return productRepository.findById(productId);
     }
 
@@ -23,7 +27,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product createProduct(ProductDto productDto) {
+    public Long createProduct(ProductDto productDto) {
         Product newProduct = new Product();
 
         newProduct.setProductPrice(productDto.getProductPrice());
@@ -34,6 +38,8 @@ public class ProductService {
         newProduct.setProductLike(0);
         newProduct.setProductView(0);
         productRepository.save(newProduct);
-        return newProduct;
+
+
+        return newProduct.getProductId();
     }
 }

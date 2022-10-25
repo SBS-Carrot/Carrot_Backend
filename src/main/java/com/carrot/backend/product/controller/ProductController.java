@@ -3,6 +3,7 @@ package com.carrot.backend.product.controller;
 import com.carrot.backend.product.Service.ProductService;
 import com.carrot.backend.product.domain.Product;
 import com.carrot.backend.product.dto.ProductDto;
+import com.carrot.backend.productImage.Service.ProductImageService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,14 +21,16 @@ public class ProductController {
         return productService.getProducts();
     }
     @GetMapping("/product/{productId}")
-    public Optional<Product> getProduct(@PathVariable String productId){
+    public Optional<Product> getProduct(@PathVariable Long productId){
         return productService.getProduct(productId);
     }
 
     @PostMapping("/createProduct")
-    public List<Product> createProduct(@RequestBody ProductDto productDto){
-
-        productService.createProduct(productDto);
-        return productService.getProducts();
+    public Optional<Product> createProduct(@RequestBody ProductDto productDto){
+        Long id = productService.createProduct(productDto);
+        return productService.getProduct(id);
     }
+
+
+
 }
