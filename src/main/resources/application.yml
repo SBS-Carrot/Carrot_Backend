@@ -2,6 +2,10 @@ server:
   port: 8083
 
 spring:
+  web:
+    resources:
+      static-locations:
+        - file:///C:\uploads
   devtools:
     livereload:
       enabled: true
