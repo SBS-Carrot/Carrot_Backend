@@ -23,14 +23,17 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product createProduct(Product product) {
+    public Product createProduct(ProductDto productDto) {
         Product newProduct = new Product();
 
-        product.setProductPrice(product.getProductPrice());
-        product.setProductName(product.getProductName());
-        product.setProductStock(product.getProductStock());
+        newProduct.setProductPrice(productDto.getProductPrice());
+        newProduct.setProductSubject(productDto.getProductSubject());
+        newProduct.setProductContent(productDto.getProductContent());
+        newProduct.setProductCategory(productDto.getProductCategory());
+        newProduct.setProductChatting(0);
+        newProduct.setProductLike(0);
+        newProduct.setProductView(0);
         productRepository.save(newProduct);
-
         return newProduct;
     }
 }

@@ -25,9 +25,9 @@ public class ProductController {
     }
 
     @PostMapping("/createProduct")
-    public List<Product> createProduct(@RequestBody Product product){
-        System.out.println("product"+product);
-        productService.createProduct(product);
+    public List<Product> createProduct(@RequestBody ProductDto productDto){
+
+        productService.createProduct(productDto);
         return productService.getProducts();
     }
 }

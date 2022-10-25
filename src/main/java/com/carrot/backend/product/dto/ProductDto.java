@@ -1,25 +1,21 @@
 package com.carrot.backend.product.dto;
 
-import com.carrot.backend.product.domain.Product;
-import lombok.*;
+import lombok.Data;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-@Builder
-public class ProductDto {
-    private String productId;
-    private String productName;
-    private int productPrice;
-    private int productStock;
 
-    public Product toEntity(){
-        return Product.builder()
-                .productId(productId)
-                .productName(productName)
-                .productPrice(productPrice)
-                .productStock(productStock)
-                .build();
-    }
+public class ProductDto {
+
+    String productSubject;
+
+
+    String productContent;
+
+
+    Integer productPrice;
+
+
+    String productCategory;
+
+
 }
