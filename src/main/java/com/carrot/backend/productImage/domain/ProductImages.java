@@ -1,8 +1,8 @@
 package com.carrot.backend.productImage.domain;
 
+import com.carrot.backend.product.domain.Product;
 import lombok.Data;
 
-import javax.persistence.Entity;
 import javax.persistence.*;
 
 @Entity
@@ -14,9 +14,12 @@ public class ProductImages {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long imageId;
 
-    long productId;
+
 
     String path;
+
+    @ManyToOne
+    private Product product;
 
     public Long getImageId() {
         return imageId;
@@ -26,13 +29,7 @@ public class ProductImages {
         this.imageId = imageId;
     }
 
-    public long getProductId() {
-        return productId;
-    }
 
-    public void setProductId(long productId) {
-        this.productId = productId;
-    }
 
     public String getPath() {
         return path;

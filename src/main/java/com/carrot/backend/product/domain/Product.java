@@ -1,10 +1,12 @@
 package com.carrot.backend.product.domain;
 
+import com.carrot.backend.productImage.domain.ProductImages;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,9 +34,13 @@ public class Product {
     Integer productView;
     @Column
     Integer productLike;
+
     @Column
     @NotEmpty
     String productCategory;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    private List<ProductImages> images;
 
     public Long getProductId() {
         return productId;
@@ -46,6 +52,14 @@ public class Product {
 
     public String getProductSubject() {
         return productSubject;
+    }
+
+    public List<ProductImages> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ProductImages> images) {
+        this.images = images;
     }
 
     public void setProductSubject(String productSubject) {
