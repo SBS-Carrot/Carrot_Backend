@@ -5,7 +5,16 @@ spring:
   web:
     resources:
       static-locations:
-        - file:///C:\uploads
+        - file:///C:\
+  profiles:
+    include:
+      - aws
+      - credentials
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
   devtools:
     livereload:
       enabled: true

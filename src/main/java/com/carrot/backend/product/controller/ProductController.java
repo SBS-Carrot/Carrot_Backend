@@ -14,7 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ProductController {
     private final ProductService productService;
-
+    private final ProductImageService productImageService;
 
     @GetMapping("")
     public List<Product> getProducts(){
@@ -28,8 +28,15 @@ public class ProductController {
     @PostMapping("/createProduct")
     public Optional<Product> createProduct(@RequestBody ProductDto productDto){
         Long id = productService.createProduct(productDto);
+
         return productService.getProduct(id);
     }
+//    @PostMapping("/createProductImages/{productId}")
+//    public ProductImageDto uploadProfilePhoto(@PathVariable ("productId") long productId, @RequestParam("files") MultipartFile multipartFile) throws IOException {
+//
+//        return productImageService.upload(productId, multipartFile, "images");
+//
+//    }
 
 
 

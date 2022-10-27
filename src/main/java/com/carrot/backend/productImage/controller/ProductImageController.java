@@ -2,39 +2,27 @@ package com.carrot.backend.productImage.controller;
 
 import com.carrot.backend.product.Service.ProductService;
 import com.carrot.backend.productImage.Service.ProductImageService;
+import com.carrot.backend.productImage.dto.ProductImageDto;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.IOException;
 
-@Controller
+@RestController
 @AllArgsConstructor
 public class ProductImageController {
     private final ProductService productService;
     private final ProductImageService productImageService;
 
-    @PostMapping("/createProductImages")
-    public void createImages(@ModelAttribute MultipartFile[] uploadFile){
-        String uploadFolder = "C:\\upload";
+    @PostMapping("/createProductImages/{productId}")
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    public ProductImageDto uploadProfilePhoto(@PathVariable ("productId") long productId, @RequestParam("files") MultipartFile multipartFile) throws IOException {
 
-        Date date = new Date();
-
-        String str = sdf.format(date);
-
-        String datePath = str.replace("-", File.separator);
-
-        File uploadPath = new File(uploadFolder, datePath);
-
-        if(uploadPath.exists() == false) {
-            uploadPath.mkdirs();
-        }
+        return productImageService.upload(productId, multipartFile, "images");
 
     }
 

@@ -14,8 +14,6 @@ public class ProductImages {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long imageId;
 
-
-
     String path;
 
     @ManyToOne
@@ -28,7 +26,6 @@ public class ProductImages {
     public void setImageId(Long imageId) {
         this.imageId = imageId;
     }
-
 
 
     public String getPath() {
