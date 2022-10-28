@@ -6,20 +6,20 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductImageDto {
-    Long imageId;
+    Integer imageId;
     String path;
 
-    Long productId;
+    Integer productId;
 
-    public Long getProductId() {
+    public Integer getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(Integer productId) {
         this.productId = productId;
     }
 
-    public ProductImageDto(Long productId,String path) {
+    public ProductImageDto(Integer productId,String path) {
         this.path = path;
         this.productId = productId;
     }

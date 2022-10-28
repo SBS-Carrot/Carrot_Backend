@@ -3,7 +3,9 @@ package com.carrot.backend.productImage.Service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.carrot.backend.product.Service.ProductService;
 import com.carrot.backend.productImage.dao.ProductImageRepository;
+import com.carrot.backend.productImage.domain.ProductImages;
 import com.carrot.backend.productImage.dto.ProductImageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -24,12 +29,14 @@ import java.util.*;
 public class ProductImageService {
 
     private final ProductImageRepository productImageRepository;
+    private final ProductService productService;
     private final AmazonS3Client amazonS3Client;
+
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
 
-    public List<ProductImageDto> uploads(Long productId, List<MultipartFile> multipartFile, String dirName) throws IOException {
+    public List<ProductImageDto> uploads(Integer productId, List<MultipartFile> multipartFile, String dirName) throws IOException {
         List<File> uploadFile = new ArrayList<File>();
         for(int i=0;i< multipartFile.size();i++) {
             System.out.println("size:"+multipartFile.size());
@@ -47,7 +54,7 @@ public class ProductImageService {
 
 
 
-        private List<ProductImageDto> upload (Long productId, List<File> uploadFile, String dirName){
+        private List<ProductImageDto> upload (Integer productId, List<File> uploadFile, String dirName){
                 List<ProductImageDto> images = new ArrayList<>();
                 for(int i=0;i< uploadFile.size();i++){
                     String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.get(i).getName();
@@ -58,9 +65,12 @@ public class ProductImageService {
                     removeNewFile(uploadFile.get(i));
                     ProductImageDto image = new ProductImageDto(productId,path);
                     images.add(i,image);
+
+                    ProductImages productImages = new ProductImages();
+                    productImages.setPath(path);
+                    productImages.setProduct(productService.getProduct(productId));
+                    productImageRepository.save(productImages);
                 }
-
-
 //FileUploadResponse DTO로 반환해준다.
             return images;
             //return uploadImageUrl;
