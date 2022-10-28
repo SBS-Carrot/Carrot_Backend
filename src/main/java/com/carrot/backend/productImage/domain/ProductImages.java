@@ -19,20 +19,5 @@ public class ProductImages {
     @ManyToOne
     private Product product;
 
-    public Long getImageId() {
-        return imageId;
-    }
 
-    public void setImageId(Long imageId) {
-        this.imageId = imageId;
-    }
-
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
 }
