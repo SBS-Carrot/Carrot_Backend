@@ -34,19 +34,15 @@ public class ProductController {
         return productService.getProduct(id);
     }
     @PostMapping("/createProductImages")
-    public Product createProducts(@RequestBody ProductDto productDto){
+    public List<ProductImageDto> createProductWithImages(@RequestBody ProductDto productDto, @RequestParam("file") List<MultipartFile> multipartFile) throws IOException {
+        System.out.println(productDto.getProductContent());
+        System.out.println("multipartFile  : "+multipartFile);
+
         Integer id = productService.createProduct(productDto);
+        List<ProductImageDto> product = productImageService.uploads(id, multipartFile, "images");
 
-        return productService.getProduct(id);
+        return product;
     }
-    @PostMapping("/createProductImages/{productId}")
-    @ResponseBody
-    public List<ProductImageDto> uploadProfilePhoto(@PathVariable ("productId") Integer productId,@RequestParam("file") List<MultipartFile> multipartFile) throws IOException {
-
-        return productImageService.uploads(productId, multipartFile, "images");
-
-    }
-
 
 
 }
