@@ -1,6 +1,7 @@
 package com.carrot.backend.product.domain;
 
 import com.carrot.backend.productImage.domain.ProductImages;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -40,6 +41,7 @@ public class Product {
     String productCategory;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private List<ProductImages> images;
 
     public Integer getProductId() {

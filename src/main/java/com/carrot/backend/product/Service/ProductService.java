@@ -18,8 +18,10 @@ public class ProductService {
     private final ProductImageRepository productImageRepository;
 
     public Product getProduct(Integer productId) {
-        return productRepository.findById(productId).orElseThrow(() -> new DataNotFoundException("question not found"));
+        return productRepository.findById(productId).orElseThrow(() -> new DataNotFoundException("product not found"));
+//return productRepository.getP(productId);
     }
+
 
     public List<Product> getProducts(){
         return productRepository.findAll();
@@ -40,4 +42,6 @@ public class ProductService {
 
         return newProduct.getProductId();
     }
+
+
 }

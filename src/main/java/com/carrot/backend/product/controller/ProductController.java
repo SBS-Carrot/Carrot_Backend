@@ -4,7 +4,6 @@ import com.carrot.backend.product.Service.ProductService;
 import com.carrot.backend.product.domain.Product;
 import com.carrot.backend.product.dto.ProductDto;
 import com.carrot.backend.productImage.Service.ProductImageService;
-import com.carrot.backend.productImage.dto.ProductImageDto;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,8 +23,10 @@ public class ProductController {
     }
     @GetMapping("/product/{productId}")
     public Product getProduct(@PathVariable Integer productId){
+
         return productService.getProduct(productId);
     }
+
 
     @PostMapping("/createProduct")
     public Product createProduct(@RequestBody ProductDto productDto){
@@ -34,14 +35,12 @@ public class ProductController {
         return productService.getProduct(id);
     }
     @PostMapping("/createProductImages")
-    public List<ProductImageDto> createProductWithImages(@RequestBody ProductDto productDto, @RequestParam("file") List<MultipartFile> multipartFile) throws IOException {
-        System.out.println(productDto.getProductContent());
-        System.out.println("multipartFile  : "+multipartFile);
+    public Product createProductWithImages(@RequestPart(value = "productDto") ProductDto productDto, @RequestPart("file") List<MultipartFile> multipartFile) throws IOException {
 
         Integer id = productService.createProduct(productDto);
-        List<ProductImageDto> product = productImageService.uploads(id, multipartFile, "images");
+        productImageService.uploads(id, multipartFile, "images");
 
-        return product;
+        return productService.getProduct(id);
     }
 
 
