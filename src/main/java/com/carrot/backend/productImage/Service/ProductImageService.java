@@ -70,6 +70,7 @@ public class ProductImageService {
                     productImages.setPath(path);
                     productImages.setProduct(productService.getProduct(productId));
                     productImageRepository.save(productImages);
+
                 }
 //FileUploadResponse DTO로 반환해준다.
             return images;

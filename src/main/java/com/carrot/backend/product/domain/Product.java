@@ -6,6 +6,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+
+import java.time.LocalDateTime;
+
 import java.util.List;
 
 @Getter
@@ -35,6 +38,7 @@ public class Product {
     @Column
     Integer productLike;
 
+    LocalDateTime productCreateTime;
     @Column
     @NotEmpty
     String productCategory;
