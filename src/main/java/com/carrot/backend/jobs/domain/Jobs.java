@@ -1,57 +1,73 @@
 package com.carrot.backend.jobs.domain;
 
+import com.carrot.backend.jobImage.domain.JobsImages;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Jobs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer jobid;
+     Integer jobid;
 
     @Column(length = 50)
     @NotEmpty
-    private String jobSubject;
+     String jobSubject;
 
     @Column
-    private String jobUserid;
+     String jobUserid;
 
-    private LocalDateTime createDate;
 
-    @Column
-    private String jobCategory;
+    LocalDateTime createDate;
 
     @Column
-    @NotNull
-    private Integer jobPrice;
+     String jobName;
 
     @Column
-    private String jobPlace;
+    String jobCategory;
 
     @Column
-    private String jobDay;
+    @NotEmpty
+     String jobPrice;
 
     @Column
-    private String jobTime;
+     String jobPlace;
+
+    @Column
+     String jobDay;
+
+    @Column
+     String jobStartTime;
+
+    @Column
+    String jobEndTime;
 
     @Column(length = 200)
     @NotEmpty
-    private String jobContent;
+     String jobContent;
 
     @Column
-    private Integer jobVolunteer;
+     Integer jobVolunteer;
 
     @Column
-    private Integer jobLike;
+     Integer jobLike;
 
     @Column
-    private Integer jobCheck;
+     Integer jobCheck;
 
+    @OneToMany(mappedBy = "jobs", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<JobsImages> images;
 }

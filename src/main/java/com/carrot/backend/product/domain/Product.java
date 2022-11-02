@@ -6,7 +6,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -27,8 +26,8 @@ public class Product {
     @NotEmpty
     String productContent;
     @Column
-    @NotNull
-    Integer productPrice;
+    @NotEmpty
+    String productPrice;
     @Column
     Integer productChatting;
     @Column
@@ -44,77 +43,7 @@ public class Product {
     @JsonIgnore
     private List<ProductImages> images;
 
-    public Integer getProductId() {
-        return productId;
-    }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
-    public String getProductSubject() {
-        return productSubject;
-    }
-
-    public List<ProductImages> getImages() {
-        return images;
-    }
-
-    public void setImages(List<ProductImages> images) {
-        this.images = images;
-    }
-
-    public void setProductSubject(String productSubject) {
-        this.productSubject = productSubject;
-    }
-
-    public String getProductContent() {
-        return productContent;
-    }
-
-    public void setProductContent(String productContent) {
-        this.productContent = productContent;
-    }
-
-    public Integer getProductPrice() {
-        return productPrice;
-    }
-
-    public void setProductPrice(Integer productPrice) {
-        this.productPrice = productPrice;
-    }
-
-    public Integer getProductChatting() {
-        return productChatting;
-    }
-
-    public void setProductChatting(Integer productChatting) {
-        this.productChatting = productChatting;
-    }
-
-    public Integer getProductView() {
-        return productView;
-    }
-
-    public void setProductView(Integer productView) {
-        this.productView = productView;
-    }
-
-    public Integer getProductLike() {
-        return productLike;
-    }
-
-    public void setProductLike(Integer productLike) {
-        this.productLike = productLike;
-    }
-
-    public String getProductCategory() {
-        return productCategory;
-    }
-
-    public void setProductCategory(String productCategory) {
-        this.productCategory = productCategory;
-    }
 }
 //public class User
 ////        implements UserDetails

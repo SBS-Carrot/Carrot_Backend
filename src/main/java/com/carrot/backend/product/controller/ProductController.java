@@ -27,7 +27,6 @@ public class ProductController {
         return productService.getProduct(productId);
     }
 
-
     @PostMapping("/createProduct")
     public Product createProduct(@RequestBody ProductDto productDto){
         Integer id = productService.createProduct(productDto);
