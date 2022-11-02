@@ -38,7 +38,7 @@ public class JobsImageService {
     public List<JobsImagesDto> uploads(Integer jobsId, List<MultipartFile> multipartFile, String dirName) throws IOException {
         List<File> uploadFile = new ArrayList<File>();
         for(int i=0;i< multipartFile.size();i++) {
-            System.out.println("size:"+multipartFile.size());
+            System.out.println("size :"+multipartFile.size());
 
             MultipartFile files = multipartFile.get(i);
             File upload = convert(files)
