@@ -51,7 +51,7 @@ public class User implements UserDetails{
     @NotEmpty(message = "주소는 필수항목입니다.")
     private String address;
 
-    private String temp;
+    private double temp;
 
     private String role;
 
