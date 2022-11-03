@@ -17,12 +17,12 @@ public class JobsController {
 
     private final JobsService jobsService;
     private final JobsImageService jobsImageService;
-    @GetMapping("/Jobs")
+    @GetMapping("/jobs")
     public List<Jobs> getJobs(){
         return jobsService.getJobs();
     }
 
-    @GetMapping("/Jobs/{JobsId}")
+    @GetMapping("/jobs/{jobsId}")
     public Jobs getJob(@PathVariable Integer jobsId){
         return jobsService.getJob(jobsId);
     }
