@@ -25,10 +25,27 @@ public class UserService {
         String userid = userDto.getUserid();
         String password = userDto.getPassword();
         String password2 = userDto.getPassword2();
-        String birth = userDto.getBirth();
+        String birth = userDto.getBirth().replaceAll("[^0123456789]","");
+        String year = birth.substring(0,4);
+        String month = birth.substring(4,6);
+        String day = birth.substring(6);
+        birth = (year + "-" + month + "-" + day);
+
         String address = userDto.getAddress();
-        String email = userDto.getEmail();
-        String nickname = userDto.getNickname();
+        String email;
+        if(userDto.getEmail()!="") {
+            email = userDto.getEmail();
+        }else {
+            email = "이메일 없음";
+        }
+        String nickname;
+
+
+        if(userDto.getNickname()!=""){
+            nickname = userDto.getNickname();
+        }else {
+            nickname = "닉네임 없음";
+        }
         String phone = userDto.getPhone();
         User user = User.builder()
                 .username(username)
@@ -45,6 +62,7 @@ public class UserService {
                 .build();
 
         userRepository.save(user);
+
         return user;
     }
     public User getUser(String userid) {

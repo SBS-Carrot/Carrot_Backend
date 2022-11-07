@@ -1,13 +1,12 @@
 package com.carrot.backend.user.domain;
 
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import lombok.*;
-import javax.persistence.*;
-import javax.validation.constraints.Email;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,13 +19,10 @@ import java.util.Collection;
 public class User implements UserDetails{
 
     @Id
-    @Size(min = 5, max=20)
     @NotEmpty
     private String userid;
 
-    @Size( min = 8,max=20)
     @NotEmpty
-    @Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$")
     private String password;
 
     @NotEmpty(message = "비밀번호 확인은 필수항목입니다.")
@@ -38,11 +34,11 @@ public class User implements UserDetails{
     @NotEmpty(message = "생년월일은 필수 항목입니다.")
     private String birth;
 
-    @Column(unique = true)
-    @Email(message = "이메일 형식에 맞지 않습니다.")
+//    @Column(unique = true)
+//    @Email(message = "이메일 형식에 맞지 않습니다.")
     private String email;
 
-    @Size(min = 4,max = 16)
+    @Size(max = 40)
     private String nickname;
 
     @NotEmpty(message = "연락처는 필수항목입니다.")
