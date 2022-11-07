@@ -7,8 +7,6 @@ public class UserDto {
 
     private String password;
 
-    private String password2;
-
     private String username;
 
     private String birth;

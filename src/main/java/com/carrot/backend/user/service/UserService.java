@@ -1,10 +1,12 @@
 package com.carrot.backend.user.service;
 
+import com.carrot.backend.user.UserLoginForm;
 import com.carrot.backend.user.dao.UserRepository;
 import com.carrot.backend.user.domain.User;
 import com.carrot.backend.user.dto.UserDto;
 import com.carrot.backend.util.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,6 @@ public class UserService {
         String username = userDto.getUsername();
         String userid = userDto.getUserid();
         String password = userDto.getPassword();
-        String password2 = userDto.getPassword2();
         String birth = userDto.getBirth().replaceAll("[^0123456789]","");
         String year = birth.substring(0,4);
         String month = birth.substring(4,6);
@@ -50,8 +51,7 @@ public class UserService {
         User user = User.builder()
                 .username(username)
                 .userid(userid)
-                .password(password)
-                .password2(password2)
+                .password(passwordEncoder.encode(password))
                 .birth(birth)
                 .address(address)
                 .email(email)
@@ -80,6 +80,21 @@ public class UserService {
             return false;
         }else{
             return true;
+        }
+
+    }
+
+    public User login(UserLoginForm userLoginForm) throws UsernameNotFoundException{
+        User user = getUser(userLoginForm.getUserid());
+
+        if(user==null){
+            return null;
+        }
+        if(passwordEncoder.matches(userLoginForm.getPassword(),user.getPassword())) {
+            return user;
+        }else {
+
+            return null;
         }
 
     }

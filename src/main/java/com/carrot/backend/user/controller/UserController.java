@@ -1,5 +1,6 @@
 package com.carrot.backend.user.controller;
 
+import com.carrot.backend.user.UserLoginForm;
 import com.carrot.backend.user.domain.User;
 import com.carrot.backend.user.dto.UserDto;
 import com.carrot.backend.user.service.UserService;
@@ -18,6 +19,11 @@ public class UserController {
         return user;
     }
 
+    @PostMapping("/loginUser")
+    public User loginUser (@RequestBody UserLoginForm userLoginForm){
+        User user = userService.login(userLoginForm);
+        return user;
+    }
     @GetMapping("/getUser/{userid}")
     public User _getUser(@PathVariable("userId") String userid){
         User user = userService.getUser(userid);
