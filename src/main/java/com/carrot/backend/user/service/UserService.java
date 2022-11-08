@@ -90,6 +90,7 @@ public class UserService {
         if(user==null){
             return null;
         }
+
         if(passwordEncoder.matches(userLoginForm.getPassword(),user.getPassword())) {
             return user;
         }else {
