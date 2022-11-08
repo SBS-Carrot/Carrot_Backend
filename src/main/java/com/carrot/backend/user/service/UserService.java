@@ -65,7 +65,7 @@ public class UserService {
 
         return user;
     }
-    public User getUser(String userid) {
+    public User getUser(String userid) throws DataNotFoundException {
         Optional<User> user = this.userRepository.findByUserid(userid);
         if (user.isPresent()) {
             return user.get();
