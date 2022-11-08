@@ -32,27 +32,28 @@ public class Jobs {
 
     LocalDateTime createDate;
 
-    @Column
-     String jobName;
 
-    @Column
-    String jobCategory;
 
+    private String jobName;
+    @Column
+    private String jobCategory;
     @Column
     @NotEmpty
-     String jobPrice;
+    private String jobPrice;
+
 
     @Column
      String jobPlace;
 
     @Column
+
      String jobDay;
 
-    @Column
-     String jobStartTime;
 
+    private String jobStartTime;
     @Column
-    String jobEndTime;
+    private String jobEndTime;
+
 
     @Column(length = 200)
     @NotEmpty

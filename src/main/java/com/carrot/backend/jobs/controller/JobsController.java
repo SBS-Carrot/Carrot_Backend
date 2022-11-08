@@ -22,7 +22,7 @@ public class JobsController {
         return jobsService.getJobs();
     }
 
-    @GetMapping("/Jobs/{JobsId}")
+    @GetMapping("/Jobs/{jobsId}")
     public Jobs getJob(@PathVariable Integer jobsId){
         return jobsService.getJob(jobsId);
     }

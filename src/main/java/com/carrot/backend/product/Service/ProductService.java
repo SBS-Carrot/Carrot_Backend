@@ -8,6 +8,7 @@ import com.carrot.backend.util.DataNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -37,6 +38,7 @@ public class ProductService {
         newProduct.setProductChatting(0);
         newProduct.setProductLike(0);
         newProduct.setProductView(0);
+        newProduct.setProductCreateTime(LocalDateTime.now());
         productRepository.save(newProduct);
 
         return newProduct.getProductId();
