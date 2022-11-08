@@ -29,31 +29,28 @@ public class Jobs {
     @Column
      String jobUserid;
 
-
     LocalDateTime createDate;
 
-
-
     private String jobName;
+
     @Column
     private String jobCategory;
+
     @Column
     @NotEmpty
     private String jobPrice;
-
 
     @Column
      String jobPlace;
 
     @Column
-
      String jobDay;
 
-
+    @Column
     private String jobStartTime;
+
     @Column
     private String jobEndTime;
-
 
     @Column(length = 200)
     @NotEmpty
