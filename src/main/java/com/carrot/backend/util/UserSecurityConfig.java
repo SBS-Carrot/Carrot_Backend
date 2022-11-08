@@ -19,6 +19,7 @@ public class UserSecurityConfig {
     private final UserSecurityService userSecurityService;
 
 
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -31,8 +32,13 @@ public class UserSecurityConfig {
                 .formLogin().disable()		//기본 로그인페이지 없애기
                 .headers().frameOptions().disable();
 
+
         return http.build();
     }
 
+    @Bean
+    public LoginFailHandler loginFailHandler(){
+        return new LoginFailHandler();
+    }
 
 }

@@ -21,9 +21,9 @@ public class UserController {
     }
 
     @PostMapping("/loginUser")
-    public User loginUser (@RequestBody UserLoginForm userLoginForm){
-        User user = userService.login(userLoginForm);
-        return user;
+    public String loginUser (@RequestBody UserLoginForm userLoginForm){
+        String userid = userService.login(userLoginForm);
+        return userid;
     }
     @GetMapping("/getUser/{userid}")
     public User _getUser(@PathVariable("userid") String userid) throws NoUserException {

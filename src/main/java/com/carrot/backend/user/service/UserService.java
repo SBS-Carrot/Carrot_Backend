@@ -65,13 +65,17 @@ public class UserService {
 
         return user;
     }
-    public User getUser(String userid) throws DataNotFoundException {
-        Optional<User> user = this.userRepository.findByUserid(userid);
-        if (user.isPresent()) {
-            return user.get();
-        } else {
-            throw new DataNotFoundException("user not found");
+    public User getUser(String userid) {
+        try {
+            Optional<User> user = this.userRepository.findByUserid(userid);
+            if (user.isPresent()) {
+                return user.get();
+            }
+        }catch(DataNotFoundException e){
+            e.printStackTrace();
+            return null;
         }
+        return null;
     }
 
     public boolean checkId(String userid) {
@@ -84,18 +88,18 @@ public class UserService {
 
     }
 
-    public User login(UserLoginForm userLoginForm) throws UsernameNotFoundException{
+    public String login(UserLoginForm userLoginForm) throws UsernameNotFoundException{
         User user = getUser(userLoginForm.getUserid());
 
         if(user==null){
-            return null;
+            return "false";
         }
 
         if(passwordEncoder.matches(userLoginForm.getPassword(),user.getPassword())) {
-            return user;
+            return ("true"+user.getUserid());
         }else {
 
-            return null;
+            return "false";
         }
 
     }
