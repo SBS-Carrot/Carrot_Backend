@@ -1,5 +1,6 @@
 package com.carrot.backend.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import java.util.Collection;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class User implements UserDetails{
 
     @Id

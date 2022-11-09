@@ -1,12 +1,17 @@
 package com.carrot.backend.product.Service;
 
+import com.carrot.backend.product.dao.CustomizedProductRepositoryImpl;
 import com.carrot.backend.product.dao.ProductRepository;
 import com.carrot.backend.product.domain.Product;
 import com.carrot.backend.product.dto.ProductDto;
 import com.carrot.backend.productImage.dao.ProductImageRepository;
 import com.carrot.backend.user.dao.UserRepository;
 import com.carrot.backend.util.DataNotFoundException;
+import com.querydsl.core.Tuple;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,13 +19,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@Slf4j
+@RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
     private final UserRepository userRepository;
-
+    private final CustomizedProductRepositoryImpl customizedProductRepository;
     public Product getProduct(Integer productId) {
         try {
             Optional<Product> product = this.productRepository.findByProductId(productId);
@@ -32,6 +38,12 @@ public class ProductService {
             return null;
         }
         return null;
+    }
+
+    public List<Tuple> getProductWithImage(Integer productId){
+        List<Tuple> product = customizedProductRepository.getQslProductsAndImagesByProductId(productId);
+        System.out.println("product:"+product.get(0));
+        return product;
     }
 
 

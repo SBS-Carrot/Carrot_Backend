@@ -1,11 +1,13 @@
 package com.carrot.backend.productImage.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import lombok.*;
 
 @Getter
 @Setter
-
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ProductImageDto {
     Integer imageId;
 

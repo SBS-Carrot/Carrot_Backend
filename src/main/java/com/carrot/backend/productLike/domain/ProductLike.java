@@ -2,17 +2,18 @@ package com.carrot.backend.productLike.domain;
 
 import com.carrot.backend.product.domain.Product;
 import com.carrot.backend.user.domain.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="product_like")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ProductLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

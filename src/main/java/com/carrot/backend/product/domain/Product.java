@@ -1,6 +1,7 @@
 package com.carrot.backend.product.domain;
 
 import com.carrot.backend.productImage.domain.ProductImages;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name="product")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

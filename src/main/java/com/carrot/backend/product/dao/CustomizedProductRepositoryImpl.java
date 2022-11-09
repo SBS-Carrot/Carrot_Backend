@@ -1,8 +1,11 @@
 package com.carrot.backend.product.dao;
 
 import com.carrot.backend.product.domain.Product;
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 import static com.carrot.backend.product.domain.QProduct.product;
 
@@ -18,13 +21,16 @@ public class CustomizedProductRepositoryImpl implements CustomizedProductReposit
                 .fetchOne();
     }
 
-//    @Override
-//    public List<Product> getQslProductsAndImagesByProductId(Integer productId){
-//        return jpaQueryFactory
-//                .selectFrom(product)
-//                .innerJoin(QProductImages.productImages)
-//                .on(QProductImages.productImages.product.eq(product))
-//                .where(product.productId.eq(productId));
-//    }
+    @Override
+    public List<Tuple> getQslProductsAndImagesByProductId(Integer productId){
+
+        return jpaQueryFactory
+                .select(product,product.images)
+                .from(product)
+                .innerJoin(product.images)
+                .on(product.productId.eq(productId))
+                .fetch();
+
+    }
 
 }

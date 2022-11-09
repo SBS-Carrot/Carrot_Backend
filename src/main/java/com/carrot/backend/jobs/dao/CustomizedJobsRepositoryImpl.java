@@ -9,11 +9,6 @@ public class CustomizedJobsRepositoryImpl implements CustomizedJobsRepository{
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    @Override
-    public Jobs getQslJobs(Integer id) {
-        return null;
-    }
-
 
 
 }

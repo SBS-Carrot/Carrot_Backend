@@ -39,7 +39,7 @@ public class ProductImageService {
     public List<ProductImageDto> uploads(Integer productId, List<MultipartFile> multipartFile, String dirName) throws IOException {
         List<File> uploadFile = new ArrayList<File>();
         for(int i=0;i< multipartFile.size();i++) {
-            System.out.println("size:"+multipartFile.size());
+
 
             MultipartFile files = multipartFile.get(i);
             File upload = convert(files)

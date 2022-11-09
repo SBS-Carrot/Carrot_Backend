@@ -37,7 +37,8 @@ dependencies {
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.13.4'
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
-
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	compileOnly 'org.springframework.cloud:spring-cloud-starter-aws:2.0.2.RELEASE'
 
 	implementation 'commons-io:commons-io:2.6'

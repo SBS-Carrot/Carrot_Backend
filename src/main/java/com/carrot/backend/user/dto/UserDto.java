@@ -1,7 +1,9 @@
 package com.carrot.backend.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Data;
 @Data
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class UserDto {
     private String userid;
 
