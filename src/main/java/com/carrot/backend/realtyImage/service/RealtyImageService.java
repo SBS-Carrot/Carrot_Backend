@@ -1,12 +1,12 @@
-package com.carrot.backend.jobImage.service;
+package com.carrot.backend.realtyImage.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.carrot.backend.jobImage.dao.JobsImageRepository;
-import com.carrot.backend.jobImage.domain.JobsImages;
-import com.carrot.backend.jobImage.dto.JobsImagesDto;
-import com.carrot.backend.jobs.service.JobsService;
+import com.carrot.backend.realty.service.RealtyService;
+import com.carrot.backend.realtyImage.dao.RealtyImageRepository;
+import com.carrot.backend.realtyImage.domain.RealtyImage;
+import com.carrot.backend.realtyImage.dto.RealtyImageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,16 +26,15 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Component
-public class JobsImageService {
+public class RealtyImageService {
     private final AmazonS3Client amazonS3Client;
-    private final JobsImageRepository jobsImageRepository;
-    private final JobsService jobsService;
+    private final RealtyImageRepository realtyImageRepository;
+    private final RealtyService realtyService;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-
-    public List<JobsImagesDto> uploads(Integer jobsId, List<MultipartFile> multipartFile, String dirName) throws IOException {
+    public List<RealtyImageDto> uploads(Integer realtyId, List<MultipartFile> multipartFile, String dirName) throws IOException {
         List<File> uploadFile = new ArrayList<File>();
         for(int i=0;i< multipartFile.size();i++) {
             System.out.println("size :"+multipartFile.size());
@@ -46,29 +45,28 @@ public class JobsImageService {
             uploadFile.add(upload);
         }
 
-        return upload(jobsId, uploadFile, dirName);
+        return upload(realtyId, uploadFile, dirName);
     }
 
-    private List<JobsImagesDto> upload (Integer jobsId, List<File> uploadFile, String dirName){
-        List<JobsImagesDto> images = new ArrayList<>();
-        for(int i=0;i< uploadFile.size();i++){
+    private List<RealtyImageDto> upload (Integer realtyId, List<File> uploadFile, String dirName) {
+        List<RealtyImageDto> images = new ArrayList<>();
+        for (int i = 0; i < uploadFile.size(); i++) {
             String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.get(i).getName();
 
 
             String path = putS3(uploadFile.get(i), fileName);
 
             removeNewFile(uploadFile.get(i));
-            JobsImagesDto image = new JobsImagesDto(jobsId,path);
-            images.add(i,image);
+            RealtyImageDto image = new RealtyImageDto(realtyId, path);
+            images.add(i, image);
 
-            JobsImages jobImages = new JobsImages();
-            jobImages.setJobPath(path);
-            jobImages.setJobs(jobsService.getJob(jobsId));
-            jobsImageRepository.save(jobImages);
+
+            RealtyImage realtyImage = new RealtyImage();
+            realtyImage.setRealtyPath(path);
+            realtyImage.setRealty(realtyService.getRealty(realtyId));
+            realtyImageRepository.save(realtyImage);
         }
-//FileUploadResponse DTO로 반환해준다.
         return images;
-        //return uploadImageUrl;
     }
 
     private String putS3 (File uploadFile, String fileName){

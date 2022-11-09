@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Realty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer realtyid;
+    Integer realtyId;
 
     @Column
     String realtyUserid;
@@ -31,25 +31,49 @@ public class Realty {
     String realtyDeal;
 
     @Column
+    String realtyDeposit;
+
+    @Column
+    String realtyMonthly;
+
+    @Column
+    String realtyShortTerm;
+
+    @Column
+    String realtyChangePrice;
+
+    @Column
+    String realtyDepositChange;
+
+    @Column
+    String realtyCost;
+
+    @Column
+    String realtyCostContent;
+
+    @Column
+    String realtySalePrice;
+
+    @Column
     String realtyCategory;
 
     @Column
-    Integer realtySpace;
+    String realtySpace;
 
     @Column
-    Integer realtyArea;
+    String realtyArea;
 
     @Column
-    Integer realtyWhole;
+    String realtyWhole;
 
     @Column
-    Integer realtyFloor;
+    String realtyFloor;
 
     @Column
-    Integer realtyRoom;
+    String realtyRoom;
 
     @Column
-    Integer realtyBath;
+    String realtyBath;
 
     @Column
     @NotEmpty

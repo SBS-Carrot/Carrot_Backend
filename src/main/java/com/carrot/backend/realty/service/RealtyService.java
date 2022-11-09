@@ -42,9 +42,28 @@ public class RealtyService {
         newRealty.setRealtyPet(realtyDto.getRealtyPet());
         newRealty.setRealtyParking(realtyDto.getRealtyParking());
         newRealty.setRealtyElevator(realtyDto.getRealtyElevator());
-        newRealty.setRealtyInside(realtyDto.getRealtyInside());
+        String[] insideArr = realtyDto.getRealtyInside();
+        String tmp2 = "";
+        if(insideArr.length == 0){
+            newRealty.setRealtyInside("없음");
+        }else {
+            for(int i = 0; i < insideArr.length; i++){
+                String tmp = insideArr[i];
+                tmp2 += "," + tmp;
+            }
+        }
+        String tmp3 = tmp2.substring(1);
+        newRealty.setRealtyInside(tmp3);
         newRealty.setRealtyContent(realtyDto.getRealtyContent());
         newRealty.setCreateDate(LocalDateTime.now());
+        newRealty.setRealtyDeposit(realtyDto.getRealtyDeposit());
+        newRealty.setRealtyMonthly(realtyDto.getRealtyMonthly());
+        newRealty.setRealtyShortTerm(realtyDto.getRealtyShortTerm());
+        newRealty.setRealtyChangePrice(realtyDto.getRealtyChangePrice());
+        newRealty.setRealtyDepositChange(realtyDto.getRealtyDepositChange());
+        newRealty.setRealtyCost(realtyDto.getRealtyCost());
+        newRealty.setRealtyCostContent(realtyDto.getRealtyCostContent());
+        newRealty.setRealtySalePrice(realtyDto.getRealtySalePrice());
         newRealty.setRealtyCheck(0);
         newRealty.setRealtyChatting(0);
         newRealty.setRealtyDeal("판매중");
@@ -52,7 +71,7 @@ public class RealtyService {
         newRealty.setRealtyLike(0);
         realtyRepository.save(newRealty);
 
-        return newRealty.getRealtyid();
+        return newRealty.getRealtyId();
 
     }
 }

@@ -8,19 +8,19 @@ public class RealtyDto {
 
     String realtyCategory;
 
-    Integer realtySpace;
+    String realtySpace;
 
-    Integer realtyArea;
+    String realtyArea;
 
-    Integer realtyRoom;
+    String realtyRoom;
 
-    Integer realtyBath;
+    String realtyBath;
 
     String realtyAddress;
 
-    Integer realtyWhole;
+    String realtyWhole;
 
-    Integer realtyFloor;
+    String realtyFloor;
 
     String realtyMove;
 
@@ -34,8 +34,25 @@ public class RealtyDto {
 
     String realtyElevator;
 
-    String realtyInside;
+    String[] realtyInside;
 
     String realtyContent;
+
+    String realtyDeposit;
+
+    String realtyMonthly;
+
+    String realtyShortTerm;
+
+    String realtyChangePrice;
+
+    String realtyDepositChange;
+
+    String realtyCost;
+
+    String realtyCostContent;
+
+    String realtySalePrice;
+
 
 }
