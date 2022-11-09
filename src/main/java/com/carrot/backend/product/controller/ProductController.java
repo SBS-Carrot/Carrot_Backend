@@ -4,6 +4,7 @@ import com.carrot.backend.product.Service.ProductService;
 import com.carrot.backend.product.domain.Product;
 import com.carrot.backend.product.dto.ProductDto;
 import com.carrot.backend.productImage.Service.ProductImageService;
+import com.carrot.backend.productLike.service.ProductLikeService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductController {
     private final ProductService productService;
+    private final ProductLikeService productLikeService;
     private final ProductImageService productImageService;
 
     @GetMapping("")
@@ -42,5 +44,13 @@ public class ProductController {
         return productService.getProduct(id);
     }
 
+    @GetMapping("/likeProduct/{productId}")
+    public boolean likeProduct(@RequestParam Integer productId,@RequestParam  String userid){
+        return productLikeService.addProductLike(productId,userid);
+    }
+    @GetMapping("/likeProductCheck/{productId}")
+    public boolean isLiked(@RequestParam Integer productId,@RequestParam  String userid){
+        return productLikeService.checkLike(productId, userid);
+    }
 
 }

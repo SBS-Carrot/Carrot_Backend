@@ -18,4 +18,13 @@ public class CustomizedProductRepositoryImpl implements CustomizedProductReposit
                 .fetchOne();
     }
 
+//    @Override
+//    public List<Product> getQslProductsAndImagesByProductId(Integer productId){
+//        return jpaQueryFactory
+//                .selectFrom(product)
+//                .innerJoin(QProductImages.productImages)
+//                .on(QProductImages.productImages.product.eq(product))
+//                .where(product.productId.eq(productId));
+//    }
+
 }

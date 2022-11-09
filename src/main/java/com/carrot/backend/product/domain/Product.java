@@ -6,9 +6,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-
-import java.time.LocalDateTime;
-
 import java.util.List;
 
 @Getter
@@ -38,7 +35,7 @@ public class Product {
     @Column
     Integer productLike;
 
-    LocalDateTime productCreateTime;
+    String productCreateTime;
     @Column
     @NotEmpty
     String productCategory;
@@ -46,6 +43,5 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<ProductImages> images;
-
 
 }

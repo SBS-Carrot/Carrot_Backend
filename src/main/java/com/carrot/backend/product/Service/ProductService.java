@@ -4,12 +4,14 @@ import com.carrot.backend.product.dao.ProductRepository;
 import com.carrot.backend.product.domain.Product;
 import com.carrot.backend.product.dto.ProductDto;
 import com.carrot.backend.productImage.dao.ProductImageRepository;
+import com.carrot.backend.user.dao.UserRepository;
 import com.carrot.backend.util.DataNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -17,10 +19,19 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
+    private final UserRepository userRepository;
 
     public Product getProduct(Integer productId) {
-        return productRepository.findById(productId).orElseThrow(() -> new DataNotFoundException("product not found"));
-//return productRepository.getP(productId);
+        try {
+            Optional<Product> product = this.productRepository.findByProductId(productId);
+            if (product.isPresent()) {
+                return product.get();
+            }
+        }catch(DataNotFoundException e){
+            e.printStackTrace();
+            return null;
+        }
+        return null;
     }
 
 
@@ -38,11 +49,19 @@ public class ProductService {
         newProduct.setProductChatting(0);
         newProduct.setProductLike(0);
         newProduct.setProductView(0);
-        newProduct.setProductCreateTime(LocalDateTime.now());
+        LocalDateTime date = LocalDateTime.now();
+        String dates = date.toString();
+        String yymmdd = dates.substring(0,10);
+
+
+        newProduct.setProductCreateTime(yymmdd);
+
+
         productRepository.save(newProduct);
 
         return newProduct.getProductId();
     }
+
 
 
 }

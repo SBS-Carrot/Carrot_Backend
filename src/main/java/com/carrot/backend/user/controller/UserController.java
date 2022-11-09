@@ -36,4 +36,5 @@ public class UserController {
         boolean id = userService.checkId(uid);
         return id;
     }
+
 }
