@@ -1,10 +1,13 @@
 package com.carrot.backend.product.dao;
 
 import com.carrot.backend.product.domain.Product;
-import com.querydsl.core.Tuple;
+import com.carrot.backend.product.domain.QProduct;
+import com.carrot.backend.product.dto.ProductDto;
+import com.carrot.backend.productImage.domain.QProductImages;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.carrot.backend.product.domain.QProduct.product;
@@ -22,15 +25,31 @@ public class CustomizedProductRepositoryImpl implements CustomizedProductReposit
     }
 
     @Override
-    public List<Tuple> getQslProductsAndImagesByProductId(Integer productId){
+    public ProductDto getQslProductsAndImagesByProductId(Integer productId){
+        Product product = jpaQueryFactory
+                .select(QProduct.product)
+                .from(QProduct.product)
+                .innerJoin(QProductImages.productImages)
+                .on(QProduct.product.productId.eq(productId))
+                .fetchOne();
 
-        return jpaQueryFactory
-                .select(product,product.images)
-                .from(product)
-                .innerJoin(product.images)
-                .on(product.productId.eq(productId))
-                .fetch();
+        List<String> imagePaths = new ArrayList<>();
+        product.getImages().stream().forEach(productImage->imagePaths.add(productImage.getPath()));
 
+        ProductDto productDto = ProductDto.builder()
+                .productId(product.getProductId())
+                .productCategory(product.getProductCategory())
+                .productView(product.getProductView())
+                .productContent(product.getProductContent())
+                .productSubject(product.getProductSubject())
+                .productCreateTime(product.getProductCreateTime())
+                .productChatting(product.getProductChatting())
+                .productLike(product.getProductLike())
+                .productPrice(product.getProductPrice())
+                .images(imagePaths)
+                .build();
+
+        return productDto;
     }
 
 }

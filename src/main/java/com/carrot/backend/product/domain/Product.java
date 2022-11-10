@@ -46,4 +46,5 @@ public class Product {
     @JsonIgnore
     private List<ProductImages> images;
 
+
 }

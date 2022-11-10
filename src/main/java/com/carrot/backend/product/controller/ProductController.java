@@ -5,7 +5,6 @@ import com.carrot.backend.product.domain.Product;
 import com.carrot.backend.product.dto.ProductDto;
 import com.carrot.backend.productImage.Service.ProductImageService;
 import com.carrot.backend.productLike.service.ProductLikeService;
-import com.querydsl.core.Tuple;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,7 +54,7 @@ public class ProductController {
     }
 
     @GetMapping("/getProductWithImage/{productId}")
-    public List<Tuple> getPI(@PathVariable Integer productId){
+    public ProductDto getPI(@PathVariable Integer productId){
 
         return productService.getProductWithImage(productId);
     }

@@ -38,4 +38,7 @@ public class JobsController {
         jobsImageService.uploads(id, multipartFile, "jobsImages");
         return jobsService.getJob(id);
     }
+
+    //조회수 올리는 메소드
+
 }

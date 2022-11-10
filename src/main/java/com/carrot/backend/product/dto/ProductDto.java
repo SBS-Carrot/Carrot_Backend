@@ -1,14 +1,17 @@
 package com.carrot.backend.product.dto;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+@Builder
 public class ProductDto {
+
+    Integer productId;
 
     String productSubject;
 
@@ -16,7 +19,17 @@ public class ProductDto {
 
     String productPrice;
 
+    Integer productChatting;
+
+    Integer productView;
+
+    Integer productLike;
+
+    String productCreateTime;
+
     String productCategory;
+
+    List<String> images;
 
 
 }

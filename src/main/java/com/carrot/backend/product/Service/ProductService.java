@@ -7,11 +7,8 @@ import com.carrot.backend.product.dto.ProductDto;
 import com.carrot.backend.productImage.dao.ProductImageRepository;
 import com.carrot.backend.user.dao.UserRepository;
 import com.carrot.backend.util.DataNotFoundException;
-import com.querydsl.core.Tuple;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -40,9 +37,8 @@ public class ProductService {
         return null;
     }
 
-    public List<Tuple> getProductWithImage(Integer productId){
-        List<Tuple> product = customizedProductRepository.getQslProductsAndImagesByProductId(productId);
-        System.out.println("product:"+product.get(0));
+    public ProductDto getProductWithImage(Integer productId){
+        ProductDto product = customizedProductRepository.getQslProductsAndImagesByProductId(productId);
         return product;
     }
 
@@ -64,6 +60,7 @@ public class ProductService {
         LocalDateTime date = LocalDateTime.now();
         String dates = date.toString();
         String yymmdd = dates.substring(0,10);
+        System.out.println(yymmdd);
 
 
         newProduct.setProductCreateTime(yymmdd);
