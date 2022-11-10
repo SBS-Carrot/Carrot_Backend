@@ -1,6 +1,6 @@
 package com.carrot.backend.jobs.controller;
 
-import com.carrot.backend.jobImage.service.JobsImageService;
+import com.carrot.backend.chatting.jobImage.service.JobsImageService;
 import com.carrot.backend.jobs.domain.Jobs;
 import com.carrot.backend.jobs.dto.JobsDto;
 import com.carrot.backend.jobs.service.JobsService;

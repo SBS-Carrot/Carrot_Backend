@@ -1,6 +1,6 @@
 package com.carrot.backend.jobs.domain;
 
-import com.carrot.backend.jobImage.domain.JobsImages;
+import com.carrot.backend.chatting.jobImage.domain.JobsImages;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

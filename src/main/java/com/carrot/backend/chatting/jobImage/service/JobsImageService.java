@@ -1,11 +1,11 @@
-package com.carrot.backend.jobImage.service;
+package com.carrot.backend.chatting.jobImage.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.carrot.backend.jobImage.dao.JobsImageRepository;
-import com.carrot.backend.jobImage.domain.JobsImages;
-import com.carrot.backend.jobImage.dto.JobsImagesDto;
+import com.carrot.backend.chatting.jobImage.dao.JobsImageRepository;
+import com.carrot.backend.chatting.jobImage.domain.JobsImages;
+import com.carrot.backend.chatting.jobImage.dto.JobsImagesDto;
 import com.carrot.backend.jobs.service.JobsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
