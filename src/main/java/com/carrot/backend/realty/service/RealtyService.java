@@ -64,10 +64,10 @@ public class RealtyService {
         newRealty.setRealtyCost(realtyDto.getRealtyCost());
         newRealty.setRealtyCostContent(realtyDto.getRealtyCostContent());
         newRealty.setRealtySalePrice(realtyDto.getRealtySalePrice());
-        newRealty.setRealtyDealing(realtyDto.getRealtyDeal());
+        newRealty.setRealtyDeal(realtyDto.getRealtyDeal());
         newRealty.setRealtyCheck(0);
         newRealty.setRealtyChatting(0);
-        newRealty.setRealtyDeal("판매중");
+        newRealty.setRealtyDealing("판매중");
         newRealty.setRealtyUserid("user");
         newRealty.setRealtyLike(0);
         realtyRepository.save(newRealty);
