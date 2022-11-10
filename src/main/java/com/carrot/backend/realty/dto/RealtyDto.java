@@ -54,5 +54,7 @@ public class RealtyDto {
 
     String realtySalePrice;
 
+    String realtyDeal;
+
 
 }

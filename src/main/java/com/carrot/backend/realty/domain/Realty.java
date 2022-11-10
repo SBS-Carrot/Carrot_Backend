@@ -28,7 +28,7 @@ public class Realty {
     String realtyWho;
 
     @Column
-    String realtyDeal;
+    String realtyDealing;
 
     @Column
     String realtyDeposit;
@@ -99,6 +99,18 @@ public class Realty {
 
     @Column
     String realtyInside;
+
+    @Column
+    String realtyShortDeal;
+
+    @Column
+    String realtyMonthlyDeal;
+
+    @Column
+    String realtyDepositDeal;
+
+    @Column
+    String realtyDeal;
 
     @Column(length = 200)
     @NotEmpty
