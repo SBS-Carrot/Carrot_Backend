@@ -35,7 +35,7 @@ public class JobsController {
     @PostMapping("createJobsImages")
     public Jobs createJobsImg(@RequestPart(value = "jobDto") JobsDto jobsDto, @RequestPart("file") List<MultipartFile> multipartFile) throws IOException{
         Integer id = jobsService.createJobs(jobsDto);
-        jobsImageService.uploads(id, multipartFile, "jobsimages");
+        jobsImageService.uploads(id, multipartFile, "jobsImages");
         return jobsService.getJob(id);
     }
 }
