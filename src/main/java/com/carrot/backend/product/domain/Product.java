@@ -36,6 +36,11 @@ public class Product {
     Integer productView;
     @Column
     Integer productLike;
+    @Column
+    String productUserid;
+
+    @Column
+    String profileImage;
 
     String productCreateTime;
     @Column
