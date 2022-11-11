@@ -1,6 +1,6 @@
 package com.carrot.backend.jobs.domain;
 
-import com.carrot.backend.chatting.jobImage.domain.JobsImages;
+import com.carrot.backend.jobImage.domain.JobsImages;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -29,7 +28,7 @@ public class Jobs {
     @Column
      String jobUserid;
 
-    LocalDateTime createDate;
+    String createDate;
 
     private String jobName;
 
@@ -52,7 +51,7 @@ public class Jobs {
     @Column
     private String jobEndTime;
 
-    @Column(length = 200)
+    @Column(length = 1000)
     @NotEmpty
      String jobContent;
 
