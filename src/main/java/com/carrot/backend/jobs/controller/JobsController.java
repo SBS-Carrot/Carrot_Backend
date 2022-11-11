@@ -1,6 +1,6 @@
 package com.carrot.backend.jobs.controller;
 
-import com.carrot.backend.chatting.jobImage.service.JobsImageService;
+import com.carrot.backend.jobImage.service.JobsImageService;
 import com.carrot.backend.jobs.domain.Jobs;
 import com.carrot.backend.jobs.dto.JobsDto;
 import com.carrot.backend.jobs.service.JobsService;
@@ -32,7 +32,7 @@ public class JobsController {
         Integer id = jobsService.createJobs(jobsDto);
         return jobsService.getJob(id);
     }
-    @PostMapping("createJobsImages")
+    @PostMapping("/createJobsImages")
     public Jobs createJobsImg(@RequestPart(value = "jobDto") JobsDto jobsDto, @RequestPart("file") List<MultipartFile> multipartFile) throws IOException{
         Integer id = jobsService.createJobs(jobsDto);
         jobsImageService.uploads(id, multipartFile, "jobsImages");
@@ -40,5 +40,8 @@ public class JobsController {
     }
 
     //조회수 올리는 메소드
-
+    @PostMapping("/jobsCheck/{jobsId}")
+    public void jobsCheck(@PathVariable Integer jobsId){
+        jobsService.jobCheck(jobsId);
+    }
 }

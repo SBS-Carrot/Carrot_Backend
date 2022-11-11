@@ -25,6 +25,8 @@ public class ProductDto {
 
     Integer productLike;
 
+    String productUserid;
+
     String productCreateTime;
 
     String productCategory;

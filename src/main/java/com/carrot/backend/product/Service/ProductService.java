@@ -57,15 +57,12 @@ public class ProductService {
         newProduct.setProductChatting(0);
         newProduct.setProductLike(0);
         newProduct.setProductView(0);
+        newProduct.setProductUserid(productDto.getProductUserid());
         LocalDateTime date = LocalDateTime.now();
         String dates = date.toString();
         String yymmdd = dates.substring(0,10);
         System.out.println(yymmdd);
-
-
         newProduct.setProductCreateTime(yymmdd);
-
-
         productRepository.save(newProduct);
 
         return newProduct.getProductId();
