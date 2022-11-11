@@ -39,7 +39,10 @@ public class JobsService {
       newJobs.setJobEndTime(jobsDto.getJobEndTime());
       newJobs.setJobVolunteer(0);
       newJobs.setJobCategory(jobsDto.getJobCategory());
-      newJobs.setCreateDate(LocalDateTime.now());
+      LocalDateTime date = LocalDateTime.now();
+      String dates = date.toString();
+      String yymmdd = dates.substring(0,10);
+      newJobs.setCreateDate(yymmdd);
       newJobs.setJobUserid("user");
       jobsRepository.save(newJobs);
 
@@ -47,4 +50,10 @@ public class JobsService {
    }
 
 
+   public void jobCheck(Integer jobsId) {
+      Jobs jobs = jobsRepository.findById(jobsId).orElseThrow(()-> new DataNotFoundException("not found"));
+
+      jobs.setJobCheck(jobs.getJobCheck() +1);
+      jobsRepository.save(jobs);
+   }
 }

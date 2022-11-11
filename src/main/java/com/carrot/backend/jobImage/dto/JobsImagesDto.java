@@ -1,4 +1,4 @@
-package com.carrot.backend.chatting.jobImage.dto;
+package com.carrot.backend.jobImage.dto;
 
 import lombok.Getter;
 import lombok.Setter;

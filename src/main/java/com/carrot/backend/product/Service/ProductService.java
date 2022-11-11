@@ -62,11 +62,7 @@ public class ProductService {
         String dates = date.toString();
         String yymmdd = dates.substring(0,10);
         System.out.println(yymmdd);
-
-
         newProduct.setProductCreateTime(yymmdd);
-
-
         productRepository.save(newProduct);
 
         return newProduct.getProductId();

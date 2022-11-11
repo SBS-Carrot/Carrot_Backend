@@ -1,4 +1,4 @@
-package com.carrot.backend.chatting.jobImage.domain;
+package com.carrot.backend.jobImage.domain;
 
 import com.carrot.backend.jobs.domain.Jobs;
 import lombok.Data;
