@@ -47,7 +47,7 @@ public class JobsService {
       String dates = date.toString();
       String yymmdd = dates.substring(0,10);
       newJobs.setCreateDate(yymmdd);
-      newJobs.setJobUserid("user");
+      newJobs.setJobUserid(jobsDto.getJobUserid());
       jobsRepository.save(newJobs);
 
       return newJobs.getJobid();

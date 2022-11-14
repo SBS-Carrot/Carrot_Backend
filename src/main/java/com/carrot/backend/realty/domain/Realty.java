@@ -1,11 +1,15 @@
 package com.carrot.backend.realty.domain;
 
 
+import com.carrot.backend.jobImage.domain.JobsImages;
+import com.carrot.backend.realtyImage.domain.RealtyImage;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -98,7 +102,7 @@ public class Realty {
     String realtyElevator;
 
     @Column
-    String realtyInside;
+    String[] realtyInside;
 
     @Column
     String realtyShortDeal;
@@ -125,5 +129,8 @@ public class Realty {
     @Column
     Integer realtyCheck;
 
+    @OneToMany(mappedBy = "realty", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<RealtyImage> images;
 
 }

@@ -1,5 +1,7 @@
 package com.carrot.backend.realty.service;
 
+import com.carrot.backend.product.dto.ProductDto;
+import com.carrot.backend.realty.dao.CustomizedRealtyRepositoryImpl;
 import com.carrot.backend.realty.dao.RealtyRepository;
 import com.carrot.backend.realty.domain.Realty;
 import com.carrot.backend.realty.dto.RealtyDto;
@@ -15,6 +17,8 @@ import java.util.List;
 public class RealtyService {
 
     private final RealtyRepository realtyRepository;
+
+    private final CustomizedRealtyRepositoryImpl customizedRealtyRepository;
 
     public List<Realty> getsRealty(){
         return realtyRepository.findAll();
@@ -43,17 +47,17 @@ public class RealtyService {
         newRealty.setRealtyParking(realtyDto.getRealtyParking());
         newRealty.setRealtyElevator(realtyDto.getRealtyElevator());
         String[] insideArr = realtyDto.getRealtyInside();
-        String tmp2 = "";
-        if(insideArr.length == 0){
-            newRealty.setRealtyInside("없음");
-        }else {
-            for(int i = 0; i < insideArr.length; i++){
-                String tmp = insideArr[i];
-                tmp2 += "," + tmp;
-            }
-        }
-        String tmp3 = tmp2.substring(1);
-        newRealty.setRealtyInside(tmp3);
+//        String tmp2 = "";
+//        if(insideArr.length == 0){
+//            newRealty.setRealtyInside("없음");
+//        }else {
+//            for(int i = 0; i < insideArr.length; i++){
+//                String tmp = insideArr[i];
+//                tmp2 += "," + tmp;
+//            }
+//        }
+//        String tmp3 = tmp2.substring(1);
+
         newRealty.setRealtyContent(realtyDto.getRealtyContent());
         newRealty.setCreateDate(LocalDateTime.now());
         newRealty.setRealtyDeposit(realtyDto.getRealtyDeposit());
@@ -68,11 +72,17 @@ public class RealtyService {
         newRealty.setRealtyCheck(0);
         newRealty.setRealtyChatting(0);
         newRealty.setRealtyDeal("판매중");
-        newRealty.setRealtyUserid("user");
+        newRealty.setRealtyUserid(realtyDto.getRealtyUserid());
         newRealty.setRealtyLike(0);
         realtyRepository.save(newRealty);
 
         return newRealty.getRealtyId();
 
     }
+
+    public RealtyDto getRealtyAndImage(Integer realtyId) {
+        RealtyDto realtyDto = customizedRealtyRepository.getQslRealtyAndImagesByRealtyId(realtyId);
+        return realtyDto;
+    }
+
 }

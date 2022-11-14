@@ -85,16 +85,10 @@ public class UserService {
         return user;
     }
     public User getUser(String userid) {
-        try {
-            Optional<User> user = this.userRepository.findByUserid(userid);
-            if (user.isPresent()) {
-                return user.get();
-            }
-        }catch(DataNotFoundException e){
-            e.printStackTrace();
-            return null;
-        }
-        return null;
+
+            User user = this.userRepository.findByUserid(userid).orElseThrow(()-> new UsernameNotFoundException("user not found"));
+            return user;
+
     }
 
     public boolean checkId(String userid) {
