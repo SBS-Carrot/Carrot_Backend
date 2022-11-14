@@ -1,20 +1,24 @@
 package com.carrot.backend.jobs.service;
 
+import com.carrot.backend.jobs.dao.CustomizedJobsRepositoryImpl;
 import com.carrot.backend.jobs.dao.JobsRepository;
 import com.carrot.backend.jobs.domain.Jobs;
 import com.carrot.backend.jobs.dto.JobsDto;
 import com.carrot.backend.util.DataNotFoundException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@Slf4j
+@RequiredArgsConstructor
 public class JobsService {
 
    private final JobsRepository jobsRepository;
+   private final CustomizedJobsRepositoryImpl customizedJobsRepository;
 
    public List<Jobs> getJobs(){
       return jobsRepository.findAll();
@@ -55,5 +59,10 @@ public class JobsService {
 
       jobs.setJobCheck(jobs.getJobCheck() +1);
       jobsRepository.save(jobs);
+   }
+
+   public JobsDto getJobsWithImage(Integer jobsId) {
+         JobsDto jobs = customizedJobsRepository.getQslJobsAndImagesByJobsId(jobsId);
+         return jobs;
    }
 }

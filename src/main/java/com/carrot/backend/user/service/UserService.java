@@ -141,9 +141,12 @@ public void changeUserProfileImage(UserDto userdto, List<MultipartFile> multipar
                 String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.get(0).getName();
 
             User user = userRepository.findByUserid(userid).orElseThrow(()-> new DataNotFoundException("user not found"));
+
             String file = user.getProfileImage();
-            String[] filename = file.split(dirName+"/");
-            deleteS3File(filename[1],dirName);
+            if(file!=null) {
+                String[] filename = file.split(dirName + "/");
+                deleteS3File(filename[1], dirName);
+            }
                 String path = putS3(uploadFile.get(0), fileName);
 
                 removeNewFile(uploadFile.get(0));
@@ -200,6 +203,14 @@ public void changeUserProfileImage(UserDto userdto, List<MultipartFile> multipar
         userRepository.save(user);
     }
 
+    public void resetUserImage(UserDto userdto,String bucketFolder){
+        User user = userRepository.findByUserid(userdto.getUserid()).orElseThrow(()-> new DataNotFoundException("user not found"));
+        String file = user.getProfileImage();
+        String[] filename = file.split(bucketFolder+"/");
+        deleteS3File(filename[1],bucketFolder);
+        user.setProfileImage(null);
+        userRepository.save(user);
+    }
     public void deleteS3File(String fileName, String bucketFolder){
         String file = bucketFolder+"/"+fileName;
 

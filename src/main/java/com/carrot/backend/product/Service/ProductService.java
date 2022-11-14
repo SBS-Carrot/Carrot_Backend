@@ -5,7 +5,6 @@ import com.carrot.backend.product.dao.ProductRepository;
 import com.carrot.backend.product.domain.Product;
 import com.carrot.backend.product.dto.ProductDto;
 import com.carrot.backend.productImage.dao.ProductImageRepository;
-import com.carrot.backend.user.dao.UserRepository;
 import com.carrot.backend.util.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +21,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
-    private final UserRepository userRepository;
+
     private final CustomizedProductRepositoryImpl customizedProductRepository;
     public Product getProduct(Integer productId) {
         try {

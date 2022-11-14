@@ -47,11 +47,15 @@ public class UserController {
             userService.changeUserProfileImage(userdto, multipartFile, "users");
     }
 
-    @PostMapping("/userProfileImageReset")
+    @PostMapping("/userProfileImageAndNicknameReset")
     public void resetUserProfile(@RequestPart(value = "userdto") UserDto userdto) throws IOException{
         userService.resetUserProfile(userdto,"users");
     }
 
+    @PostMapping("/userProfileImageReset")
+    public void resetUserProfileImage(@RequestPart(value="userdto") UserDto userdto) throws IOException{
+        userService.resetUserImage(userdto,"users");
+    }
     @PostMapping("/userProfileChange")
     public void changeUserNickname(@RequestPart(value = "userdto") UserDto userdto) throws IOException {
         userService.changeUsersNickname(userdto);

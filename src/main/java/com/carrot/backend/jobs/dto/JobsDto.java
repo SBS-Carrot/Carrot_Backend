@@ -1,24 +1,46 @@
 package com.carrot.backend.jobs.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class JobsDto {
-    String jobCategory;
+    Integer jobid;
 
     String jobSubject;
 
-    String jobName;
+    String jobUserid;
 
-    String jobPrice;
+    String createDate;
+
+    private String jobName;
+
+    private String jobCategory;
+
+    private String jobPrice;
 
     String jobPlace;
 
     String jobDay;
 
-    String jobStartTime;
+    private String jobStartTime;
 
-    String jobEndTime;
+    private String jobEndTime;
 
     String jobContent;
+
+    Integer jobVolunteer;
+
+    Integer jobLike;
+
+    Integer jobCheck;
+
+    List<String> images;
 }

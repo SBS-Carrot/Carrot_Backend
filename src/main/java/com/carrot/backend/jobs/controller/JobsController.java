@@ -1,6 +1,7 @@
 package com.carrot.backend.jobs.controller;
 
 import com.carrot.backend.jobImage.service.JobsImageService;
+import com.carrot.backend.jobLike.service.JobsLikeService;
 import com.carrot.backend.jobs.domain.Jobs;
 import com.carrot.backend.jobs.dto.JobsDto;
 import com.carrot.backend.jobs.service.JobsService;
@@ -17,6 +18,8 @@ public class JobsController {
 
     private final JobsService jobsService;
     private final JobsImageService jobsImageService;
+
+    private final JobsLikeService jobsLikeService;
     @GetMapping("/jobs")
     public List<Jobs> getJobs(){
         return jobsService.getJobs();
@@ -41,7 +44,24 @@ public class JobsController {
 
     //조회수 올리는 메소드
     @PostMapping("/jobsCheck/{jobsId}")
-    public void jobsCheck(@PathVariable Integer jobsId){
+    public void jobsCheck(@PathVariable Integer jobsId) {
         jobsService.jobCheck(jobsId);
+
+    }
+
+    @GetMapping("/likeJob/{jobId}")
+    public boolean likeJob(@RequestParam Integer jobId,@RequestParam String userid){
+        return jobsLikeService.addJobsLike(jobId,userid);
+    }
+
+    @GetMapping("/likeJobsCheck/{jobsId}")
+    public boolean isLikedJobs(@RequestParam Integer jobsId,@RequestParam  String userid){
+        return jobsLikeService.checkLikeJobs(jobsId, userid);
+    }
+
+    @GetMapping("/getJobsWithImage/{jobsId}")
+    public JobsDto getJobsDto(@PathVariable Integer jobsId){
+
+        return jobsService.getJobsWithImage(jobsId);
     }
 }
