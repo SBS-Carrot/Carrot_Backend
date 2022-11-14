@@ -1,6 +1,5 @@
 package com.carrot.backend.user.controller;
 
-import com.carrot.backend.product.dto.ProductDto;
 import com.carrot.backend.user.UserLoginForm;
 import com.carrot.backend.user.domain.User;
 import com.carrot.backend.user.dto.UserDto;
@@ -45,7 +44,16 @@ public class UserController {
 
     @PostMapping("/userProfileImageChange")
     public void changeUserProfile(@RequestPart(value = "userdto") UserDto userdto, @RequestPart("file") List<MultipartFile> multipartFile) throws IOException {
-        userService.changeUserProfileImage(userdto, multipartFile, "users");
+            userService.changeUserProfileImage(userdto, multipartFile, "users");
+    }
 
+    @PostMapping("/userProfileImageReset")
+    public void resetUserProfile(@RequestPart(value = "userdto") UserDto userdto) throws IOException{
+        userService.resetUserProfile(userdto,"users");
+    }
+
+    @PostMapping("/userProfileChange")
+    public void changeUserNickname(@RequestPart(value = "userdto") UserDto userdto) throws IOException {
+        userService.changeUsersNickname(userdto);
     }
 }

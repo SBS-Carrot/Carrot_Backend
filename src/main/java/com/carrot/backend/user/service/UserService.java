@@ -3,8 +3,6 @@ package com.carrot.backend.user.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.carrot.backend.productImage.domain.ProductImages;
-import com.carrot.backend.productImage.dto.ProductImageDto;
 import com.carrot.backend.user.UserLoginForm;
 import com.carrot.backend.user.dao.UserRepository;
 import com.carrot.backend.user.domain.User;
@@ -125,40 +123,30 @@ public class UserService {
 
     }
 
-    public void changeUserProfileImage(UserDto userdto, List<MultipartFile> multipartFile, String users) {
-        List<File> uploadFile = new ArrayList<File>();
-        for(int i=0;i< multipartFile.size();i++) {
-
+public void changeUserProfileImage(UserDto userdto, List<MultipartFile> multipartFile, String users) throws IOException {
+    List<File> uploadFile = new ArrayList<File>();
+    for(int i=0;i< multipartFile.size();i++) {
 
             MultipartFile files = multipartFile.get(i);
-            File upload = null;
-            try {
-                upload = convert(files)
-                        .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            File upload = convert(files)
+                    .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
             uploadFile.add(upload);
         }
-
-
-
-
-
-        }
-
+    upload(userdto, uploadFile, users);
+}
 
 
         private void upload (UserDto userdto, List<File> uploadFile, String dirName){
                 String userid = userdto.getUserid();
                 String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.get(0).getName();
 
-
+            User user = userRepository.findByUserid(userid).orElseThrow(()-> new DataNotFoundException("user not found"));
+            String file = user.getProfileImage();
+            String[] filename = file.split(dirName+"/");
+            deleteS3File(filename[1],dirName);
                 String path = putS3(uploadFile.get(0), fileName);
 
                 removeNewFile(uploadFile.get(0));
-                User user = userRepository.findByUserid(userid).orElseThrow(()-> new DataNotFoundException("user not found"));
-
                 user.setProfileImage(path);
                 user.setNickname(userdto.getNickname());
                 userRepository.save(user);
@@ -200,5 +188,28 @@ public class UserService {
         }
 
 
+    public void resetUserProfile(UserDto userdto, String bucketFolder) {
+        User user = userRepository.findByUserid(userdto.getUserid()).orElseThrow(()-> new DataNotFoundException("user not found"));
+        user.setNickname("닉네임 없음");
+        String file = user.getProfileImage();
+        String[] filename = file.split(bucketFolder+"/");
+
+
+        deleteS3File(filename[1], bucketFolder);
+        user.setProfileImage(null);
+        userRepository.save(user);
     }
+
+    public void deleteS3File(String fileName, String bucketFolder){
+        String file = bucketFolder+"/"+fileName;
+
+        amazonS3Client.deleteObject(bucket,file);
+    }
+
+    public void changeUsersNickname(UserDto userdto){
+        User user = userRepository.findByUserid(userdto.getUserid()).orElseThrow(()-> new DataNotFoundException("user not found"));
+        user.setNickname(userdto.getNickname());
+        userRepository.save(user);
+    }
+}
 
