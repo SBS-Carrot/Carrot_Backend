@@ -58,4 +58,9 @@ public class ProductController {
 
         return productService.getProductWithImage(productId);
     }
+
+    @PostMapping("/productView/{productId}")
+    public void productView(@PathVariable Integer productId){
+        productService._productView(productId);
+    }
 }

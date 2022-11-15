@@ -6,7 +6,10 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.carrot.backend.jobImage.dao.JobsImageRepository;
 import com.carrot.backend.jobImage.domain.JobsImages;
 import com.carrot.backend.jobImage.dto.JobsImagesDto;
+import com.carrot.backend.jobs.dao.JobsRepository;
+import com.carrot.backend.jobs.domain.Jobs;
 import com.carrot.backend.jobs.service.JobsService;
+import com.carrot.backend.util.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +33,8 @@ public class JobsImageService {
     private final AmazonS3Client amazonS3Client;
     private final JobsImageRepository jobsImageRepository;
     private final JobsService jobsService;
+
+    private final JobsRepository jobsRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -65,7 +70,11 @@ public class JobsImageService {
             jobImages.setJobPath(path);
             jobImages.setJobs(jobsService.getJob(jobsId));
             jobsImageRepository.save(jobImages);
-
+            if(i==0) {
+                Jobs jobs = jobsRepository.findById(jobsId).orElseThrow(() -> new DataNotFoundException("jobs not found"));
+                jobs.setProfileImage(path);
+                jobsRepository.save(jobs);
+            }
 
         }
 //FileUploadResponse DTO로 반환해준다.

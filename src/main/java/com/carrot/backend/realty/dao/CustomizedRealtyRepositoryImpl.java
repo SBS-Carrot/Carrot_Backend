@@ -1,19 +1,12 @@
 package com.carrot.backend.realty.dao;
 
-import com.carrot.backend.jobImage.domain.JobsImages;
-import com.carrot.backend.product.domain.Product;
-import com.carrot.backend.product.domain.QProduct;
-import com.carrot.backend.product.dto.ProductDto;
-import com.carrot.backend.productImage.domain.QProductImages;
 import com.carrot.backend.realty.domain.QRealty;
 import com.carrot.backend.realty.domain.Realty;
 import com.carrot.backend.realty.dto.RealtyDto;
 import com.carrot.backend.realtyImage.domain.QRealtyImage;
-import com.carrot.backend.user.dto.UserDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +65,7 @@ public class CustomizedRealtyRepositoryImpl implements CustomizedRealtyRepositor
                 .realtyChatting(realty.getRealtyChatting())
                 .realtyLike(realty.getRealtyLike())
                 .realtyCheck(realty.getRealtyCheck())
+                .profileImage(realty.getProfileImage())
                 .images(imagePaths)
                 .build();
         return realtyDto;

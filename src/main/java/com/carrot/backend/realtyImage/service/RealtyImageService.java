@@ -3,10 +3,13 @@ package com.carrot.backend.realtyImage.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.carrot.backend.realty.dao.RealtyRepository;
+import com.carrot.backend.realty.domain.Realty;
 import com.carrot.backend.realty.service.RealtyService;
 import com.carrot.backend.realtyImage.dao.RealtyImageRepository;
 import com.carrot.backend.realtyImage.domain.RealtyImage;
 import com.carrot.backend.realtyImage.dto.RealtyImageDto;
+import com.carrot.backend.util.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +33,8 @@ public class RealtyImageService {
     private final AmazonS3Client amazonS3Client;
     private final RealtyImageRepository realtyImageRepository;
     private final RealtyService realtyService;
+
+    private final RealtyRepository realtyRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -65,6 +70,12 @@ public class RealtyImageService {
             realtyImage.setRealtyPath(path);
             realtyImage.setRealty(realtyService.getRealty(realtyId));
             realtyImageRepository.save(realtyImage);
+
+            if(i==0) {
+                Realty realty = realtyRepository.findByRealtyId(realtyId).orElseThrow(() -> new DataNotFoundException("realty not found"));
+                realty.setProfileImage(path);
+                realtyRepository.save(realty);
+            }
         }
         return images;
     }
