@@ -43,6 +43,7 @@ public class CustomizedJobsRepositoryImpl implements CustomizedJobsRepository{
                 .createDate(jobs.getCreateDate())
                 .jobUserid(jobs.getJobUserid())
                 .jobPlace(jobs.getJobPlace())
+                .profileImage(jobs.getProfileImage())
                 .images(imagePaths)
                 .build();
 

@@ -1,16 +1,10 @@
 package com.carrot.backend.realty.dto;
 
-import com.carrot.backend.jobImage.domain.JobsImages;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -90,6 +84,8 @@ public class RealtyDto {
     Integer realtyLike;
 
     Integer realtyCheck;
+
+    String profileImage;
 
     List<String> images;
 

@@ -46,7 +46,6 @@ public class JobsController {
     @PostMapping("/jobsCheck/{jobsId}")
     public void jobsCheck(@PathVariable Integer jobsId) {
         jobsService.jobCheck(jobsId);
-
     }
 
     @GetMapping("/likeJob/{jobId}")

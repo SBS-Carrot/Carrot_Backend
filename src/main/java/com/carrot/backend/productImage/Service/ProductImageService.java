@@ -4,9 +4,12 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.carrot.backend.product.Service.ProductService;
+import com.carrot.backend.product.dao.ProductRepository;
+import com.carrot.backend.product.domain.Product;
 import com.carrot.backend.productImage.dao.ProductImageRepository;
 import com.carrot.backend.productImage.domain.ProductImages;
 import com.carrot.backend.productImage.dto.ProductImageDto;
+import com.carrot.backend.util.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +32,8 @@ import java.util.UUID;
 public class ProductImageService {
 
     private final ProductImageRepository productImageRepository;
+
+    private final ProductRepository productRepository;
     private final ProductService productService;
     private final AmazonS3Client amazonS3Client;
 
@@ -70,6 +75,14 @@ public class ProductImageService {
                     productImages.setPath(path);
                     productImages.setProduct(productService.getProduct(productId));
                     productImageRepository.save(productImages);
+
+                    if(i==0) {
+                        Product product = productRepository.findByProductId(productId).orElseThrow(() -> new DataNotFoundException("product not found"));
+                        product.setProfileImage(path);
+                        productRepository.save(product);
+                    }
+
+
 
                 }
 //FileUploadResponse DTO로 반환해준다.

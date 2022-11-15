@@ -1,6 +1,5 @@
 package com.carrot.backend.realty.service;
 
-import com.carrot.backend.product.dto.ProductDto;
 import com.carrot.backend.realty.dao.CustomizedRealtyRepositoryImpl;
 import com.carrot.backend.realty.dao.RealtyRepository;
 import com.carrot.backend.realty.domain.Realty;
@@ -83,6 +82,13 @@ public class RealtyService {
     public RealtyDto getRealtyAndImage(Integer realtyId) {
         RealtyDto realtyDto = customizedRealtyRepository.getQslRealtyAndImagesByRealtyId(realtyId);
         return realtyDto;
+    }
+
+    public void _realtyCheck(Integer realtyId) {
+        Realty realty = realtyRepository.findByRealtyId(realtyId).orElseThrow(()-> new DataNotFoundException("realty not found"));
+
+        realty.setRealtyCheck(realty.getRealtyCheck() +1);
+        realtyRepository.save(realty);
     }
 
 }

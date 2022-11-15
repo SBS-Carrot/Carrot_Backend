@@ -42,5 +42,8 @@ public class JobsDto {
 
     Integer jobCheck;
 
+    String profileImage;
+
     List<String> images;
+
 }

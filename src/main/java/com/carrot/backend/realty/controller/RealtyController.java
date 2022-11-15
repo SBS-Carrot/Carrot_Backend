@@ -1,11 +1,9 @@
 package com.carrot.backend.realty.controller;
 
-import com.carrot.backend.product.dto.ProductDto;
 import com.carrot.backend.realty.domain.Realty;
 import com.carrot.backend.realty.dto.RealtyDto;
 import com.carrot.backend.realty.service.RealtyService;
 import com.carrot.backend.realtyImage.service.RealtyImageService;
-import com.carrot.backend.realtyLike.dao.RealtyLikeRepository;
 import com.carrot.backend.realtyLike.service.RealtyLikeService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -58,5 +56,10 @@ public class RealtyController {
     @GetMapping("/likeRealty/{realtyId}")
     public boolean likeRealty(@RequestParam Integer realtyId,@RequestParam String userid){
         return realtyLikeService.addRealtyLike(realtyId,userid);
+    }
+
+    @PostMapping("/realtyCheck/{realtyId}")
+    public void realtyCheck (@PathVariable Integer realtyId){
+        realtyService._realtyCheck(realtyId);
     }
 }

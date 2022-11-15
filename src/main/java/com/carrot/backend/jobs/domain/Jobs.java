@@ -62,6 +62,9 @@ public class Jobs {
     @Column
      Integer jobCheck;
 
+    @Column
+    String profileImage;
+
     @OneToMany(mappedBy = "jobs", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<JobsImages> images;

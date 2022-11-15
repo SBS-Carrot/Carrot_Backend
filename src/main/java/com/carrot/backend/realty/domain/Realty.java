@@ -1,7 +1,6 @@
 package com.carrot.backend.realty.domain;
 
 
-import com.carrot.backend.jobImage.domain.JobsImages;
 import com.carrot.backend.realtyImage.domain.RealtyImage;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -128,6 +127,9 @@ public class Realty {
 
     @Column
     Integer realtyCheck;
+
+    @Column
+    String profileImage;
 
     @OneToMany(mappedBy = "realty", cascade = CascadeType.REMOVE)
     @JsonIgnore
