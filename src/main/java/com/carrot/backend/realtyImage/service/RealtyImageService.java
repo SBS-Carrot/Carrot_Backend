@@ -57,10 +57,7 @@ public class RealtyImageService {
         List<RealtyImageDto> images = new ArrayList<>();
         for (int i = 0; i < uploadFile.size(); i++) {
             String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.get(i).getName();
-
-
             String path = putS3(uploadFile.get(i), fileName);
-
             removeNewFile(uploadFile.get(i));
             RealtyImageDto image = new RealtyImageDto(realtyId, path);
             images.add(i, image);
