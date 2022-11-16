@@ -68,8 +68,12 @@ public class ProductService {
         return newProduct.getProductId();
     }
 
+    public void View(Integer productId) {
+        Product product = productRepository.findById(productId).orElseThrow(()->new DataNotFoundException("not found"));
 
-    //public void Check(Integer productId) {
+        product.setProductView(product.getProductView() +1);
+        productRepository.save(product);
 
-   // }
+
+    }
 }
