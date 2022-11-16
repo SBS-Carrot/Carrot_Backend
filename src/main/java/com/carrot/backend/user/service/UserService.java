@@ -114,7 +114,6 @@ public class UserService {
 
             return "false";
         }
-
     }
 
 public void changeUserProfileImage(UserDto userdto, List<MultipartFile> multipartFile, String users) throws IOException {
@@ -159,6 +158,12 @@ public void changeUserProfileImage(UserDto userdto, List<MultipartFile> multipar
 
             return amazonS3Client.getUrl(bucket, fileName).toString();
         }
+
+    public void deleteS3File(String fileName, String bucketFolder){
+        String file = bucketFolder+"/"+fileName;
+
+        amazonS3Client.deleteObject(bucket,file);
+    }
 
         private void removeNewFile (File targetFile){
             if (targetFile.delete()) {
@@ -205,11 +210,7 @@ public void changeUserProfileImage(UserDto userdto, List<MultipartFile> multipar
         user.setProfileImage(null);
         userRepository.save(user);
     }
-    public void deleteS3File(String fileName, String bucketFolder){
-        String file = bucketFolder+"/"+fileName;
 
-        amazonS3Client.deleteObject(bucket,file);
-    }
 
     public void changeUsersNickname(UserDto userdto){
         User user = userRepository.findByUserid(userdto.getUserid()).orElseThrow(()-> new DataNotFoundException("user not found"));

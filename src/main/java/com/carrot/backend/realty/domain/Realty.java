@@ -7,7 +7,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -25,7 +24,7 @@ public class Realty {
     @Column
     String realtyUserid;
 
-    LocalDateTime createDate;
+    String createDate;
 
     @Column
     String realtyWho;

@@ -60,7 +60,7 @@ public class ProductService {
         LocalDateTime date = LocalDateTime.now();
         String dates = date.toString();
         String yymmdd = dates.substring(0,10);
-        System.out.println(yymmdd);
+
         newProduct.setProductCreateTime(yymmdd);
         productRepository.save(newProduct);
 

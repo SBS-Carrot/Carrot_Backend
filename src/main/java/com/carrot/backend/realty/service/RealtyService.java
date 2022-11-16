@@ -58,7 +58,11 @@ public class RealtyService {
 //        String tmp3 = tmp2.substring(1);
 
         newRealty.setRealtyContent(realtyDto.getRealtyContent());
-        newRealty.setCreateDate(LocalDateTime.now());
+        LocalDateTime date = LocalDateTime.now();
+        String dates = date.toString();
+        String yymmdd = dates.substring(0,10);
+
+        newRealty.setCreateDate(yymmdd);
         newRealty.setRealtyDeposit(realtyDto.getRealtyDeposit());
         newRealty.setRealtyMonthly(realtyDto.getRealtyMonthly());
         newRealty.setRealtyShortTerm(realtyDto.getRealtyShortTerm());

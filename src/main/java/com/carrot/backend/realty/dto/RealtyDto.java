@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -17,7 +16,7 @@ public class RealtyDto {
 
     String realtyUserid;
 
-    LocalDateTime createDate;
+    String createDate;
 
     String realtyWho;
 
