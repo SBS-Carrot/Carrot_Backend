@@ -1,42 +1,26 @@
 package com.carrot.backend.realty.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RealtyDto {
+    Integer realtyId;
+
+    String realtyUserid;
+
+    String createDate;
+
     String realtyWho;
 
-    String realtyCategory;
-
-    String realtySpace;
-
-    String realtyArea;
-
-    String realtyRoom;
-
-    String realtyBath;
-
-    String realtyAddress;
-
-    String realtyWhole;
-
-    String realtyFloor;
-
-    String realtyMove;
-
-    String realtyMoveDate;
-
-    String realtyLoan;
-
-    String realtyPet;
-
-    String realtyParking;
-
-    String realtyElevator;
-
-    String[] realtyInside;
-
-    String realtyContent;
+    String realtyDealing;
 
     String realtyDeposit;
 
@@ -54,7 +38,55 @@ public class RealtyDto {
 
     String realtySalePrice;
 
+    String realtyCategory;
+
+    String realtySpace;
+
+    String realtyArea;
+
+    String realtyWhole;
+
+    String realtyFloor;
+
+    String realtyRoom;
+
+    String realtyBath;
+
+    String realtyAddress;
+
+    String realtyLoan;
+
+    String realtyMove;
+
+    String realtyMoveDate;
+
+    String realtyPet;
+
+    String realtyParking;
+
+    String realtyElevator;
+
+    String[] realtyInside;
+
+    String realtyShortDeal;
+
+    String realtyMonthlyDeal;
+
+    String realtyDepositDeal;
+
     String realtyDeal;
+
+    String realtyContent;
+
+    Integer realtyChatting;
+
+    Integer realtyLike;
+
+    Integer realtyCheck;
+
+    String profileImage;
+
+    List<String> images;
 
 
 }

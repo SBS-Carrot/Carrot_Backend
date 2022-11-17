@@ -64,13 +64,11 @@ public class ProductImageService {
                     productImages.setProduct(productService.getProduct(productId));
                     productImageRepository.save(productImages);
 
-
                     if(i==0) {
                         Product product = productRepository.findByProductId(productId).orElseThrow(() -> new DataNotFoundException("product not found"));
                         product.setProfileImage(path);
                         productRepository.save(product);
                     }
-
                 }
             return images;
         }

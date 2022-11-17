@@ -9,22 +9,27 @@ import com.carrot.backend.user.domain.User;
 import com.carrot.backend.user.dto.UserDto;
 import com.carrot.backend.util.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequiredArgsConstructor
 @Service
+@Slf4j
+@RequiredArgsConstructor
+@Component
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -73,16 +78,10 @@ public class UserService {
         return user;
     }
     public User getUser(String userid) {
-        try {
-            Optional<User> user = this.userRepository.findByUserid(userid);
-            if (user.isPresent()) {
-                return user.get();
-            }
-        }catch(DataNotFoundException e){
-            e.printStackTrace();
-            return null;
-        }
-        return null;
+
+            User user = this.userRepository.findByUserid(userid).orElseThrow(()-> new UsernameNotFoundException("user not found"));
+            return user;
+
     }
 
     public boolean checkId(String userid) {
@@ -106,7 +105,36 @@ public class UserService {
 
             return "false";
         }
+    }
 
+public void changeUserProfileImage(UserDto userdto, List<MultipartFile> multipartFile, String users) throws IOException {
+    List<File> uploadFile = new ArrayList<File>();
+    for(int i=0;i< multipartFile.size();i++) {
+
+            MultipartFile files = multipartFile.get(i);
+            File upload = convert(files)
+                    .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
+            uploadFile.add(upload);
+        }
+    upload(userdto, uploadFile, users);
+}
+    public void deleteS3File(String fileName, String bucketFolder){
+        String file = bucketFolder+"/"+fileName;
+        amazonS3Client.deleteObject(bucket,file);
+    }
+
+        private void removeNewFile (File targetFile){
+            if (targetFile.delete()) {
+                log.info("파일이 삭제되었습니다.");
+            } else {
+                log.info("파일이 삭제되지 못했습니다.");
+            }
+        }
+
+    public void changeUsersNickname(UserDto userdto){
+        User user = userRepository.findByUserid(userdto.getUserid()).orElseThrow(()-> new DataNotFoundException("user not found"));
+        user.setNickname(userdto.getNickname());
+        userRepository.save(user);
     }
         private void upload (UserDto userdto, List<File> uploadFile, String dirName){
                 String userid = userdto.getUserid();
@@ -131,15 +159,7 @@ public class UserService {
                     CannedAccessControlList.PublicRead));
             return amazonS3Client.getUrl(bucket, fileName).toString();
         }
-        private void removeNewFile (File targetFile) {
-            if (targetFile.delete()) {
 
-                System.out.println("파일이 삭제되었습니다.");
-
-            } else {
-                System.out.println("파일이 삭제되지 못했습니다.");
-            }
-        }
         private Optional<File> convert (MultipartFile file) throws IOException {
 
 
@@ -162,8 +182,6 @@ public class UserService {
         user.setNickname("닉네임 없음");
         String file = user.getProfileImage();
         String[] filename = file.split(bucketFolder+"/");
-
-
         deleteS3File(filename[1], bucketFolder);
         user.setProfileImage(null);
         userRepository.save(user);
@@ -177,16 +195,7 @@ public class UserService {
         user.setProfileImage(null);
         userRepository.save(user);
     }
-    public void deleteS3File(String fileName, String bucketFolder){
-        String file = bucketFolder+"/"+fileName;
 
-        amazonS3Client.deleteObject(bucket,file);
-    }
 
-    public void changeUsersNickname(UserDto userdto){
-        User user = userRepository.findByUserid(userdto.getUserid()).orElseThrow(()-> new DataNotFoundException("user not found"));
-        user.setNickname(userdto.getNickname());
-        userRepository.save(user);
-    }
 }
 

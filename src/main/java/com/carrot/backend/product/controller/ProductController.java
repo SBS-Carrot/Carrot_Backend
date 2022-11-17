@@ -62,5 +62,7 @@ public class ProductController {
     @PostMapping("/productView/{productId}")
     public void productView(@PathVariable Integer productId){
         productService.View(productId);
+        productService._productView(productId);
+
     }
 }

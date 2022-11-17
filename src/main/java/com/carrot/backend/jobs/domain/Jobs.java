@@ -2,10 +2,7 @@ package com.carrot.backend.jobs.domain;
 
 import com.carrot.backend.jobImage.domain.JobsImages;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -14,6 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Jobs {
@@ -63,6 +61,9 @@ public class Jobs {
 
     @Column
      Integer jobCheck;
+
+    @Column
+    String profileImage;
 
     @OneToMany(mappedBy = "jobs", cascade = CascadeType.REMOVE)
     @JsonIgnore

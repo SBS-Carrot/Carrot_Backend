@@ -4,6 +4,7 @@ import com.carrot.backend.realty.domain.Realty;
 import com.carrot.backend.realty.dto.RealtyDto;
 import com.carrot.backend.realty.service.RealtyService;
 import com.carrot.backend.realtyImage.service.RealtyImageService;
+import com.carrot.backend.realtyLike.service.RealtyLikeService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +19,7 @@ public class RealtyController {
     private final RealtyService realtyService;
     private final RealtyImageService realtyImageService;
 
+    private final RealtyLikeService realtyLikeService;
     @GetMapping("/realty")
     public List<Realty> getsRealty(){
         return realtyService.getsRealty();
@@ -34,10 +36,30 @@ public class RealtyController {
         return realtyService.getRealty(id);
    }
 
-    @PostMapping("createRealtyImages")
+    @PostMapping("/createRealtyImages")
     public Realty createRealtyImg(@RequestPart(value = "realtyDto") RealtyDto realtyDto, @RequestPart("file") List<MultipartFile> multipartFile) throws IOException {
         Integer id = realtyService.createRealty(realtyDto);
         realtyImageService.uploads(id, multipartFile, "realtyImages");
         return realtyService.getRealty(id);
+    }
+
+    @GetMapping("/getRealtyWithImage/{realtyId}")
+    public RealtyDto getRealtyAndImages(@PathVariable Integer realtyId){
+        return realtyService.getRealtyAndImage(realtyId);
+    }
+
+    @GetMapping("/likeRealtyCheck/{realtyId}")
+    public boolean isLikedRealty(@RequestParam Integer realtyId,@RequestParam  String userid){
+        return realtyLikeService.checkLikeRealty(realtyId, userid);
+    }
+
+    @GetMapping("/likeRealty/{realtyId}")
+    public boolean likeRealty(@RequestParam Integer realtyId,@RequestParam String userid){
+        return realtyLikeService.addRealtyLike(realtyId,userid);
+    }
+
+    @PostMapping("/realtyCheck/{realtyId}")
+    public void realtyCheck (@PathVariable Integer realtyId){
+        realtyService._realtyCheck(realtyId);
     }
 }
