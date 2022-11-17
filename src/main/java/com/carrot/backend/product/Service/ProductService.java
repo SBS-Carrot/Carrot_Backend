@@ -24,26 +24,27 @@ public class ProductService {
     private final ProductImageRepository productImageRepository;
     private final UserRepository userRepository;
     private final CustomizedProductRepositoryImpl customizedProductRepository;
+
     public Product getProduct(Integer productId) {
         try {
             Optional<Product> product = this.productRepository.findByProductId(productId);
             if (product.isPresent()) {
                 return product.get();
             }
-        }catch(DataNotFoundException e){
+        } catch (DataNotFoundException e) {
             e.printStackTrace();
             return null;
         }
         return null;
     }
 
-    public ProductDto getProductWithImage(Integer productId){
+    public ProductDto getProductWithImage(Integer productId) {
         ProductDto product = customizedProductRepository.getQslProductsAndImagesByProductId(productId);
         return product;
     }
 
 
-    public List<Product> getProducts(){
+    public List<Product> getProducts() {
         return productRepository.findAll();
     }
 
@@ -60,20 +61,24 @@ public class ProductService {
         newProduct.setProductUserid(productDto.getProductUserid());
         LocalDateTime date = LocalDateTime.now();
         String dates = date.toString();
-        String yymmdd = dates.substring(0,10);
+        String yymmdd = dates.substring(0, 10);
         System.out.println(yymmdd);
         newProduct.setProductCreateTime(yymmdd);
         productRepository.save(newProduct);
-
         return newProduct.getProductId();
     }
 
+
     public void View(Integer productId) {
-        Product product = productRepository.findById(productId).orElseThrow(()->new DataNotFoundException("not found"));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new DataNotFoundException("not found"));
 
-        product.setProductView(product.getProductView() +1);
+        product.setProductView(product.getProductView() + 1);
+    }
+
+    public void _productView(Integer productId) {
+        Product product = productRepository.findByProductId(productId).orElseThrow(() -> new DataNotFoundException("product not found"));
+        product.setProductView(product.getProductView() + 1);
         productRepository.save(product);
-
 
     }
 }

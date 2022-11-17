@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class CustomizedRealtyRepositoryImpl implements CustomizedRealtyRepository {
-
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override

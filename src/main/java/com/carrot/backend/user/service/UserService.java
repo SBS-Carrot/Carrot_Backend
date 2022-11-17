@@ -1,28 +1,40 @@
 package com.carrot.backend.user.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.carrot.backend.user.UserLoginForm;
 import com.carrot.backend.user.dao.UserRepository;
 import com.carrot.backend.user.domain.User;
 import com.carrot.backend.user.dto.UserDto;
 import com.carrot.backend.util.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AmazonS3Client amazonS3Client;
 
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     public User create(UserDto userDto) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
         String username = userDto.getUsername();
         String userid = userDto.getUserid();
         String password = userDto.getPassword();
@@ -31,7 +43,6 @@ public class UserService {
         String month = birth.substring(4,6);
         String day = birth.substring(6);
         birth = (year + "-" + month + "-" + day);
-
         String address = userDto.getAddress();
         String email;
         if(userDto.getEmail()!="") {
@@ -40,8 +51,6 @@ public class UserService {
             email = "이메일 없음";
         }
         String nickname;
-
-
         if(userDto.getNickname()!=""){
             nickname = userDto.getNickname();
         }else {
@@ -60,9 +69,7 @@ public class UserService {
                 .role("ROLE_USER")
                 .temp(36.5)
                 .build();
-
         userRepository.save(user);
-
         return user;
     }
     public User getUser(String userid) {
@@ -85,12 +92,10 @@ public class UserService {
         }else{
             return true;
         }
-
     }
 
     public String login(UserLoginForm userLoginForm) throws UsernameNotFoundException{
         User user = getUser(userLoginForm.getUserid());
-
         if(user==null){
             return "false";
         }
@@ -103,4 +108,85 @@ public class UserService {
         }
 
     }
+        private void upload (UserDto userdto, List<File> uploadFile, String dirName){
+                String userid = userdto.getUserid();
+                String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.get(0).getName();
+
+            User user = userRepository.findByUserid(userid).orElseThrow(()-> new DataNotFoundException("user not found"));
+
+            String file = user.getProfileImage();
+            if(file!=null) {
+                String[] filename = file.split(dirName + "/");
+                deleteS3File(filename[1], dirName);
+            }
+                String path = putS3(uploadFile.get(0), fileName);
+
+                removeNewFile(uploadFile.get(0));
+                user.setProfileImage(path);
+                user.setNickname(userdto.getNickname());
+                userRepository.save(user);
+        }
+        private String putS3 (File uploadFile, String fileName){
+            amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(
+                    CannedAccessControlList.PublicRead));
+            return amazonS3Client.getUrl(bucket, fileName).toString();
+        }
+        private void removeNewFile (File targetFile) {
+            if (targetFile.delete()) {
+
+                System.out.println("파일이 삭제되었습니다.");
+
+            } else {
+                System.out.println("파일이 삭제되지 못했습니다.");
+            }
+        }
+        private Optional<File> convert (MultipartFile file) throws IOException {
+
+
+            File convertFile = new File(file.getOriginalFilename());
+
+            if (convertFile.createNewFile()) {
+
+                try (FileOutputStream fos = new FileOutputStream(convertFile)) {
+                    fos.write(file.getBytes());
+                }
+                return Optional.of(convertFile);
+            }
+
+            return Optional.empty();
+        }
+
+
+    public void resetUserProfile(UserDto userdto, String bucketFolder) {
+        User user = userRepository.findByUserid(userdto.getUserid()).orElseThrow(()-> new DataNotFoundException("user not found"));
+        user.setNickname("닉네임 없음");
+        String file = user.getProfileImage();
+        String[] filename = file.split(bucketFolder+"/");
+
+
+        deleteS3File(filename[1], bucketFolder);
+        user.setProfileImage(null);
+        userRepository.save(user);
+    }
+
+    public void resetUserImage(UserDto userdto,String bucketFolder){
+        User user = userRepository.findByUserid(userdto.getUserid()).orElseThrow(()-> new DataNotFoundException("user not found"));
+        String file = user.getProfileImage();
+        String[] filename = file.split(bucketFolder+"/");
+        deleteS3File(filename[1],bucketFolder);
+        user.setProfileImage(null);
+        userRepository.save(user);
+    }
+    public void deleteS3File(String fileName, String bucketFolder){
+        String file = bucketFolder+"/"+fileName;
+
+        amazonS3Client.deleteObject(bucket,file);
+    }
+
+    public void changeUsersNickname(UserDto userdto){
+        User user = userRepository.findByUserid(userdto.getUserid()).orElseThrow(()-> new DataNotFoundException("user not found"));
+        user.setNickname(userdto.getNickname());
+        userRepository.save(user);
+    }
 }
+

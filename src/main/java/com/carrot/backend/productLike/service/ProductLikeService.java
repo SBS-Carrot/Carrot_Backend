@@ -44,10 +44,8 @@ public class ProductLikeService {
         User user = userRepository.findByUserid(userid).orElseThrow(()-> new DataNotFoundException("user not found"));
         Product product = productRepository.findByProductId(productId).orElseThrow(()-> new DataNotFoundException("product not found"));
         if(isNotAlreadyLike(product,user)){
-
             return false;
         }else{
-
             return true;
         }
     }

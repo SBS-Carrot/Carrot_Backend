@@ -64,7 +64,12 @@ public class RealtyService {
         newRealty.setRealtyCost(realtyDto.getRealtyCost());
         newRealty.setRealtyCostContent(realtyDto.getRealtyCostContent());
         newRealty.setRealtySalePrice(realtyDto.getRealtySalePrice());
+
         newRealty.setRealtyDeal(realtyDto.getRealtyDeal());
+
+        newRealty.setRealtyDealing(realtyDto.getRealtyDeal());
+
+
         newRealty.setRealtyCheck(0);
         newRealty.setRealtyChatting(0);
         newRealty.setRealtyDealing("판매중");
