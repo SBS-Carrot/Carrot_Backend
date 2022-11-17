@@ -63,6 +63,7 @@ public class ProductService {
         String yymmdd = dates.substring(0, 10);
         System.out.println(yymmdd);
         newProduct.setProductCreateTime(yymmdd);
+        newProduct.setProductDealAddress(productDto.getProductDealAddress());
         productRepository.save(newProduct);
         return newProduct.getProductId();
     }

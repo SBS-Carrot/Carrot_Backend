@@ -33,5 +33,6 @@ public class ProductDto {
 
     List<String> images;
 
+    String productDealAddress;
 
 }

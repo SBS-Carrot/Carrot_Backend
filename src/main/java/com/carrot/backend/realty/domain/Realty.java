@@ -82,6 +82,9 @@ public class Realty {
     String realtyAddress;
 
     @Column
+    String realtyAddressDong;
+
+    @Column
     String realtyLoan;
 
     @Column
@@ -134,4 +137,6 @@ public class Realty {
     @JsonIgnore
     private List<RealtyImage> images;
 
+    @Column
+    String realtyIntroduce;
 }

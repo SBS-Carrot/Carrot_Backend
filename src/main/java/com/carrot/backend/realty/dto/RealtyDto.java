@@ -62,6 +62,8 @@ public class RealtyDto {
 
     String realtyPet;
 
+    String realtyAddressDong;
+
     String realtyParking;
 
     String realtyElevator;
@@ -88,5 +90,5 @@ public class RealtyDto {
 
     List<String> images;
 
-
+    String realtyIntroduce;
 }

@@ -45,23 +45,25 @@ public class RealtyService {
         newRealty.setRealtyPet(realtyDto.getRealtyPet());
         newRealty.setRealtyParking(realtyDto.getRealtyParking());
         newRealty.setRealtyElevator(realtyDto.getRealtyElevator());
-        String[] insideArr = realtyDto.getRealtyInside();
-//        String tmp2 = "";
-//        if(insideArr.length == 0){
-//            newRealty.setRealtyInside("없음");
-//        }else {
-//            for(int i = 0; i < insideArr.length; i++){
-//                String tmp = insideArr[i];
-//                tmp2 += "," + tmp;
-//            }
-//        }
-//        String tmp3 = tmp2.substring(1);
+        String[] insideArr = new String[realtyDto.getRealtyInside().length];
+        String[] inside =  realtyDto.getRealtyInside();
+        if(insideArr.length == 0){
+            newRealty.setRealtyInside(null);
+        }else {
+            for(int i = 0; i < insideArr.length; i++){
+                if(i == insideArr.length-1){
+                    insideArr[i] = inside[i];
+                   break;
+                }
+                insideArr[i] = inside[i] + ", ";
+            }
+        }
 
+        newRealty.setRealtyInside(insideArr);
         newRealty.setRealtyContent(realtyDto.getRealtyContent());
         LocalDateTime date = LocalDateTime.now();
         String dates = date.toString();
         String yymmdd = dates.substring(0,10);
-
         newRealty.setCreateDate(yymmdd);
         newRealty.setRealtyDeposit(realtyDto.getRealtyDeposit());
         newRealty.setRealtyMonthly(realtyDto.getRealtyMonthly());
@@ -77,6 +79,8 @@ public class RealtyService {
         newRealty.setRealtyDeal("판매중");
         newRealty.setRealtyUserid(realtyDto.getRealtyUserid());
         newRealty.setRealtyLike(0);
+        newRealty.setRealtyIntroduce(realtyDto.getRealtyIntroduce());
+        newRealty.setRealtyAddressDong(realtyDto.getRealtyAddressDong());
         realtyRepository.save(newRealty);
 
         return newRealty.getRealtyId();
