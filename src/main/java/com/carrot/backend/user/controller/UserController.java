@@ -60,4 +60,9 @@ public class UserController {
     public void changeUserNickname(@RequestPart(value = "userdto") UserDto userdto) throws IOException {
         userService.changeUsersNickname(userdto);
     }
+
+    @PostMapping("/checkPw")
+    public boolean checkPassword(@RequestBody UserDto userDto){
+        return userService.checkpassword(userDto);
+    }
 }

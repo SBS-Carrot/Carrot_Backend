@@ -197,5 +197,18 @@ public void changeUserProfileImage(UserDto userdto, List<MultipartFile> multipar
     }
 
 
+    public boolean checkpassword(UserDto userDto) {
+        User user = userRepository.findByUserid(userDto.getUserid()).orElseThrow(()-> new DataNotFoundException("user not found"));
+        if(user==null){
+            return false;
+        }
+
+        if(passwordEncoder.matches(userDto.getPassword(),user.getPassword())) {
+            return true;
+        }else {
+
+            return false;
+        }
+    }
 }
 
