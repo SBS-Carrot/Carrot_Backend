@@ -78,6 +78,15 @@ public class ProductImageService {
                     CannedAccessControlList.PublicRead));
             return amazonS3Client.getUrl(bucket, fileName).toString();
         }
+//    String file = proudc.getProfileImage();
+//            if(file!=null) {
+//        String[] filename = file.split(dirName + "/");
+//        deleteS3File(filename[1], dirName);
+//    }
+    public void deleteS3File(String fileName, String bucketFolder){
+        String file = bucketFolder+"/"+fileName;
+        amazonS3Client.deleteObject(bucket,file);
+    }
 
         private void removeNewFile (File targetFile){
             if (targetFile.delete()) {
