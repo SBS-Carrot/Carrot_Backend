@@ -28,7 +28,7 @@ public class User implements UserDetails{
     @NotEmpty
     private String password;
 
-
+    private String password1;
 
     @NotEmpty(message = "이름은 필수 항목입니다.")
     private String username;

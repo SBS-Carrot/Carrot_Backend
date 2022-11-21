@@ -1,5 +1,8 @@
 package com.carrot.backend.user.controller;
 
+import com.carrot.backend.jobs.dto.JobsDto;
+import com.carrot.backend.product.dto.ProductDto;
+import com.carrot.backend.realty.dto.RealtyDto;
 import com.carrot.backend.user.UserLoginForm;
 import com.carrot.backend.user.domain.User;
 import com.carrot.backend.user.dto.UserDto;
@@ -64,5 +67,30 @@ public class UserController {
     @PostMapping("/checkPw")
     public boolean checkPassword(@RequestBody UserDto userDto){
         return userService.checkpassword(userDto);
+    }
+
+    @PostMapping("/changePw")
+    public boolean changePassword(@RequestBody UserDto userDto){
+        boolean rs1 = userService.checkpassword(userDto);
+        if(!rs1){
+            return false;
+        }
+        boolean rs = userService.changeUserPassword(userDto);
+        return rs;
+    }
+
+    @PostMapping("/getRealtys/{userid}")
+    public List<RealtyDto> getRealtysById(@PathVariable String userid){
+        return userService._getRealtys(userid);
+    }
+
+    @PostMapping("/getProducts/{userid}")
+    public List<ProductDto> getProductsById(@PathVariable String userid){
+        return userService._getProducts(userid);
+    }
+
+    @PostMapping("/getJobs/{userid}")
+    public List<JobsDto> getJobsById(@PathVariable String userid){
+        return userService._getJobs(userid);
     }
 }

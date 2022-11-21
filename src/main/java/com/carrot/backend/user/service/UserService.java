@@ -3,7 +3,11 @@ package com.carrot.backend.user.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.carrot.backend.jobs.dto.JobsDto;
+import com.carrot.backend.product.dto.ProductDto;
+import com.carrot.backend.realty.dto.RealtyDto;
 import com.carrot.backend.user.UserLoginForm;
+import com.carrot.backend.user.dao.CustomizedUserRepositoryImpl;
 import com.carrot.backend.user.dao.UserRepository;
 import com.carrot.backend.user.domain.User;
 import com.carrot.backend.user.dto.UserDto;
@@ -35,11 +39,14 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final AmazonS3Client amazonS3Client;
 
+    private final CustomizedUserRepositoryImpl customizedUserRepository;
+
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
     public User create(UserDto userDto) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
         String username = userDto.getUsername();
         String userid = userDto.getUserid();
         String password = userDto.getPassword();
@@ -209,6 +216,32 @@ public void changeUserProfileImage(UserDto userdto, List<MultipartFile> multipar
 
             return false;
         }
+    }
+
+    public boolean changeUserPassword(UserDto userDto) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        User user = userRepository.findByUserid(userDto.getUserid()).orElseThrow(()-> new DataNotFoundException("user not found"));
+        user.setPassword(passwordEncoder.encode(userDto.getPassword1()));
+       userRepository.save(user);
+       return true;
+
+
+
+    }
+
+    public List<RealtyDto> _getRealtys(String userid) {
+        List<RealtyDto> realtyDtos = customizedUserRepository.getQslRealtyByArticleWriterId(userid);
+        return realtyDtos;
+    }
+
+    public List<ProductDto> _getProducts(String userid) {
+        List<ProductDto> productDtos = customizedUserRepository.getQslProductByArticleWriterId(userid);
+        return productDtos;
+    }
+
+    public List<JobsDto> _getJobs(String userid) {
+        List<JobsDto> jobsDtos = customizedUserRepository.getQslJobsByArticleWriterId(userid);
+        return jobsDtos;
     }
 }
 

@@ -9,6 +9,8 @@ public class UserDto {
 
     private String password;
 
+    private String password1;
+
     private String username;
 
     private String birth;
