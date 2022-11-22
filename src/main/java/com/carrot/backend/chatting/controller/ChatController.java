@@ -18,7 +18,7 @@ public class ChatController {
 
     //nosql 몽고DB 사용해서 채팅구현할것,
     @PostMapping
-    public ChattingRoom createRoom(@RequestParam String name){
+    public ChattingRoom createRoom(@RequestBody String name){
         return chattingService.createRoom(name);
     }
 

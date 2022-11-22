@@ -10,10 +10,7 @@ import org.springframework.web.socket.WebSocketSession;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -35,9 +32,11 @@ public class ChattingService {
     }
 
     public ChattingRoom createRoom(String name){
-        String roomId = name;
-        ChattingRoom rooms = ChattingRoom.builder().roomId(roomId).build();
-        return chattingRoom.put(roomId,rooms);
+        String randomId = UUID.randomUUID().toString();
+
+        ChattingRoom rooms = ChattingRoom.builder().roomId(randomId).name(name).build();
+        chattingRoom.put(randomId,rooms);
+        return rooms;
     }
 
     public <T> void sendChatting(WebSocketSession session, T message){

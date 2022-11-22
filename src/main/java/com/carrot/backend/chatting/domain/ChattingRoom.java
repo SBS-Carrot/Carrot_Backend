@@ -1,7 +1,6 @@
 package com.carrot.backend.chatting.domain;
 
 import com.carrot.backend.chatting.service.ChattingService;
-import com.carrot.backend.chatting.webconfig.WebSocketConfig;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,11 +13,13 @@ import java.util.Set;
 @Setter
 public class ChattingRoom {
     private String roomId;
+    private String name;
     private Set<WebSocketSession> sessions = new HashSet<>();
 
     @Builder
-    public ChattingRoom(String roomId){
+    public ChattingRoom(String roomId, String name){
         this.roomId=roomId;
+        this.name=name;
     }
 
     public void handleActions(WebSocketSession session, Chatting chatting, ChattingService chattingservice){
