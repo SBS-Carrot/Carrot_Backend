@@ -48,6 +48,7 @@ public class ProductImageService {
         }
         return upload(productId, uploadFile, dirName);
     }
+
         private List<ProductImageDto> upload (Integer productId, List<File> uploadFile, String dirName){
                 List<ProductImageDto> images = new ArrayList<>();
                 for(int i=0;i< uploadFile.size();i++){
