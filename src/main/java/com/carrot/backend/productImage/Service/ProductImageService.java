@@ -86,22 +86,23 @@ public class ProductImageService {
 
         public void delete ( Integer productId, String dirName){
             List<ProductImages> images = productImageRepository.findAllByProductProductId(productId);
-            System.out.println("사이즈: " + images.size());
+
+            List<ProductImages> list = productImageRepository.findAllByProductProductId(productId);
             if(images.size() > 0){
                 String[] productimages = new String[images.size()];
                 for(int i = 0; i < images.size(); i++){
                     productimages[i] = images.get(i).getPath();
-                        String[] filename = productimages[i].split(dirName + "/");
-                        deleteS3File(filename[1], dirName);
-                    List<ProductImages> list = productImageRepository.findAllByProductProductId(productId);
+                    String[] filename = productimages[i].split(dirName + "/");
+                    deleteS3File(filename[1], dirName);
+
                    ProductImages product = list.get(i);
                     productImageRepository.delete(product);
-                    System.out.println("1");
+
                 }
-                System.out.println("2");
+
                 customizedProductRepository.deleteQslProductAndLikeByProductId(productId);
             }else {
-                System.out.println("3");
+
                 customizedProductRepository.deleteQslProductAndLikeByProductId(productId);
             }
         }
