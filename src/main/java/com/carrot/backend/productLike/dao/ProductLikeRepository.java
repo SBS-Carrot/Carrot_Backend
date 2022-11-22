@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface ProductLikeRepository extends JpaRepository <ProductLike,Integer> {
     Optional<ProductLike> findByProductAndUser(Product product, User user);
 
+    void deleteAllByProductProductId(Integer productId);
 }
