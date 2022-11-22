@@ -10,5 +10,7 @@ public interface CustomizedProductRepository {
     Product getQslProduct(Integer id);
 
     ProductDto getQslProductsAndImagesByProductId(Integer productId);
+
+    void deleteQslProductAndLikeByProductId(Integer productId);
 }
 

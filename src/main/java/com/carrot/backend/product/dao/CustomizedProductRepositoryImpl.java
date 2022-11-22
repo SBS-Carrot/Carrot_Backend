@@ -4,9 +4,11 @@ import com.carrot.backend.product.domain.Product;
 import com.carrot.backend.product.domain.QProduct;
 import com.carrot.backend.product.dto.ProductDto;
 import com.carrot.backend.productImage.domain.QProductImages;
+import com.carrot.backend.productLike.domain.QProductLike;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +52,19 @@ public class CustomizedProductRepositoryImpl implements CustomizedProductReposit
                 .build();
 
         return productDto;
+    }
+
+    @Override
+    @Transactional
+    public void deleteQslProductAndLikeByProductId(Integer productId) {
+        Long product1 = jpaQueryFactory
+                .delete(QProductLike.productLike)
+                .where(QProductLike.productLike.product.productId.eq(productId))
+                .execute();
+        Long product = jpaQueryFactory
+                .delete(QProduct.product)
+                .where(QProduct.product.productId.eq(productId))
+                .execute();
     }
 
 }

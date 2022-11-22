@@ -4,11 +4,13 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.carrot.backend.product.Service.ProductService;
+import com.carrot.backend.product.dao.CustomizedProductRepositoryImpl;
 import com.carrot.backend.product.dao.ProductRepository;
 import com.carrot.backend.product.domain.Product;
 import com.carrot.backend.productImage.dao.ProductImageRepository;
 import com.carrot.backend.productImage.domain.ProductImages;
 import com.carrot.backend.productImage.dto.ProductImageDto;
+import com.carrot.backend.productLike.dao.ProductLikeRepository;
 import com.carrot.backend.util.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +32,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Component
 public class ProductImageService {
+    private final CustomizedProductRepositoryImpl customizedProductRepository;
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
     private final ProductService productService;
     private final AmazonS3Client amazonS3Client;
+    private final ProductLikeRepository productLikeRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -79,6 +83,35 @@ public class ProductImageService {
                     CannedAccessControlList.PublicRead));
             return amazonS3Client.getUrl(bucket, fileName).toString();
         }
+
+
+        public void delete ( Integer productId, String dirName){
+            List<ProductImages> images = productImageRepository.findAllByProductProductId(productId);
+
+            List<ProductImages> list = productImageRepository.findAllByProductProductId(productId);
+            if(images.size() > 0){
+                String[] productimages = new String[images.size()];
+                for(int i = 0; i < images.size(); i++){
+                    productimages[i] = images.get(i).getPath();
+                    String[] filename = productimages[i].split(dirName + "/");
+                    deleteS3File(filename[1], dirName);
+
+                   ProductImages product = list.get(i);
+                    productImageRepository.delete(product);
+
+                }
+
+                customizedProductRepository.deleteQslProductAndLikeByProductId(productId);
+            }else {
+
+                customizedProductRepository.deleteQslProductAndLikeByProductId(productId);
+            }
+        }
+
+    public void deleteS3File(String fileName, String bucketFolder){
+        String file = bucketFolder+"/"+fileName;
+        amazonS3Client.deleteObject(bucket,file);
+    }
 
         private void removeNewFile (File targetFile){
             if (targetFile.delete()) {

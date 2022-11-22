@@ -63,6 +63,10 @@ public class ProductController {
     public void productView(@PathVariable Integer productId){
         productService.View(productId);
         productService._productView(productId);
+    }
 
+    @PostMapping("/productdelete/{productId}")
+    public void productDelete(@PathVariable Integer productId){
+        productImageService.delete(productId, "images");
     }
 }

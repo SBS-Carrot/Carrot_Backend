@@ -99,5 +99,6 @@ public class RealtyService {
         realty.setRealtyCheck(realty.getRealtyCheck() +1);
         realtyRepository.save(realty);
     }
+
 }
 
