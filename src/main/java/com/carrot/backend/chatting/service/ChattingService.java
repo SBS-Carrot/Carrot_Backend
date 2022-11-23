@@ -23,20 +23,24 @@ public class ChattingService {
         chattingRoom = new LinkedHashMap<>();
     }
 
+    //채팅방 최근 생성순으로 반환
     public List<ChattingRoom> findAllRoom(){
-        return new ArrayList<>(chattingRoom.values());
+        List<ChattingRoom> result = new ArrayList<>(chattingRoom.values());
+        Collections.reverse(result);
+        return result;
     }
 
+    //채팅방 하나 반환
     public ChattingRoom findById(String roomId){
         return chattingRoom.get(roomId);
     }
 
+    //채팅방 생성
     public ChattingRoom createRoom(String name){
-        String randomId = UUID.randomUUID().toString();
+        ChattingRoom room = ChattingRoom.create(name);
+        chattingRoom.put(room.getRoomId(), room);
 
-        ChattingRoom rooms = ChattingRoom.builder().roomId(randomId).name(name).build();
-        chattingRoom.put(randomId,rooms);
-        return rooms;
+        return room;
     }
 
     public <T> void sendChatting(WebSocketSession session, T message){

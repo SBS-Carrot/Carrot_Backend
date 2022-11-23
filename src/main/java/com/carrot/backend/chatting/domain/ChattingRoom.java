@@ -1,25 +1,29 @@
 package com.carrot.backend.chatting.domain;
 
 import com.carrot.backend.chatting.service.ChattingService;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class ChattingRoom {
     private String roomId;
-    private String name;
+    private String roomName;
     private Set<WebSocketSession> sessions = new HashSet<>();
 
-    @Builder
-    public ChattingRoom(String roomId, String name){
-        this.roomId=roomId;
-        this.name=name;
+
+    public static ChattingRoom create(String name){
+      ChattingRoom room = new ChattingRoom();
+      room.roomId = UUID.randomUUID().toString();
+      room.roomName = name;
+      return room;
     }
 
     public void handleActions(WebSocketSession session, Chatting chatting, ChattingService chattingservice){

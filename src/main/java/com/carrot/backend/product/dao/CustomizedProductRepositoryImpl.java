@@ -28,6 +28,7 @@ public class CustomizedProductRepositoryImpl implements CustomizedProductReposit
 
     @Override
     public ProductDto getQslProductsAndImagesByProductId(Integer productId){
+
         Product product = jpaQueryFactory
                 .select(QProduct.product)
                 .from(QProduct.product)
