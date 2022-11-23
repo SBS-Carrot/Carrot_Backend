@@ -63,4 +63,9 @@ public class JobsController {
 
         return jobsService.getJobsWithImage(jobsId);
     }
+
+    @PostMapping("/jobsDelete/{jobsId}")
+    public void jobsDelete(@PathVariable Integer jobsId){
+        jobsImageService.jobsDelete(jobsId,"jobsImages");
+    }
 }

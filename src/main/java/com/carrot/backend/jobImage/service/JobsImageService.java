@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.carrot.backend.jobImage.dao.JobsImageRepository;
 import com.carrot.backend.jobImage.domain.JobsImages;
 import com.carrot.backend.jobImage.dto.JobsImagesDto;
+import com.carrot.backend.jobs.dao.CustomizedJobsRepositoryImpl;
 import com.carrot.backend.jobs.dao.JobsRepository;
 import com.carrot.backend.jobs.domain.Jobs;
 import com.carrot.backend.jobs.service.JobsService;
@@ -35,6 +36,8 @@ public class JobsImageService {
     private final JobsService jobsService;
 
     private final JobsRepository jobsRepository;
+
+    private final CustomizedJobsRepositoryImpl customizedJobsRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -88,6 +91,27 @@ public class JobsImageService {
 
 
         return amazonS3Client.getUrl(bucket, fileName).toString();
+    }
+    public void jobsDelete(Integer jobsId, String dirName){
+        List<JobsImages> jobs = jobsImageRepository.findAllByJobsJobid(jobsId);
+        if(jobs.size() > 0){
+            String[] jobsImages = new String[jobs.size()];
+            for(int i =0; i < jobs.size(); i++){
+                jobsImages[i] = jobs.get(i).getJobPath();
+                String[] filename = jobsImages[i].split(dirName + "/");
+                deleteS3File(filename[1], dirName);
+
+                JobsImages images = jobs.get(i);
+                jobsImageRepository.delete(images);
+            }
+            customizedJobsRepository.deleteQslJobsAndImagesByJobsId(jobsId);
+        }else{
+            customizedJobsRepository.deleteQslJobsAndImagesByJobsId(jobsId);
+        }
+    }
+    public void deleteS3File(String fileName, String bucketFolder){
+        String file = bucketFolder+"/"+fileName;
+        amazonS3Client.deleteObject(bucket,file);
     }
 
     private void removeNewFile (File targetFile){

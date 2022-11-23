@@ -3,6 +3,7 @@ package com.carrot.backend.realtyImage.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.carrot.backend.realty.dao.CustomizedRealtyRepositoryImpl;
 import com.carrot.backend.realty.dao.RealtyRepository;
 import com.carrot.backend.realty.domain.Realty;
 import com.carrot.backend.realty.service.RealtyService;
@@ -36,6 +37,7 @@ public class RealtyImageService {
 
     private final RealtyRepository realtyRepository;
 
+    private final CustomizedRealtyRepositoryImpl customizedRealtyRepository;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
@@ -83,6 +85,30 @@ public class RealtyImageService {
 
 
         return amazonS3Client.getUrl(bucket, fileName).toString();
+    }
+
+    public void realtyDelete(Integer realtyId, String dirName){
+        List<RealtyImage> realty = realtyImageRepository.findByRealtyRealtyId(realtyId);
+
+        if (realty.size() > 0){
+            String[] image = new String[realty.size()];
+            for(int i =0; i<realty.size(); i++){
+                image[i] = realty.get(i).getRealtyPath();
+                String[] filename = image[i].split(dirName + "/");
+                deleteS3File(filename[1], dirName);
+
+                RealtyImage realtyImage = realty.get(i);
+                realtyImageRepository.delete(realtyImage);
+            }
+            customizedRealtyRepository.deleteQslRealtyAndImagesByRealtyId(realtyId);
+        }
+        else{
+            customizedRealtyRepository.deleteQslRealtyAndImagesByRealtyId(realtyId);
+        }
+    }
+    public void deleteS3File(String fileName, String bucketFolder){
+        String file = bucketFolder+"/"+fileName;
+        amazonS3Client.deleteObject(bucket,file);
     }
 
     private void removeNewFile (File targetFile){

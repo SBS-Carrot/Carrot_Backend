@@ -65,7 +65,7 @@ public class ProductController {
         productService._productView(productId);
     }
 
-    @PostMapping("/productdelete/{productId}")
+    @PostMapping("/productDelete/{productId}")
     public void productDelete(@PathVariable Integer productId){
         productImageService.delete(productId, "images");
     }

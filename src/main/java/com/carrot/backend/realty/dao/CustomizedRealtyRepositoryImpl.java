@@ -4,9 +4,11 @@ import com.carrot.backend.realty.domain.QRealty;
 import com.carrot.backend.realty.domain.Realty;
 import com.carrot.backend.realty.dto.RealtyDto;
 import com.carrot.backend.realtyImage.domain.QRealtyImage;
+import com.carrot.backend.realtyLike.domain.QRealtyLike;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,5 +72,18 @@ public class CustomizedRealtyRepositoryImpl implements CustomizedRealtyRepositor
                 .images(imagePaths)
                 .build();
         return realtyDto;
+    }
+
+    @Override
+    @Transactional
+    public void deleteQslRealtyAndImagesByRealtyId(Integer realtyId) {
+        Long realty1 = jpaQueryFactory
+                .delete(QRealtyLike.realtyLike)
+                .where(QRealtyLike.realtyLike.realty.realtyId.eq(realtyId))
+                .execute();
+        Long realty = jpaQueryFactory
+                .delete(QRealty.realty)
+                .where(QRealty.realty.realtyId.eq(realtyId))
+                .execute();
     }
 }

@@ -62,4 +62,9 @@ public class RealtyController {
     public void realtyCheck (@PathVariable Integer realtyId){
         realtyService._realtyCheck(realtyId);
     }
+
+    @PostMapping("/realtyDelete/{realtyId}")
+    public void realtyDelete(@PathVariable Integer realtyId){
+        realtyImageService.realtyDelete(realtyId, "realtyImages");
+    }
 }
