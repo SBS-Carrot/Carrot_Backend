@@ -68,11 +68,8 @@ public class ProductService {
         return newProduct.getProductId();
     }
 
-
-
     public void View(Integer productId) {
         Product product = productRepository.findById(productId).orElseThrow(() -> new DataNotFoundException("not found"));
-
         product.setProductView(product.getProductView() + 1);
     }
 
@@ -82,4 +79,24 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    public Product setProduct(Integer productId,ProductDto productDto) {
+        Product product = productRepository.findByProductId(productId).orElseThrow(()-> new DataNotFoundException("product not found"));
+
+        product.setProductPrice(productDto.getProductPrice());
+        product.setProductSubject(productDto.getProductSubject());
+        product.setProductContent(productDto.getProductContent());
+        product.setProductCategory(productDto.getProductCategory());
+        product.setProductDealAddress(productDto.getProductDealAddress());
+        LocalDateTime date = LocalDateTime.now();
+        String dates = date.toString();
+        String yymmdd = dates.substring(0, 10);
+        System.out.println(yymmdd);
+        product.setProductCreateTime(yymmdd);
+
+        return productRepository.save(product);
+    }
+
+    public void setProductImage(Integer productId) {
+
+    }
 }

@@ -69,4 +69,16 @@ public class ProductController {
     public void productDelete(@PathVariable Integer productId){
         productImageService.delete(productId, "images");
     }
+
+    @PostMapping("/productEdit/{productId}")
+    public Product productEdit(@PathVariable Integer productId, @RequestBody ProductDto productDto){
+
+        return productService.setProduct(productId, productDto);
+    }
+
+    @PostMapping("/productImageEdit/{productId}")
+    public void productImageEdit(@PathVariable Integer productId){
+        productService.setProductImage(productId);
+        productImageService.delete(productId,"images");
+    }
 }
