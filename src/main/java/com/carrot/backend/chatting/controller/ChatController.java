@@ -1,6 +1,6 @@
 package com.carrot.backend.chatting.controller;
 
-import com.carrot.backend.chatting.domain.Chatting;
+import com.carrot.backend.chatting.Dto.ChattingDto;
 import com.carrot.backend.chatting.domain.ChattingRoom;
 import com.carrot.backend.chatting.service.ChattingService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/chat")
 public class ChatController {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final ChattingService chattingService;
@@ -25,21 +24,23 @@ public class ChatController {
     //nosql 몽고DB 사용해서 채팅구현할것,
 
 
-    @MessageMapping
-    public void sendMessage(Chatting chatting, SimpMessageHeaderAccessor accessor){
-        simpMessagingTemplate.convertAndSend("/sub/chat"+chatting.getRoomId(),chatting);
+    @MessageMapping("/chat")
+    public void sendMessage(ChattingDto chattingDto, SimpMessageHeaderAccessor accessor){
+        System.out.println(chattingDto.getRoomId());
+
+
+        simpMessagingTemplate.convertAndSend("/sub/ws/"+chattingDto.getRoomId(),chattingDto);
     }
 
     //채팅방 생성
-    @PostMapping
+    @PostMapping("/chat")
     public ChattingRoom createRoom(@RequestBody String name){
-        System.out.println("id : " + name);
-
-        return chattingService.createRoom(name);
+        String[] names = name.split(":");
+        return chattingService.createRoom(names[1].substring(1,names[1].length()-2));
     }
 
     //모든 채팅방 목록 반환
-    @GetMapping
+    @GetMapping("/chat")
     public List<ChattingRoom> findAllRoom(){
         return chattingService.findAllRoom();
     }

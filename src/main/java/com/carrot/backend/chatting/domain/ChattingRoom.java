@@ -22,17 +22,17 @@ public class ChattingRoom {
     public static ChattingRoom create(String name){
       ChattingRoom room = new ChattingRoom();
       room.roomId = UUID.randomUUID().toString();
-      room.roomName = name;
+      room.roomName= name;
       return room;
     }
 
-    public void handleActions(WebSocketSession session, Chatting chatting, ChattingService chattingservice){
-        if(chatting.getMessageType().equals(Chatting.MessageType.ENTER)){
-            sessions.add(session);
-            chatting.setMessage(chatting.getSender() + "님이 입장했습니다.");
-        }
-        sendChatting(chatting, chattingservice);
-    }
+//    public void handleActions(WebSocketSession session, Chatting chatting, ChattingService chattingservice){
+//        if(chatting.getMessageType().equals(Chatting.MessageType.ENTER)){
+//            sessions.add(session);
+//            chatting.setMessage(chatting.getSender() + "님이 입장했습니다.");
+//        }
+//        sendChatting(chatting, chattingservice);
+//    }
 
     public <T> void sendChatting(T chatting, ChattingService chattingService){
         sessions.parallelStream().forEach(session -> chattingService.sendChatting(session,chatting));
