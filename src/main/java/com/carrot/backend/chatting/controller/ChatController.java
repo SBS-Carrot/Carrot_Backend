@@ -28,15 +28,20 @@ public class ChatController {
 
 
     @MessageMapping("/chat")
-    public void sendMessage(Chatting chatting, SimpMessageHeaderAccessor accessor){
+
+    public Chatting sendMessage(Chatting chatting, SimpMessageHeaderAccessor accessor){
         System.out.println(chatting.getRoomId());
 
 
-        simpMessagingTemplate.convertAndSend("/sub/ws/"+chatting.getRoomId(),chatting);
+        simpMessagingTemplate.convertAndSend("/sub/chat/1"
+//                +chatting.getRoomId()
+                ,chatting);
+        return chatting;
     }
 
     //채팅방 생성
     @PostMapping("/chat")
+
     public ChattingRoom createRoom(@RequestBody String name){
         String[] names = name.split(":");
         return chattingService.createRoom(names[1].substring(1,names[1].length()-2));
