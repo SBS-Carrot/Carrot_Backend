@@ -25,9 +25,8 @@ public class ChattingService {
 
     //채팅방 최근 생성순으로 반환
     public List<ChattingRoom> findAllRoom(){
-        List<ChattingRoom> result = new ArrayList<>(chattingRoom.values());
-        Collections.reverse(result);
-        return result;
+
+        return new ArrayList<>(chattingRoom.values());
     }
 
     //채팅방 하나 반환
@@ -37,8 +36,12 @@ public class ChattingService {
 
     //채팅방 생성
     public ChattingRoom createRoom(String name){
-        ChattingRoom room = ChattingRoom.create(name);
-        chattingRoom.put(room.getRoomId(), room);
+        String randomId = UUID.randomUUID().toString();
+        ChattingRoom room = ChattingRoom.builder()
+                        .roomId(randomId)
+                        .name(name)
+                        .build();
+        chattingRoom.put(randomId, room);
 
         return room;
     }

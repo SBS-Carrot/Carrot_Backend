@@ -1,6 +1,7 @@
 package com.carrot.backend.chatting.handler;
 
 import com.carrot.backend.chatting.domain.Chatting;
+import com.carrot.backend.chatting.domain.ChattingRoom;
 import com.carrot.backend.chatting.service.ChattingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -32,20 +33,6 @@ public class ChatHandler extends TextWebSocketHandler {
         String sessionId = session.getId();
         sessions.put(sessionId,session); //1)세션 저장
 
-        Chatting chatting = Chatting.builder().sender(sessionId).receiver("all").build();
-        chatting.newConnect();
-        System.out.println("Client 접속 호출메소드");
-
-        sessions.values().forEach(s -> {
-            try{
-                if(!s.getId().equals(sessionId)){
-                    s.sendMessage(new TextMessage("새로 입장"));
-                }
-            }catch(Exception e){
-                System.out.println(e);
-
-            }
-        });
     }
 
     /* Client가 접속 해제 시 호출되는 메서드드 */
@@ -67,23 +54,12 @@ public class ChatHandler extends TextWebSocketHandler {
 //        에러 체크 비트 등과 같은 다양한 요소들을 함께 보내 데이터 전송 효율과 안정성을 높히게 된다.
 //        이때, 보내고자 하는 데이터 자체를 의미하는 것이 페이로드이다.예를 들어 택배 배송을
 //        보내고 받을 때 택배 물건이 페이로드고 송장이나 박스 등은 부가적은 것이기 때문에 페이로드가 아니다.
-        for(String key : sessions.keySet()) {
-            WebSocketSession wss = sessions.get(key);
-            try {
-                wss.sendMessage(new TextMessage(payload));
-            }catch(Exception e) {
-                e.printStackTrace();
-            }
-        }
-//        Chatting chatting = objectMapper.readValue(payload, Chatting.class);
-//        ChattingRoom room = chattingService.findById(chatting.getRoomId());
-//        room.handleActions(session,chatting,chattingService);
+        Chatting chatting = objectMapper.readValue(payload, Chatting.class);
+        ChattingRoom room = chattingService.findById(chatting.getRoomId());
+        room.handleActions(session,chatting,chattingService);
     }
 
-//@Override
-//    public void handleTransportError(WebSocketSession session, Throwable){
-//
-//}
+
 
 
 }
