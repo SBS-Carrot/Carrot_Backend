@@ -67,4 +67,7 @@ public class CustomizedProductRepositoryImpl implements CustomizedProductReposit
                 .execute();
     }
 
+    public ProductDto setQslProductsAndImagesByProductId(Integer productId) {
+        return null;
+    }
 }

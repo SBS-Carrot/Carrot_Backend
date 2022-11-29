@@ -77,8 +77,14 @@ public class ProductController {
     }
 
     @PostMapping("/productImageEdit/{productId}")
-    public void productImageEdit(@PathVariable Integer productId){
+    public void productImageEdit(@PathVariable Integer productId, ProductDto productDto, @RequestPart("file") List<MultipartFile> multipartFile) throws IOException {
         productService.setProductImage(productId);
         productImageService.delete(productId,"images");
+        productImageService.uploads(productId, multipartFile, "images");
+    }
+
+    @GetMapping("/setProductWithImage/{productId}")
+    public ProductDto setPI(@PathVariable Integer productId){
+        return productService.setProductWithImage(productId);
     }
 }

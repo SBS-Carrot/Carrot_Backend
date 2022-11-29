@@ -99,4 +99,9 @@ public class ProductService {
     public void setProductImage(Integer productId) {
 
     }
+
+    public ProductDto setProductWithImage(Integer productId) {
+        ProductDto product = customizedProductRepository.setQslProductsAndImagesByProductId(productId);
+        return product;
+    }
 }
