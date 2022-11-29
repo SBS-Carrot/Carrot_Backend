@@ -48,6 +48,8 @@ public class CustomizedProductRepositoryImpl implements CustomizedProductReposit
                 .productChatting(product.getProductChatting())
                 .productLike(product.getProductLike())
                 .productPrice(product.getProductPrice())
+                .productDealAddress(product.getProductDealAddress())
+                .productUserid(product.getProductUserid())
                 .images(imagePaths)
                 .build();
 
@@ -67,7 +69,30 @@ public class CustomizedProductRepositoryImpl implements CustomizedProductReposit
                 .execute();
     }
 
-    public ProductDto setQslProductsAndImagesByProductId(Integer productId) {
-        return null;
-    }
+  // public ProductDto setQslProductsAndImagesByProductId(Integer productId) {
+//        Product product = jpaQueryFactory
+//                .select(QProduct.product)
+//                .from(QProduct.product)
+//                .innerJoin(QProductImages.productImages)
+//                .on(QProduct.product.productId.eq(productId))
+//                .fetchOne();
+//
+//        List<String> imagePaths = new ArrayList<>();
+//        product.setImages(product.).stream().forEach(productImage->imagePaths.add(productImage.getPath()));
+//
+//        ProductDto productDto = ProductDto.builder()
+//                .productId(product.getProductId())
+//                .productCategory(product.getProductCategory())
+//                .productView(product.getProductView())
+//                .productContent(product.getProductContent())
+//                .productSubject(product.getProductSubject())
+//                .productCreateTime(product.getProductCreateTime())
+//                .productChatting(product.getProductChatting())
+//                .productLike(product.getProductLike())
+//                .productPrice(product.getProductPrice())
+//                .images(imagePaths)
+//                .build();
+//
+//        return productDto;
+  //  }
 }

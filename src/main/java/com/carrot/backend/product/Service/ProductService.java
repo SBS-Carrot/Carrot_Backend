@@ -5,6 +5,7 @@ import com.carrot.backend.product.dao.ProductRepository;
 import com.carrot.backend.product.domain.Product;
 import com.carrot.backend.product.dto.ProductDto;
 import com.carrot.backend.productImage.dao.ProductImageRepository;
+import com.carrot.backend.productImage.domain.ProductImages;
 import com.carrot.backend.util.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -96,12 +97,15 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public void setProductImage(Integer productId) {
+    public void setProductImage(Integer productId, ProductDto productDto) {
+        List<ProductImages> product = productImageRepository.findAllByProductProductId(productId);
+
 
     }
+//
+//    public ProductDto setProductWithImage(Integer productId) {
+//        ProductDto product = customizedProductRepository.setQslProductsAndImagesByProductId(productId);
+//        return product;
+//    }
 
-    public ProductDto setProductWithImage(Integer productId) {
-        ProductDto product = customizedProductRepository.setQslProductsAndImagesByProductId(productId);
-        return product;
-    }
 }

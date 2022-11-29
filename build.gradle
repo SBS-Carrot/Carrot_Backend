@@ -41,6 +41,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0")
 	compileOnly 'org.springframework.cloud:spring-cloud-starter-aws:2.0.2.RELEASE'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
 	implementation 'commons-io:commons-io:2.6'
 	implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.228')

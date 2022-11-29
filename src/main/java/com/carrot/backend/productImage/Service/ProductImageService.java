@@ -87,8 +87,6 @@ public class ProductImageService {
 
         public void delete ( Integer productId, String dirName){
             List<ProductImages> images = productImageRepository.findAllByProductProductId(productId);
-
-            List<ProductImages> list = productImageRepository.findAllByProductProductId(productId);
             if(images.size() > 0){
                 String[] productimages = new String[images.size()];
                 for(int i = 0; i < images.size(); i++){
@@ -96,7 +94,7 @@ public class ProductImageService {
                     String[] filename = productimages[i].split(dirName + "/");
                     deleteS3File(filename[1], dirName);
 
-                   ProductImages product = list.get(i);
+                   ProductImages product = images.get(i);
                     productImageRepository.delete(product);
 
                 }
@@ -107,6 +105,25 @@ public class ProductImageService {
                 customizedProductRepository.deleteQslProductAndLikeByProductId(productId);
             }
         }
+    public void deleteImage ( Integer productId, String dirName){
+        List<ProductImages> images = productImageRepository.findAllByProductProductId(productId);
+        if(images.size() > 0){
+            String[] productimages = new String[images.size()];
+            for(int i = 0; i < images.size(); i++){
+                productimages[i] = images.get(i).getPath();
+                String[] filename = productimages[i].split(dirName + "/");
+                deleteS3File(filename[1], dirName);
+
+                ProductImages product = images.get(i);
+                productImageRepository.delete(product);
+
+            }
+
+
+        }else {
+            System.out.println("4번 확인");
+        }
+    }
 
     public void deleteS3File(String fileName, String bucketFolder){
         String file = bucketFolder+"/"+fileName;
