@@ -25,8 +25,9 @@ public class ChattingService {
 
     //채팅방 최근 생성순으로 반환
     public List<ChattingRoom> findAllRoom(){
-
-        return new ArrayList<>(chattingRoom.values());
+List<ChattingRoom> result = new ArrayList<>(chattingRoom.values());
+Collections.reverse(result);
+        return result;
     }
 
     //채팅방 하나 반환

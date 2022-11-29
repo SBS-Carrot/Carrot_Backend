@@ -5,6 +5,7 @@ import com.carrot.backend.chatting.domain.ChattingRoom;
 import com.carrot.backend.chatting.service.ChattingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,6 @@ public class ChatController {
 
 
     @MessageMapping("/chat")
-
     public Chatting sendMessage(Chatting chatting, SimpMessageHeaderAccessor accessor){
         System.out.println(chatting.getRoomId());
 
@@ -45,6 +45,7 @@ public class ChatController {
     public ChattingRoom createRoom(@RequestBody String name){
         String[] names = name.split(":");
         return chattingService.createRoom(names[1].substring(1,names[1].length()-2));
+
     }
 
     //모든 채팅방 목록 반환
@@ -70,5 +71,22 @@ public class ChatController {
     @GetMapping("/room/{roomId}")
     public ChattingRoom roomInfo(@PathVariable String roomId){
         return chattingService.findById(roomId);
+    }
+
+    @MessageMapping("/sendTo")
+    @SendTo("/sub/sendTo")
+    public String SendToMessage() throws Exception {
+
+        return "SendTo";
+    }
+
+    @MessageMapping("/Template")
+    public void SendTemplateMessage() {
+        simpMessagingTemplate.convertAndSend("/topics/template" , "Template");
+    }
+
+    @RequestMapping(value="/api")
+    public void SendAPI() {
+        simpMessagingTemplate.convertAndSend("/topics/api" , "API");
     }
 }

@@ -20,7 +20,7 @@ public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry){
-        registry.addEndpoint("/wss").setAllowedOriginPatterns("*");
+        registry.addEndpoint("/wss/chat").setAllowedOriginPatterns("*");
 
     }
 }

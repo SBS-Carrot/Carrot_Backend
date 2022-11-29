@@ -39,6 +39,7 @@ dependencies {
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.webjars:sockjs-client:1.1.2.'
 	implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0")
 	compileOnly 'org.springframework.cloud:spring-cloud-starter-aws:2.0.2.RELEASE'
 
