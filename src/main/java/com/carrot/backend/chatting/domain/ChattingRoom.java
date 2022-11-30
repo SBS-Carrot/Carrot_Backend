@@ -1,39 +1,32 @@
 package com.carrot.backend.chatting.domain;
 
-import com.carrot.backend.chatting.service.ChattingService;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.web.socket.WebSocketSession;
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@Entity
 public class ChattingRoom {
+    @Id
     private String roomId;
-    private String roomName;
-    private Set<WebSocketSession> sessions = new HashSet<>();
+    private String myName;
+
+    private String yourName;
+
 
 
     @Builder
-    public ChattingRoom(String roomId,String name){
-        this.roomName=name;
+    public ChattingRoom(String roomId,String myName, String yourName){
+        this.myName=myName;
+        this.yourName=yourName;
         this.roomId=roomId;
     }
 
-    public void handleActions(WebSocketSession session, Chatting chatting, ChattingService chattingservice){
-        if(chatting.getType().equals(Chatting.MessageType.ENTER)){
-            sessions.add(session);
-            chatting.setMessage(chatting.getSender() + "님이 입장했습니다.");
-        }
-        sendChatting(chatting, chattingservice);
-    }
 
-    public <T> void sendChatting(T chatting, ChattingService chattingService){
-        sessions.parallelStream().forEach(session -> chattingService.sendChatting(session,chatting));
-    }
 }

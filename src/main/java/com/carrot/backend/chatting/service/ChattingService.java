@@ -1,15 +1,15 @@
 package com.carrot.backend.chatting.service;
 
+import com.carrot.backend.chatting.dao.ChattingRepository;
+import com.carrot.backend.chatting.dao.ChattingRoomRepository;
+import com.carrot.backend.chatting.domain.Chatting;
 import com.carrot.backend.chatting.domain.ChattingRoom;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketSession;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -18,6 +18,9 @@ import java.util.*;
 public class ChattingService {
     private final ObjectMapper objectMapper;
     private Map<String, ChattingRoom> chattingRoom;
+
+    private final ChattingRepository chattingRepository;
+    private final ChattingRoomRepository chattingRoomRepository;
     @PostConstruct
     private void init(){
         chattingRoom = new LinkedHashMap<>();
@@ -36,22 +39,35 @@ Collections.reverse(result);
     }
 
     //채팅방 생성
-    public ChattingRoom createRoom(String name){
-        String randomId = UUID.randomUUID().toString();
+    public ChattingRoom createRoom(String roomId,String myname,String yourName){
+
         ChattingRoom room = ChattingRoom.builder()
-                        .roomId(randomId)
-                        .name(name)
+                        .roomId(roomId)
+                        .myName(myname)
+                .yourName(yourName)
                         .build();
-        chattingRoom.put(randomId, room);
+        chattingRoom.put(roomId, room);
+        chattingRoomRepository.save(room);
 
         return room;
     }
 
-    public <T> void sendChatting(WebSocketSession session, T message){
-        try{
-            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
-        }catch(IOException e){
-            log.error(e.getMessage(),e);
-        }
+    public Chatting saveChat(Chatting chatting){
+        Chatting chat = new Chatting();
+        chat.setMessage(chatting.getMessage());
+        chat.setRoomId(chatting.getRoomId());
+        chat.setType(chatting.getType());
+        chat.setSender(chatting.getSender());
+        chattingRepository.save(chat);
+        return chat;
+    }
+
+    public ChattingRoom findByUser(String myName, String yourName) {
+        ChattingRoom room = chattingRoomRepository.findByMyNameAndYourName(myName,yourName);
+        return room;
+    }
+
+    public List<Chatting> getMessage(String roomId) {
+       return chattingRepository.findByRoomId(roomId);
     }
 }

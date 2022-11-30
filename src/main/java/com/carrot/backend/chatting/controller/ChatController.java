@@ -5,7 +5,6 @@ import com.carrot.backend.chatting.domain.ChattingRoom;
 import com.carrot.backend.chatting.service.ChattingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -30,21 +29,22 @@ public class ChatController {
 
     @MessageMapping("/chat")
     public Chatting sendMessage(Chatting chatting, SimpMessageHeaderAccessor accessor){
-        System.out.println(chatting.getRoomId());
+        String roomNum = chatting.getRoomId();
+        Chatting chats = chattingService.saveChat(chatting);
 
-
-        simpMessagingTemplate.convertAndSend("/sub/chat/1"
-//                +chatting.getRoomId()
-                ,chatting);
-        return chatting;
+        simpMessagingTemplate.convertAndSend("/sub/chat/" +roomNum, chats);
+        return chats;
     }
 
     //채팅방 생성
     @PostMapping("/chat")
+    public ChattingRoom createRoom(@RequestBody ChattingRoom chattingRoom){
 
-    public ChattingRoom createRoom(@RequestBody String name){
-        String[] names = name.split(":");
-        return chattingService.createRoom(names[1].substring(1,names[1].length()-2));
+        String myname = chattingRoom.getMyName();
+        String yourName = chattingRoom.getYourName();
+        System.out.println("yourname : "+yourName);
+        String roomId = chattingRoom.getRoomId();
+        return chattingService.createRoom(roomId,myname,yourName);
 
     }
 
@@ -73,20 +73,20 @@ public class ChatController {
         return chattingService.findById(roomId);
     }
 
-    @MessageMapping("/sendTo")
-    @SendTo("/sub/sendTo")
-    public String SendToMessage() throws Exception {
+    @GetMapping("/getChattingRoom")
+    public ChattingRoom findRoom(@RequestParam String myName, @RequestParam String yourName){
+        ChattingRoom room = chattingService.findByUser(myName,yourName);
+        return room;
 
-        return "SendTo";
     }
 
-    @MessageMapping("/Template")
-    public void SendTemplateMessage() {
-        simpMessagingTemplate.convertAndSend("/topics/template" , "Template");
+    @GetMapping("/getMessage")
+    public List<Chatting> getMessages(@RequestParam String roomId){
+        List<Chatting> messages = chattingService.getMessage(roomId);
+        return messages;
     }
 
-    @RequestMapping(value="/api")
-    public void SendAPI() {
-        simpMessagingTemplate.convertAndSend("/topics/api" , "API");
-    }
+
+
+
 }
