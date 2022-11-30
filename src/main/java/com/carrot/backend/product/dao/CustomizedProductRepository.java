@@ -14,5 +14,6 @@ public interface CustomizedProductRepository {
     void deleteQslProductAndLikeByProductId(Integer productId);
 
 
+
 }
 
