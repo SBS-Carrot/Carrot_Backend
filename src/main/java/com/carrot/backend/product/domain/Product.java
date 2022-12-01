@@ -47,6 +47,8 @@ public class Product {
     @NotEmpty
     String productCategory;
 
+
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<ProductImages> images;

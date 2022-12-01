@@ -42,7 +42,6 @@ public class JobsImageService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-
     public List<JobsImagesDto> uploads(Integer jobsId, List<MultipartFile> multipartFile, String dirName) throws IOException {
         List<File> uploadFile = new ArrayList<File>();
         for(int i=0;i< multipartFile.size();i++) {

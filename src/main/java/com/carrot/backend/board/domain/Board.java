@@ -23,12 +23,28 @@ public class Board {
     String boardContent;
 
     @Column
-    String boardChatting;
+    String boardCategory;
 
     @Column
-    String boardAgree;
+    Integer boardChattingNum;
+
+    @Column
+    Integer boardAgree;
+
+    @Column
+    String boardAddress;
 
     String createDate;
+
+    @Column
+    String profileImage;
+
+    @Column
+    Integer boardView;
+
+//    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+//    @JsonIgnore
+//    private List<BoardImage> images;
 }
 
 

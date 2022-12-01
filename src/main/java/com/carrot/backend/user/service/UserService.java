@@ -3,6 +3,7 @@ package com.carrot.backend.user.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.carrot.backend.board.dto.BoardDto;
 import com.carrot.backend.jobs.dto.JobsDto;
 import com.carrot.backend.product.dto.ProductDto;
 import com.carrot.backend.realty.dto.RealtyDto;
@@ -242,6 +243,11 @@ public void changeUserProfileImage(UserDto userdto, List<MultipartFile> multipar
     public List<JobsDto> _getJobs(String userid) {
         List<JobsDto> jobsDtos = customizedUserRepository.getQslJobsByArticleWriterId(userid);
         return jobsDtos;
+    }
+
+    public List<BoardDto> _getBoards(String userid) {
+        List<BoardDto> boardDtos = customizedUserRepository.getQslBoardByBoardWriterId(userid);
+        return boardDtos;
     }
 }
 
