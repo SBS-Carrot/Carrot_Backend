@@ -20,9 +20,7 @@ public class ChatController {
     private final ChattingService chattingService;
 
     private static final Set<String> SESSION_IDS = new HashSet<>();
-//https://ws-pace.tistory.com/105
-    //https://velog.io/@ehdrms2034/Spring-boot-React%EB%A1%9C-%EA%B0%84%EB%8B%A8%ED%95%9C-%EC%B1%84%ED%8C%85%EB%B0%A9-%EC%A0%9C%EC%9E%91%ED%95%98%EA%B8%B0
-    //스프링부트 +리액트 채팅기능 검색
+
 
     //nosql 몽고DB 사용해서 채팅구현할것,
 
@@ -42,7 +40,6 @@ public class ChatController {
 
         String myname = chattingRoom.getMyName();
         String yourName = chattingRoom.getYourName();
-        System.out.println("yourname : "+yourName);
         String roomId = chattingRoom.getRoomId();
         return chattingService.createRoom(roomId,myname,yourName);
 

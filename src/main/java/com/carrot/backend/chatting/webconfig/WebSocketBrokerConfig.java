@@ -1,6 +1,8 @@
 package com.carrot.backend.chatting.webconfig;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
@@ -8,7 +10,9 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
+@RequiredArgsConstructor
 public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer {
+    private final WebSocketInterceptor webSocketInterceptor;
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry){
         //prefix로 붙은 메시지가 송신되었을때 그 메시지를 브로커가 처리하겠다는 함수
@@ -22,5 +26,10 @@ public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry){
         registry.addEndpoint("/wss/chat").setAllowedOriginPatterns("*");
 
+    }
+
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration){
+        registration.interceptors(webSocketInterceptor);
     }
 }

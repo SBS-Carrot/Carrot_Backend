@@ -35,7 +35,17 @@ Collections.reverse(result);
 
     //채팅방 하나 반환
     public ChattingRoom findById(String roomId){
-        return chattingRoom.get(roomId);
+
+        try {
+            ChattingRoom room = chattingRoomRepository.findById(roomId).orElseThrow();
+            if(room!=null){
+                return room;
+            }
+            return null;
+        }catch(Exception e){
+            return null;
+        }
+
     }
 
     //채팅방 생성
