@@ -17,6 +17,7 @@ public class BoardImage {
     @Column
     String boardPath;
 
+
     @ManyToOne
     private Board board;
 }

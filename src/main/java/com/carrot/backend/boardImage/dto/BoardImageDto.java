@@ -12,4 +12,10 @@ public class BoardImageDto {
 
     String boardPath;
 
+    Integer boardId;
+    public BoardImageDto(Integer boardId, String boardPath){
+        this.boardId = boardId;
+        this.boardPath = boardPath;
+
+    }
 }

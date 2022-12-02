@@ -146,6 +146,7 @@ public class CustomizedUserRepositoryImpl implements CustomizedUserRepository{
                 .from(QBoard.board)
                 .where(QBoard.board.boardUserid.eq(userid))
                 .fetch();
+
         List<BoardDto> boardDtos = new ArrayList<>();
         for(Board board : boardDtoList) {
             BoardDto boardDto = BoardDto.builder()
@@ -158,6 +159,7 @@ public class CustomizedUserRepositoryImpl implements CustomizedUserRepository{
                     .boardChattingNum(board.getBoardChattingNum())
                     .boardAgree(board.getBoardAgree())
                     .createDate(board.getCreateDate())
+                    .profileImage(board.getProfileImage())
                     .build();
             boardDtos.add(boardDto);
         }

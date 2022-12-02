@@ -2,6 +2,8 @@ package com.carrot.backend.board.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,4 +29,7 @@ public class BoardDto {
 
     String createDate;
 
+    String profileImage;
+
+    List<String> images;
 }

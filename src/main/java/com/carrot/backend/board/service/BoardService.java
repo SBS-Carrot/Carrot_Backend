@@ -1,6 +1,7 @@
 package com.carrot.backend.board.service;
 
 import com.carrot.backend.board.dao.BoardRepository;
+import com.carrot.backend.board.dao.CustomizedBoardRepositoryImpl;
 import com.carrot.backend.board.domain.Board;
 import com.carrot.backend.board.dto.BoardDto;
 import com.carrot.backend.util.DataNotFoundException;
@@ -15,6 +16,7 @@ import java.util.List;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final CustomizedBoardRepositoryImpl customizedBoardRepository;
     public List<Board> getBoards() {
         return boardRepository.findAll();
     }
@@ -41,5 +43,10 @@ public class BoardService {
         boardRepository.save(newboard);
 
         return newboard.getBoardId();
+    }
+
+    public BoardDto getBoardWithImage(Integer boardId) {
+        BoardDto board = customizedBoardRepository.getQslBoardAndImagesByBoardId(boardId);
+        return  board;
     }
 }

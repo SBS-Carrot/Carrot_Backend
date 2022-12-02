@@ -1,8 +1,11 @@
 package com.carrot.backend.board.domain;
 
+import com.carrot.backend.boardImage.domain.BoardImage;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -42,9 +45,9 @@ public class Board {
     @Column
     Integer boardView;
 
-//    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
-//    @JsonIgnore
-//    private List<BoardImage> images;
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<BoardImage> images;
 }
 
 

@@ -108,6 +108,7 @@ public class JobsImageService {
             customizedJobsRepository.deleteQslJobsAndImagesByJobsId(jobsId);
         }
     }
+
     public void deleteS3File(String fileName, String bucketFolder){
         String file = bucketFolder+"/"+fileName;
         amazonS3Client.deleteObject(bucket,file);
