@@ -1,27 +1,42 @@
 package com.carrot.backend.notification.controller;
 
+import com.carrot.backend.notification.domain.Notification;
+import com.carrot.backend.notification.service.NotificationService;
+import com.carrot.backend.user.dto.UserDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @RestController
+@RequiredArgsConstructor
 public class SseController {
 
-    @GetMapping(value="/sse" ,produces = "text/event-stream")
-    public void publish(HttpServletResponse response) throws Exception {
-        response.setCharacterEncoding("UTF-8");
+    private final NotificationService notificationService;
 
-        PrintWriter writer = response.getWriter();
-        for(int i = 1; i <= 10; i++) {
-            writer.write("data: { \"message\" : \"number : "+ i + "\" }\n\n");
+    ExecutorService taskExecutor = Executors.newSingleThreadExecutor();
+    @GetMapping(value="/sse")
+    public SseEmitter publish() throws Exception {
+
+        final SseEmitter emitter = new SseEmitter();
+        taskExecutor.execute(() -> {
             try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                emitter.send("test data ");
+                emitter.complete();
+            } catch (Exception e) {
+                emitter.completeWithError(e);
             }
-        }
-        writer.close();
+        });
+        return emitter;
+    }
+
+    @PostMapping(value="/applyJobs")
+    public Notification apply (@RequestBody UserDto userDto){
+        return notificationService._applyJobs(userDto);
     }
 }

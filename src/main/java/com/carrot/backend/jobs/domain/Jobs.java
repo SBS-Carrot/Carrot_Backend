@@ -1,6 +1,7 @@
 package com.carrot.backend.jobs.domain;
 
 import com.carrot.backend.jobImage.domain.JobsImages;
+import com.carrot.backend.jobsApply.domain.JobsApply;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -68,4 +69,8 @@ public class Jobs {
     @OneToMany(mappedBy = "jobs", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<JobsImages> images;
+
+    @OneToMany(mappedBy = "jobs", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<JobsApply> applyJobs;
 }

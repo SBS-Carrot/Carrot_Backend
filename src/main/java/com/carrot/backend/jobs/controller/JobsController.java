@@ -3,8 +3,10 @@ package com.carrot.backend.jobs.controller;
 import com.carrot.backend.jobImage.service.JobsImageService;
 import com.carrot.backend.jobLike.service.JobsLikeService;
 import com.carrot.backend.jobs.domain.Jobs;
+import com.carrot.backend.jobsApply.dto.JobsApplyDto;
 import com.carrot.backend.jobs.dto.JobsDto;
 import com.carrot.backend.jobs.service.JobsService;
+import com.carrot.backend.jobsApply.service.JobsApplyService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,8 +20,9 @@ public class JobsController {
 
     private final JobsService jobsService;
     private final JobsImageService jobsImageService;
-
     private final JobsLikeService jobsLikeService;
+
+    private final JobsApplyService jobsApplyService;
     @GetMapping("/jobs")
     public List<Jobs> getJobs(){
         return jobsService.getJobs();
@@ -62,5 +65,11 @@ public class JobsController {
     public JobsDto getJobsDto(@PathVariable Integer jobsId){
 
         return jobsService.getJobsWithImage(jobsId);
+    }
+
+    @PostMapping("/applyJobs/{jobsId}")
+    public boolean applyJobs(@PathVariable Integer jobsId, @RequestBody JobsApplyDto applyJobsDto){
+        boolean rs = jobsApplyService.apply(jobsId, applyJobsDto);
+        return rs;
     }
 }

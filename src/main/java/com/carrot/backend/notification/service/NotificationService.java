@@ -5,6 +5,7 @@ import com.carrot.backend.notification.dao.EmitterRepository;
 import com.carrot.backend.notification.dao.NotificationRepository;
 import com.carrot.backend.notification.domain.Notification;
 import com.carrot.backend.user.domain.User;
+import com.carrot.backend.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -87,5 +88,9 @@ public class NotificationService {
                 .url(url)
                 .isRead(false)
                 .build();
+    }
+
+    public Notification _applyJobs(UserDto userDto){
+        return null;
     }
 }
