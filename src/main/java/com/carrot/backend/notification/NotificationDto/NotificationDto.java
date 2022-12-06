@@ -1,11 +1,18 @@
 package com.carrot.backend.notification.NotificationDto;
 
 import com.carrot.backend.notification.domain.Notification;
-import com.carrot.backend.user.domain.User;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Builder
 public class NotificationDto {
+
 
     private Long id;
 
@@ -13,22 +20,11 @@ public class NotificationDto {
 
     private String url;
 
-    private Boolean isRead;
-
-    private String notificationType;
-
-    private User user;
-
-    public static NotificationDto create(Notification notification){
-        NotificationDto notificationDto = new NotificationDto();
-        notificationDto.setId(notification.getId());
-        notificationDto.setNotificationType(notification.getNotificationType());
-        notificationDto.setUser(notification.getUser());
-        notificationDto.setContent(notification.getContent());
-        notificationDto.setIsRead(notification.getIsRead());
-        notificationDto.setUrl(notification.getUrl());
-        return notificationDto;
+    private Boolean status;
 
 
+    public static NotificationDto create(Notification notification) {
+        return new NotificationDto(notification.getId(), notification.getContent(),
+                notification.getUrl(), notification.getIsRead());
     }
 }

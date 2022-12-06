@@ -70,6 +70,7 @@ public class JobsController {
     @PostMapping("/applyJobs/{jobsId}")
     public boolean applyJobs(@PathVariable Integer jobsId, @RequestBody JobsApplyDto applyJobsDto){
         boolean rs = jobsApplyService.apply(jobsId, applyJobsDto);
+
         return rs;
     }
 }

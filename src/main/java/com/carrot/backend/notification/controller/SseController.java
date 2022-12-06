@@ -37,6 +37,7 @@ public class SseController {
 
     @PostMapping(value="/applyJobs")
     public Notification apply (@RequestBody UserDto userDto){
-        return notificationService._applyJobs(userDto);
+    return null;
+        //        return notificationService._applyJobs(userDto);
     }
 }

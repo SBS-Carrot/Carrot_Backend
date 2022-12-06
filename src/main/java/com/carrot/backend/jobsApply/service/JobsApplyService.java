@@ -20,6 +20,8 @@ public class JobsApplyService {
         try {
             JobsApply jobsApply = new JobsApply();
             Jobs jobs = jobsRepository.findById(jobsId).orElseThrow();
+            jobs.setJobVolunteer(jobs.getJobVolunteer()+1);
+            jobsRepository.save(jobs);
             jobsApply.setJobs(jobs);
             jobsApply.setName(applyJobsDto.getName());
             jobsApply.setGender(applyJobsDto.getGender());
