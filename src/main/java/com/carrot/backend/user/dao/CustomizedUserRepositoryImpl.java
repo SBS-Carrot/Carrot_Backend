@@ -1,5 +1,8 @@
 package com.carrot.backend.user.dao;
 
+import com.carrot.backend.board.domain.Board;
+import com.carrot.backend.board.domain.QBoard;
+import com.carrot.backend.board.dto.BoardDto;
 import com.carrot.backend.jobs.domain.Jobs;
 import com.carrot.backend.jobs.domain.QJobs;
 import com.carrot.backend.jobs.dto.JobsDto;
@@ -107,7 +110,7 @@ public class CustomizedUserRepositoryImpl implements CustomizedUserRepository{
 
     @Override
     public List<JobsDto> getQslJobsByArticleWriterId(String userid) {
-        List<Jobs> jobLists = jpaQueryFactory
+        List<Jobs>  jobLists= jpaQueryFactory
                 .select(QJobs.jobs)
                 .from(QJobs.jobs)
                 .where(QJobs.jobs.jobUserid.eq(userid))
@@ -135,5 +138,31 @@ public class CustomizedUserRepositoryImpl implements CustomizedUserRepository{
             jobsDto.add(jobsdto);
         }
         return jobsDto;
+    }
+
+    public List<BoardDto> getQslBoardByBoardWriterId(String userid) {
+        List<Board> boardDtoList = jpaQueryFactory
+                .select(QBoard.board)
+                .from(QBoard.board)
+                .where(QBoard.board.boardUserid.eq(userid))
+                .fetch();
+
+        List<BoardDto> boardDtos = new ArrayList<>();
+        for(Board board : boardDtoList) {
+            BoardDto boardDto = BoardDto.builder()
+                    .boardId(board.getBoardId())
+                    .boardContent(board.getBoardContent())
+                    .boardUserid(board.getBoardUserid())
+                    .boardCategory(board.getBoardCategory())
+                    .boardAddress(board.getBoardAddress())
+                    .boardView(board.getBoardView())
+                    .boardChattingNum(board.getBoardChattingNum())
+                    .boardAgree(board.getBoardAgree())
+                    .createDate(board.getCreateDate())
+                    .profileImage(board.getProfileImage())
+                    .build();
+            boardDtos.add(boardDto);
+        }
+    return boardDtos;
     }
 }

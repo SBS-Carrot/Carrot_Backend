@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -101,6 +102,34 @@ public class ProductService {
         List<ProductImages> product = productImageRepository.findAllByProductProductId(productId);
 
 
+    }
+
+
+    public List<ProductDto> searchProduct(String keyword) {
+        List<Product> products = productRepository.findByProductSubject(keyword);
+        List<ProductDto> productDtoList = new ArrayList<>();
+        System.out.println("2번" + products);
+        if(products.isEmpty()){
+            return productDtoList;
+
+        }
+        System.out.println("3번"+ productDtoList);
+        for(Product product : products) {
+            productDtoList.add(this.searchDto(product));
+            System.out.println("4번");
+        }
+        return productDtoList;
+    }
+
+    private ProductDto searchDto(Product product){
+        return  ProductDto.builder()
+                .productId(product.getProductId())
+                .productCategory(product.getProductCategory())
+                .productContent(product.getProductContent())
+                .productSubject(product.getProductSubject())
+                .productDealAddress(product.getProductDealAddress())
+                .productUserid(product.getProductUserid())
+                .build();
     }
 //
 //    public ProductDto setProductWithImage(Integer productId) {

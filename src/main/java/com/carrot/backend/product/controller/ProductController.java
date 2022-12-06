@@ -6,6 +6,7 @@ import com.carrot.backend.product.dto.ProductDto;
 import com.carrot.backend.productImage.Service.ProductImageService;
 import com.carrot.backend.productLike.service.ProductLikeService;
 import lombok.AllArgsConstructor;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -81,6 +82,13 @@ public class ProductController {
         productService.setProduct(productId, productDto);
         productImageService.deleteImage(productId,"images");
         productImageService.uploads(productId, multipartFile, "images");
+    }
 
+    @GetMapping("/product/search")
+    public List<ProductDto> search(@RequestParam(value = "keyword", defaultValue = "") String keyword, Model model){
+        model.addAttribute("keyword", keyword);
+        System.out.println("1번" + keyword);
+
+        return productService.searchProduct(keyword);
     }
 }

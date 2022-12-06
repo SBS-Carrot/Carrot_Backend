@@ -7,6 +7,7 @@ import com.carrot.backend.productImage.domain.QProductImages;
 import com.carrot.backend.productLike.domain.QProductLike;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.ColumnTransformer;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -69,30 +70,5 @@ public class CustomizedProductRepositoryImpl implements CustomizedProductReposit
                 .execute();
     }
 
-  // public ProductDto setQslProductsAndImagesByProductId(Integer productId) {
-//        Product product = jpaQueryFactory
-//                .select(QProduct.product)
-//                .from(QProduct.product)
-//                .innerJoin(QProductImages.productImages)
-//                .on(QProduct.product.productId.eq(productId))
-//                .fetchOne();
-//
-//        List<String> imagePaths = new ArrayList<>();
-//        product.setImages(product.).stream().forEach(productImage->imagePaths.add(productImage.getPath()));
-//
-//        ProductDto productDto = ProductDto.builder()
-//                .productId(product.getProductId())
-//                .productCategory(product.getProductCategory())
-//                .productView(product.getProductView())
-//                .productContent(product.getProductContent())
-//                .productSubject(product.getProductSubject())
-//                .productCreateTime(product.getProductCreateTime())
-//                .productChatting(product.getProductChatting())
-//                .productLike(product.getProductLike())
-//                .productPrice(product.getProductPrice())
-//                .images(imagePaths)
-//                .build();
-//
-//        return productDto;
-  //  }
+
 }
