@@ -249,5 +249,10 @@ public void changeUserProfileImage(UserDto userdto, List<MultipartFile> multipar
         List<BoardDto> boardDtos = customizedUserRepository.getQslBoardByBoardWriterId(userid);
         return boardDtos;
     }
+
+//    public List<BoardDto> _getCafe() {
+//    List<BoardDto> boardDtos = customizedUserRepository.getQslBoardByCafeId();
+//        return boardDtos;
+//    }
 }
 
