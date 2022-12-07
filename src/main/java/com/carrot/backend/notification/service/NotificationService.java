@@ -1,11 +1,14 @@
 package com.carrot.backend.notification.service;
 
+import com.carrot.backend.notification.NotificationDto.NotificationCountDto;
 import com.carrot.backend.notification.NotificationDto.NotificationDto;
+import com.carrot.backend.notification.NotificationDto.NotificationRequestDto;
 import com.carrot.backend.notification.dao.EmitterRepository;
 import com.carrot.backend.notification.dao.NotificationRepository;
 import com.carrot.backend.notification.domain.Notification;
 import com.carrot.backend.notification.domain.NotificationType;
 import com.carrot.backend.user.domain.User;
+import com.carrot.backend.util.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,7 +29,9 @@ public class NotificationService {
 
     private final NotificationRepository notificationRepository;
 
-    public SseEmitter subscribe(String userId, String lastEventId) {
+    public SseEmitter subscribe(String userId
+//            , String lastEventId
+    ) {
         //emitter 하나하나 에 고유의 값을 주기 위해
         String emitterId = makeTimeIncludeId(userId);
         Long timeout = 60L * 1000L * 60L; // 1시간
@@ -40,9 +46,9 @@ public class NotificationService {
         sendNotification(emitter, eventId, emitterId, "EventStream Created. [userId=" + userId + "]");
 
         // 클라이언트가 미수신한 Event 목록이 존재할 경우 전송하여 Event 유실을 예방
-        if (hasLostData(lastEventId)) {
-            sendLostData(lastEventId, userId, emitterId, emitter);
-        }
+//        if (hasLostData(lastEventId)) {
+//            sendLostData(lastEventId, userId, emitterId, emitter);
+//        }
 
         return emitter;
     }
@@ -110,6 +116,41 @@ public class NotificationService {
                 .map(NotificationDto::create)
                 .collect(Collectors.toList());
     }
+    public NotificationCountDto countUnReadNotifications(String userId) {
+        //유저의 알람리스트에서 ->isRead(false)인 갯수를 측정 ,
+        Long count = notificationRepository.countUnReadNotifications(userId);
+        return NotificationCountDto.builder()
+                .count(count)
+                .build();
+
+    }
+
+    @Transactional
+    public void readNotification(Long notificationId) {
+        //알림을 받은 사람의 id 와 알림의 id 를 받아와서 해당 알림을 찾는다.
+        Optional<Notification> notification = notificationRepository.findById(notificationId);
+        Notification checkNotification = notification.orElseThrow(()-> new DataNotFoundException("ErrorCode.NOT_EXIST_NOTIFICATION"));
+        checkNotification.read(); // 읽음처리
+
+    }
+
+    @Transactional
+    public void deleteAllByNotifications(String userid) {
+
+        notificationRepository.deleteAllByUser(userid);
+
+    }
+    @Transactional
+    public void deleteByNotifications(Long notificationId) {
+        notificationRepository.deleteById(notificationId);
+    }
+
+    public void _addChat(NotificationRequestDto notificationRequestDto) {
+        System.out.println("type:"+notificationRequestDto.getNotificationType());
+        System.out.println("content:"+notificationRequestDto.getContent());
+        System.out.println("url:"+notificationRequestDto.getUrl());
+        System.out.println("user:"+notificationRequestDto.getUserid());
 
 
+    }
 }

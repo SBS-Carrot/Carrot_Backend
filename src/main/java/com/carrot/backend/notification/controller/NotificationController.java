@@ -1,15 +1,17 @@
 package com.carrot.backend.notification.controller;
 
+import com.carrot.backend.notification.NotificationDto.NotificationCountDto;
+import com.carrot.backend.notification.NotificationDto.NotificationDto;
+import com.carrot.backend.notification.NotificationDto.NotificationRequestDto;
 import com.carrot.backend.notification.service.NotificationService;
-import com.carrot.backend.user.domain.User;
+import com.carrot.backend.util.StatusResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,8 +21,52 @@ public class NotificationController {
 
     @GetMapping(value = "/subscribe", produces = "text/event-stream")
     @ResponseStatus(HttpStatus.OK)
-    public SseEmitter subscribe(@AuthenticationPrincipal User user,
+    public SseEmitter subscribe(
+//            @RequestParam("userid") String userid,
                                 @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) {
-        return notificationService.subscribe(user.getUserid(), lastEventId);
+//        System.out.println("userDetail : " + userid);
+
+//        return notificationService.subscribe(userid, lastEventId);
+        return null;
+    }
+
+    @GetMapping(value = "/notifications")
+    public List<NotificationDto> findAllNotifications(@RequestParam("userid") String userid) {
+        return notificationService.findAllNotifications(userid);
+    }
+
+    @PostMapping("/addChatNotification")
+    public String addChat(@RequestBody NotificationRequestDto notificationRequestDto){
+        System.out.println("AA");
+
+        notificationService._addChat(notificationRequestDto);
+        return "A";
+    }
+
+    //전체목록 알림 조회에서 해당 목록 클릭 시 읽음처리 ,
+    @PostMapping("/notification/read/{notificationId}")
+    public void readNotification(@PathVariable Long notificationId){
+        notificationService.readNotification(notificationId);
+
+    }
+    //알림 조회 - 구독자가 현재 읽지않은 알림 갯수
+    @GetMapping(value = "/notifications/count")
+    public NotificationCountDto countUnReadNotifications(@RequestParam("userid") String userid) {
+        return notificationService.countUnReadNotifications(userid);
+    }
+
+    //알림 전체 삭제
+    @DeleteMapping(value = "/notifications/delete")
+    public ResponseEntity<Object> deleteNotifications(@RequestParam("userid") String userid){
+
+        notificationService.deleteAllByNotifications(userid);
+        return new ResponseEntity<>(new StatusResponseDto("알림 목록 전체삭제 성공",""), HttpStatus.OK);
+    }
+    //단일 알림 삭제
+    @DeleteMapping(value = "/notifications/delete/{notificationId}")
+    public ResponseEntity<Object> deleteNotification(@PathVariable Long notificationId){
+
+        notificationService.deleteByNotifications(notificationId);
+        return new ResponseEntity<>(new StatusResponseDto("알림 목록 삭제 성공",""), HttpStatus.OK);
     }
 }

@@ -1,7 +1,6 @@
 package com.carrot.backend.notification.NotificationDto;
 
 import com.carrot.backend.notification.domain.NotificationType;
-import com.carrot.backend.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NotificationRequestDto {
-    private User receiver;
+    private String userid;
     private NotificationType notificationType;
     private String content;
     private String url;
