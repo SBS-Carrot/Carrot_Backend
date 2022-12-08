@@ -100,4 +100,8 @@ public class UserController {
         return userService._getBoards(userid);
     }
 
+//    @GetMapping("/getBoardCafe")
+//    public List<BoardDto> getBoardCafe(){
+//        return userService._getCafe();
+//    }
 }

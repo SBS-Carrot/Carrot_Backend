@@ -165,4 +165,5 @@ public class CustomizedUserRepositoryImpl implements CustomizedUserRepository{
         }
     return boardDtos;
     }
+
 }
