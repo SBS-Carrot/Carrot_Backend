@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -48,5 +49,18 @@ public class BoardService {
     public BoardDto getBoardWithImage(Integer boardId) {
         BoardDto board = customizedBoardRepository.getQslBoardAndImagesByBoardId(boardId);
         return  board;
+    }
+
+    public List<Board> getBoardCate(Integer num){
+        List<Board> getBoardCate = boardRepository.findAllByBoardCategory("동네 카페");
+        List<Board> boards = new ArrayList<>();
+        for (int i = num; i < num + 7; i++){
+            if (i >= getBoardCate.size()){
+                break;
+            }
+                   boards.add(getBoardCate.get(i));
+        }
+
+        return  boards;
     }
 }

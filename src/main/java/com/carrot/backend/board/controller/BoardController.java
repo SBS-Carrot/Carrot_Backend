@@ -22,6 +22,11 @@ public class BoardController {
     public List<Board> getBoards(){
         return boardService.getBoards();
     }
+    @GetMapping("/boards")
+    public List<Board> getCateBoards(@RequestParam(value = "num") Integer num){
+        System.out.println("num" + num);
+        return boardService.getBoardCate(num);
+    }
     @GetMapping("/board/{boardId}")
     public Board getBoard(@PathVariable Integer boardId){
         return boardService.getBoard(boardId);
