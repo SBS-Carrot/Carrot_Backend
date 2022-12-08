@@ -16,7 +16,7 @@ public class CustomizedJobsRepositoryImpl implements CustomizedJobsRepository{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public JobsDto getQslJobsAndImagesByJobsId(Integer jobsId) {
+    public JobsDto getQslJobsAndImagesByJobId(Integer jobsId) {
         Jobs jobs = jpaQueryFactory
                 .select(QJobs.jobs)
                 .from(QJobs.jobs)

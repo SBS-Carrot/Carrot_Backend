@@ -62,7 +62,7 @@ public class JobsService {
    }
 
    public JobsDto getJobsWithImage(Integer jobsId) {
-         JobsDto jobs = customizedJobsRepository.getQslJobsAndImagesByJobsId(jobsId);
+         JobsDto jobs = customizedJobsRepository.getQslJobsAndImagesByJobId(jobsId);
          return jobs;
    }
 }

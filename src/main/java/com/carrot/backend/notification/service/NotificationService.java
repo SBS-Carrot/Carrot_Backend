@@ -7,6 +7,7 @@ import com.carrot.backend.notification.dao.EmitterRepository;
 import com.carrot.backend.notification.dao.NotificationRepository;
 import com.carrot.backend.notification.domain.Notification;
 import com.carrot.backend.notification.domain.NotificationType;
+import com.carrot.backend.user.dao.UserRepository;
 import com.carrot.backend.user.domain.User;
 import com.carrot.backend.util.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -27,15 +28,17 @@ public class NotificationService {
 
     private final EmitterRepository emitterRepository;
 
+    private final UserRepository userRepository;
+
     private final NotificationRepository notificationRepository;
 
     public SseEmitter subscribe(String userId
-//            , String lastEventId
+            , String lastEventId
     ) {
         //emitter 하나하나 에 고유의 값을 주기 위해
         String emitterId = makeTimeIncludeId(userId);
         Long timeout = 60L * 1000L * 60L; // 1시간
-        // 생성된 emiiterId를 기반으로 emitter를 저장
+        // 생성된 emitterId를 기반으로 emitter를 저장
         SseEmitter emitter = emitterRepository.save(emitterId, new SseEmitter(timeout));
         //emitter의 시간이 만료된 후 레포에서 삭제
         emitter.onCompletion(() -> emitterRepository.deleteById(emitterId));
@@ -43,12 +46,13 @@ public class NotificationService {
 
         // 503 에러를 방지하기 위한 더미 이벤트 전송
         String eventId = makeTimeIncludeId(userId);
+
         sendNotification(emitter, eventId, emitterId, "EventStream Created. [userId=" + userId + "]");
 
         // 클라이언트가 미수신한 Event 목록이 존재할 경우 전송하여 Event 유실을 예방
-//        if (hasLostData(lastEventId)) {
-//            sendLostData(lastEventId, userId, emitterId, emitter);
-//        }
+        if (hasLostData(lastEventId)) {
+            sendLostData(lastEventId, userId, emitterId, emitter);
+        }
 
         return emitter;
     }
@@ -112,6 +116,8 @@ public class NotificationService {
     @Transactional
     public List<NotificationDto> findAllNotifications(String userId) {
         List<Notification> notifications = notificationRepository.findAllByUser(userId);
+        System.out.println("Notification size : " + notifications.size());
+
         return notifications.stream()
                 .map(NotificationDto::create)
                 .collect(Collectors.toList());
@@ -146,11 +152,35 @@ public class NotificationService {
     }
 
     public void _addChat(NotificationRequestDto notificationRequestDto) {
-        System.out.println("type:"+notificationRequestDto.getNotificationType());
-        System.out.println("content:"+notificationRequestDto.getContent());
-        System.out.println("url:"+notificationRequestDto.getUrl());
-        System.out.println("user:"+notificationRequestDto.getUserid());
+        User user = userRepository.findByUserid(notificationRequestDto.getUserid()).get();
+        User sender = userRepository.findByUserid(notificationRequestDto.getSender()).get();
 
+        Notification isExistNotification = notificationRepository.findByNotificationTypeAndUser(notificationRequestDto.getNotificationType(),user).orElse(new Notification());
+
+
+        if(isExistNotification.getUser() == null){
+            Notification notification = Notification.builder()
+                    .user(user)
+                    .sender(sender)
+                    .notificationType(notificationRequestDto.getNotificationType())
+                    .content(notificationRequestDto.getContent())
+                    .url(notificationRequestDto.getUrl())
+                    .isRead(false)
+                    .build();
+            notificationRepository.save(notification);
+        }else{
+            notificationRepository.delete(isExistNotification);
+            Notification notification = Notification.builder()
+                    .user(user)
+                    .sender(sender)
+                    .notificationType(notificationRequestDto.getNotificationType())
+                    .content(notificationRequestDto.getContent())
+                    .url(notificationRequestDto.getUrl())
+                    .isRead(false)
+                    .build();
+            notificationRepository.save(notification);
+        }
 
     }
+
 }

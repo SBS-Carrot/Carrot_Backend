@@ -42,8 +42,15 @@ public class Notification {
     private User user;
     //회원정보
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action= OnDeleteAction.CASCADE)
+    @JoinColumn(name = "sender_id")
+    private User sender;
+    //알림 신청자
+
     @Builder
-    public Notification(User user, NotificationType notificationType, String content, String url, Boolean isRead) {
+    public Notification(User user, User sender, NotificationType notificationType, String content, String url, Boolean isRead) {
+        this.sender=sender;
         this.user = user;
         this.notificationType = notificationType;
         this.content = new NotificationContent(content);

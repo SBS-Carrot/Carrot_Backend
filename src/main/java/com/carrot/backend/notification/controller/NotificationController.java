@@ -32,12 +32,13 @@ public class NotificationController {
 
     @GetMapping(value = "/notifications")
     public List<NotificationDto> findAllNotifications(@RequestParam("userid") String userid) {
-        return notificationService.findAllNotifications(userid);
+        List<NotificationDto> notifications = notificationService.findAllNotifications(userid);
+        return notifications;
     }
 
     @PostMapping("/addChatNotification")
     public String addChat(@RequestBody NotificationRequestDto notificationRequestDto){
-        System.out.println("AA");
+
 
         notificationService._addChat(notificationRequestDto);
         return "A";

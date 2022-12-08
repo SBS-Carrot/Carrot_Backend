@@ -20,11 +20,14 @@ public class NotificationDto {
 
     private String url;
 
-    private Boolean status;
+    private String userid;
 
+    private String sender;
+
+    private String type;
 
     public static NotificationDto create(Notification notification) {
         return new NotificationDto(notification.getId(), notification.getContent(),
-                notification.getUrl(), notification.getIsRead());
+                notification.getUrl(),notification.getUser().getUserid(),notification.getSender().getUserid(),notification.getNotificationType().toString());
     }
 }
