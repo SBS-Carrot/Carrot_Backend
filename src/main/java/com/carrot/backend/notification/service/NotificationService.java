@@ -47,6 +47,7 @@ public class NotificationService {
         // 503 에러를 방지하기 위한 더미 이벤트 전송
         String eventId = makeTimeIncludeId(userId);
 
+
         sendNotification(emitter, eventId, emitterId, "EventStream Created. [userId=" + userId + "]");
 
         // 클라이언트가 미수신한 Event 목록이 존재할 경우 전송하여 Event 유실을 예방
@@ -66,9 +67,10 @@ public class NotificationService {
 
     // 유효시간이 다 지난다면 503 에러가 발생하기 때문에 더미데이터를 발행
     private void sendNotification(SseEmitter emitter, String eventId, String emitterId, Object data) {
+//        emitter.send(SseEmitter.event().name("get").data(dto).reconnectTime(0));
         try {
             emitter.send(SseEmitter.event()
-                    .id(eventId)
+                    .name("sse")
                     .data(data));
         } catch (IOException exception) {
             emitterRepository.deleteById(emitterId);
@@ -116,7 +118,7 @@ public class NotificationService {
     @Transactional
     public List<NotificationDto> findAllNotifications(String userId) {
         List<Notification> notifications = notificationRepository.findAllByUser(userId);
-        System.out.println("Notification size : " + notifications.size());
+
 
         return notifications.stream()
                 .map(NotificationDto::create)
@@ -128,7 +130,14 @@ public class NotificationService {
         return NotificationCountDto.builder()
                 .count(count)
                 .build();
+    }
 
+    public Notification getNewOne(String userid,String sender){
+        User user = userRepository.findByUserid(userid).get();
+        User sendUser = userRepository.findByUserid(sender).get();
+        List<Notification> notifications = notificationRepository.findByUserAndSender(user,sendUser);
+        int size = notifications.size();
+        return notifications.get(size-1);
     }
 
     @Transactional
@@ -151,15 +160,16 @@ public class NotificationService {
         notificationRepository.deleteById(notificationId);
     }
 
-    public void _addChat(NotificationRequestDto notificationRequestDto) {
+    @Transactional
+    public void _addChat(NotificationRequestDto notificationRequestDto) throws Exception {
         User user = userRepository.findByUserid(notificationRequestDto.getUserid()).get();
         User sender = userRepository.findByUserid(notificationRequestDto.getSender()).get();
 
-        Notification isExistNotification = notificationRepository.findByNotificationTypeAndUser(notificationRequestDto.getNotificationType(),user).orElse(new Notification());
-
+        Notification isExistNotification = notificationRepository.findByNotificationTypeAndSender(notificationRequestDto.getNotificationType(),sender).orElse(new Notification());
+        Notification notification;
 
         if(isExistNotification.getUser() == null){
-            Notification notification = Notification.builder()
+             notification = Notification.builder()
                     .user(user)
                     .sender(sender)
                     .notificationType(notificationRequestDto.getNotificationType())
@@ -170,7 +180,7 @@ public class NotificationService {
             notificationRepository.save(notification);
         }else{
             notificationRepository.delete(isExistNotification);
-            Notification notification = Notification.builder()
+             notification = Notification.builder()
                     .user(user)
                     .sender(sender)
                     .notificationType(notificationRequestDto.getNotificationType())
@@ -180,7 +190,15 @@ public class NotificationService {
                     .build();
             notificationRepository.save(notification);
         }
-
+//        String emitterId = makeTimeIncludeId(notificationRequestDto.getUserid());
+//        Long timeout = 60L * 1000L * 60L;
+//        SseEmitter emitter = emitterRepository.save(emitterId, new SseEmitter(timeout));
+//
+//
+//        emitter.send(SseEmitter.event().name("new").data(notification).reconnectTime(0));
+//        emitter.onCompletion(() -> emitterRepository.deleteById(emitterId));
+//        emitter.onTimeout(() -> emitterRepository.deleteById(emitterId));
+//        emitter.complete();
     }
 
 }

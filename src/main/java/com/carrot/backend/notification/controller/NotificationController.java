@@ -2,7 +2,6 @@ package com.carrot.backend.notification.controller;
 
 import com.carrot.backend.notification.NotificationDto.NotificationCountDto;
 import com.carrot.backend.notification.NotificationDto.NotificationDto;
-import com.carrot.backend.notification.NotificationDto.NotificationRequestDto;
 import com.carrot.backend.notification.service.NotificationService;
 import com.carrot.backend.util.StatusResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -36,13 +35,7 @@ public class NotificationController {
         return notifications;
     }
 
-    @PostMapping("/addChatNotification")
-    public String addChat(@RequestBody NotificationRequestDto notificationRequestDto){
 
-
-        notificationService._addChat(notificationRequestDto);
-        return "A";
-    }
 
     //전체목록 알림 조회에서 해당 목록 클릭 시 읽음처리 ,
     @PostMapping("/notification/read/{notificationId}")

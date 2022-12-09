@@ -17,9 +17,10 @@ public interface NotificationRepository extends JpaRepository<Notification,Long>
     @Query("select count(n) from Notification n where n.user.id = :userId and n.isRead = false")
     Long countUnReadNotifications(@Param("userId") String userId);
 
-    Optional<Notification> findByNotificationTypeAndUser(NotificationType notificationType, User user);
+    Optional<Notification> findByNotificationTypeAndSender(NotificationType notificationType, User user);
     Optional<Notification> findById(Long NotificationsId);
 
+    List<Notification> findByUserAndSender(User user,User sender);
     void deleteAllByUser(String userId);
     void deleteById(Long notificationId);
 
