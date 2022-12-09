@@ -68,4 +68,7 @@ public class JobsController {
     public void jobsDelete(@PathVariable Integer jobsId){
         jobsImageService.jobsDelete(jobsId,"jobsImages");
     }
+
+
 }
+

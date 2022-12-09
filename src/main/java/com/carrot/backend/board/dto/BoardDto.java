@@ -32,4 +32,5 @@ public class BoardDto {
     String profileImage;
 
     List<String> images;
+    List<String> replies;
 }

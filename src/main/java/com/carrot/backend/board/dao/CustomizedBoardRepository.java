@@ -5,4 +5,5 @@ import com.carrot.backend.board.dto.BoardDto;
 public interface CustomizedBoardRepository {
 
     BoardDto getQslBoardAndImagesByBoardId(Integer boardId);
+
 }

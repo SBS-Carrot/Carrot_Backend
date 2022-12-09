@@ -42,6 +42,4 @@ public class CustomizedBoardRepositoryImpl  implements CustomizedBoardRepository
 
         return boardDto;
     }
-
-
 }

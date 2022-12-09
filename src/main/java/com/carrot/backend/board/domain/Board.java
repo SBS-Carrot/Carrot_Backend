@@ -1,6 +1,7 @@
 package com.carrot.backend.board.domain;
 
 import com.carrot.backend.boardImage.domain.BoardImage;
+import com.carrot.backend.boardReply.domain.BoardReply;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -48,6 +49,10 @@ public class Board {
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<BoardImage> images;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<BoardReply> replies;
 }
 
 
