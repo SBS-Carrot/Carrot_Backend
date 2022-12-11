@@ -50,14 +50,14 @@ public class NotificationController {
     }
 
     //알림 전체 삭제
-    @DeleteMapping(value = "/notifications/delete")
+    @DeleteMapping(value = "/notification/delete")
     public ResponseEntity<Object> deleteNotifications(@RequestParam("userid") String userid){
 
         notificationService.deleteAllByNotifications(userid);
         return new ResponseEntity<>(new StatusResponseDto("알림 목록 전체삭제 성공",""), HttpStatus.OK);
     }
     //단일 알림 삭제
-    @DeleteMapping(value = "/notifications/delete/{notificationId}")
+    @DeleteMapping(value = "/notification/delete/{notificationId}")
     public ResponseEntity<Object> deleteNotification(@PathVariable Long notificationId){
 
         notificationService.deleteByNotifications(notificationId);

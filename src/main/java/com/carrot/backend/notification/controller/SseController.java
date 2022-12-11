@@ -30,7 +30,9 @@ public class SseController {
         notificationService.subscribe(userid, lastEventId);
 
         List<NotificationDto> dto =  notificationService.findAllNotifications(userid);
-        emitter.send(SseEmitter.event().name("get").data(dto).reconnectTime(0));
+        emitter.send(SseEmitter.event().name("get").data(dto)
+//                .reconnectTime(0)
+        );
 
         emitter.complete();
 
@@ -47,8 +49,8 @@ public class SseController {
         notificationService._addChat(notificationRequestDto);
         Notification notification = notificationService.getNewOne(notificationRequestDto.getUserid(),notificationRequestDto.getSender());
 
-        emitter.send(SseEmitter.event().name("new").data(notification).reconnectTime(0));
-        emitter.complete();
+//        emitter.send(SseEmitter.event().name("new").data(notification).reconnectTime(0));
+//        emitter.complete();
 
 
         return ResponseEntity.ok(emitter);

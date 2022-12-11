@@ -146,6 +146,7 @@ public class NotificationService {
         Optional<Notification> notification = notificationRepository.findById(notificationId);
         Notification checkNotification = notification.orElseThrow(()-> new DataNotFoundException("ErrorCode.NOT_EXIST_NOTIFICATION"));
         checkNotification.read(); // 읽음처리
+        notificationRepository.save(checkNotification);
 
     }
 
