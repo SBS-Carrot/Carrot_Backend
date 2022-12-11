@@ -36,6 +36,7 @@ public class JobsController {
     @PostMapping("/createJobs")
     public Jobs createJobs(@RequestBody JobsDto jobsDto){
         Integer id = jobsService.createJobs(jobsDto);
+        System.out.println("job id : " + id);
         return jobsService.getJob(id);
     }
     @PostMapping("/createJobsImages")

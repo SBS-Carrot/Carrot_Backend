@@ -29,7 +29,6 @@ public class ChatController {
     public Chatting sendMessage(Chatting chatting, SimpMessageHeaderAccessor accessor){
         String roomNum = chatting.getRoomId();
         Chatting chats = chattingService.saveChat(chatting);
-
         simpMessagingTemplate.convertAndSend("/sub/chat/" +roomNum, chats);
         return chats;
     }
