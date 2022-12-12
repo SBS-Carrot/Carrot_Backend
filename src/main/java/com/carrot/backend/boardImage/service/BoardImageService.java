@@ -1,15 +1,14 @@
-package com.carrot.backend.jobImage.service;
+package com.carrot.backend.boardImage.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.carrot.backend.jobImage.dao.JobsImageRepository;
-import com.carrot.backend.jobImage.domain.JobsImages;
-import com.carrot.backend.jobImage.dto.JobsImagesDto;
-import com.carrot.backend.jobs.dao.CustomizedJobsRepositoryImpl;
-import com.carrot.backend.jobs.dao.JobsRepository;
-import com.carrot.backend.jobs.domain.Jobs;
-import com.carrot.backend.jobs.service.JobsService;
+import com.carrot.backend.board.dao.BoardRepository;
+import com.carrot.backend.board.domain.Board;
+import com.carrot.backend.board.service.BoardService;
+import com.carrot.backend.boardImage.dao.BoardImageRepository;
+import com.carrot.backend.boardImage.domain.BoardImage;
+import com.carrot.backend.boardImage.dto.BoardImageDto;
 import com.carrot.backend.util.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,19 +29,19 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Component
-public class JobsImageService {
+public class BoardImageService {
     private final AmazonS3Client amazonS3Client;
-    private final JobsImageRepository jobsImageRepository;
-    private final JobsService jobsService;
+    private final BoardImageRepository boardImageRepository;
+    private final BoardService boardService;
 
-    private final JobsRepository jobsRepository;
+    private final BoardRepository boardRepository;
 
-    private final CustomizedJobsRepositoryImpl customizedJobsRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public List<JobsImagesDto> uploads(Integer jobsId, List<MultipartFile> multipartFile, String dirName) throws IOException {
+
+    public List<BoardImageDto> uploads(Integer boardId, List<MultipartFile> multipartFile, String dirName) throws IOException {
         List<File> uploadFile = new ArrayList<File>();
         for(int i=0;i< multipartFile.size();i++) {
             System.out.println("size :"+multipartFile.size());
@@ -53,11 +52,11 @@ public class JobsImageService {
             uploadFile.add(upload);
         }
 
-        return upload(jobsId, uploadFile, dirName);
+        return upload(boardId, uploadFile, dirName);
     }
 
-    private List<JobsImagesDto> upload (Integer jobsId, List<File> uploadFile, String dirName){
-        List<JobsImagesDto> images = new ArrayList<>();
+    private List<BoardImageDto> upload (Integer boardId, List<File> uploadFile, String dirName){
+        List<BoardImageDto> images = new ArrayList<>();
         for(int i=0;i< uploadFile.size();i++){
             String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.get(i).getName();
 
@@ -65,17 +64,18 @@ public class JobsImageService {
             String path = putS3(uploadFile.get(i), fileName);
 
             removeNewFile(uploadFile.get(i));
-            JobsImagesDto image = new JobsImagesDto(jobsId,path);
+            BoardImageDto image = new BoardImageDto(boardId,path);
             images.add(i,image);
 
-            JobsImages jobImages = new JobsImages();
-            jobImages.setJobPath(path);
-            jobImages.setJobs(jobsService.getJob(jobsId));
-            jobsImageRepository.save(jobImages);
+            BoardImage boardImage = new BoardImage();
+            boardImage.setBoardPath(path);
+            boardImage.setBoard(boardService.getBoard(boardId));
+            boardImageRepository.save(boardImage);
+
             if(i==0) {
-                Jobs jobs = jobsRepository.findById(jobsId).orElseThrow(() -> new DataNotFoundException("jobs not found"));
-                jobs.setProfileImage(path);
-                jobsRepository.save(jobs);
+                Board board = boardRepository.findById(boardId).orElseThrow(() -> new DataNotFoundException("board not found"));
+                board.setProfileImage(path);
+                boardRepository.save(board);
             }
 
         }
@@ -91,28 +91,6 @@ public class JobsImageService {
 
         return amazonS3Client.getUrl(bucket, fileName).toString();
     }
-    public void jobsDelete(Integer jobsId, String dirName){
-        List<JobsImages> jobs = jobsImageRepository.findAllByJobsJobid(jobsId);
-        if(jobs.size() > 0){
-            String[] jobsImages = new String[jobs.size()];
-            for(int i =0; i < jobs.size(); i++){
-                jobsImages[i] = jobs.get(i).getJobPath();
-                String[] filename = jobsImages[i].split(dirName + "/");
-                deleteS3File(filename[1], dirName);
-
-                JobsImages images = jobs.get(i);
-                jobsImageRepository.delete(images);
-            }
-            customizedJobsRepository.deleteQslJobsAndImagesByJobId(jobsId);
-        }else{
-            customizedJobsRepository.deleteQslJobsAndImagesByJobId(jobsId);
-        }
-    }
-
-    public void deleteS3File(String fileName, String bucketFolder){
-        String file = bucketFolder+"/"+fileName;
-        amazonS3Client.deleteObject(bucket,file);
-    }
 
     private void removeNewFile (File targetFile){
         if (targetFile.delete()) {
@@ -123,8 +101,6 @@ public class JobsImageService {
     }
 
     private Optional<File> convert (MultipartFile file) throws IOException {
-
-
         File convertFile = new File(file.getOriginalFilename());
 
         if (convertFile.createNewFile()) {
@@ -136,5 +112,4 @@ public class JobsImageService {
         }
         return Optional.empty();
     }
-
 }

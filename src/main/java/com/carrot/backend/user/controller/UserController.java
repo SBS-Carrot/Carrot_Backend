@@ -1,5 +1,6 @@
 package com.carrot.backend.user.controller;
 
+import com.carrot.backend.board.dto.BoardDto;
 import com.carrot.backend.jobs.dto.JobsDto;
 import com.carrot.backend.product.dto.ProductDto;
 import com.carrot.backend.realty.dto.RealtyDto;
@@ -93,4 +94,14 @@ public class UserController {
     public List<JobsDto> getJobsById(@PathVariable String userid){
         return userService._getJobs(userid);
     }
+
+    @PostMapping("/getBoard/{userid}")
+    public List<BoardDto> getBoardByID(@PathVariable String userid){
+        return userService._getBoards(userid);
+    }
+
+//    @GetMapping("/getBoardCafe")
+//    public List<BoardDto> getBoardCafe(){
+//        return userService._getCafe();
+//    }
 }
