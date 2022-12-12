@@ -26,8 +26,10 @@ public class NotificationDto {
 
     private String type;
 
+    private boolean is_read;
+
     public static NotificationDto create(Notification notification) {
         return new NotificationDto(notification.getId(), notification.getContent(),
-                notification.getUrl(),notification.getUser().getUserid(),notification.getSender().getUserid(),notification.getNotificationType().toString());
+                notification.getUrl(),notification.getUser().getUserid(),notification.getSender().getUserid(),notification.getNotificationType().toString(),notification.getIsRead());
     }
 }

@@ -1,6 +1,5 @@
 package com.carrot.backend.notification.controller;
 
-import com.carrot.backend.notification.NotificationDto.NotificationCountDto;
 import com.carrot.backend.notification.NotificationDto.NotificationDto;
 import com.carrot.backend.notification.service.NotificationService;
 import com.carrot.backend.util.StatusResponseDto;
@@ -38,14 +37,16 @@ public class NotificationController {
 
 
     //전체목록 알림 조회에서 해당 목록 클릭 시 읽음처리 ,
-    @PostMapping("/notification/read/{notificationId}")
+    @GetMapping("/notification/read/{notificationId}")
     public void readNotification(@PathVariable Long notificationId){
         notificationService.readNotification(notificationId);
 
     }
     //알림 조회 - 구독자가 현재 읽지않은 알림 갯수
     @GetMapping(value = "/notifications/count")
-    public NotificationCountDto countUnReadNotifications(@RequestParam("userid") String userid) {
+    public long countUnReadNotifications(@RequestParam("userid") String userid) {
+
+
         return notificationService.countUnReadNotifications(userid);
     }
 
