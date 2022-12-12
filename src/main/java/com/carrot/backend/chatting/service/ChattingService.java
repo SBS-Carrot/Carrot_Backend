@@ -1,19 +1,16 @@
 package com.carrot.backend.chatting.service;
 
+import com.carrot.backend.chatting.dao.ChattingRepository;
+import com.carrot.backend.chatting.dao.ChattingRoomRepository;
+import com.carrot.backend.chatting.domain.Chatting;
 import com.carrot.backend.chatting.domain.ChattingRoom;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketSession;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -21,30 +18,66 @@ import java.util.Map;
 public class ChattingService {
     private final ObjectMapper objectMapper;
     private Map<String, ChattingRoom> chattingRoom;
+
+    private final ChattingRepository chattingRepository;
+    private final ChattingRoomRepository chattingRoomRepository;
     @PostConstruct
     private void init(){
         chattingRoom = new LinkedHashMap<>();
     }
 
+    //채팅방 최근 생성순으로 반환
     public List<ChattingRoom> findAllRoom(){
-        return new ArrayList<>(chattingRoom.values());
+List<ChattingRoom> result = new ArrayList<>(chattingRoom.values());
+Collections.reverse(result);
+        return result;
     }
 
+    //채팅방 하나 반환
     public ChattingRoom findById(String roomId){
-        return chattingRoom.get(roomId);
-    }
 
-    public ChattingRoom createRoom(String name){
-        String roomId = name;
-        ChattingRoom rooms = ChattingRoom.builder().roomId(roomId).build();
-        return chattingRoom.put(roomId,rooms);
-    }
-
-    public <T> void sendChatting(WebSocketSession session, T message){
-        try{
-            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
-        }catch(IOException e){
-            log.error(e.getMessage(),e);
+        try {
+            ChattingRoom room = chattingRoomRepository.findById(roomId).orElseThrow();
+            if(room!=null){
+                return room;
+            }
+            return null;
+        }catch(Exception e){
+            return null;
         }
+
+    }
+
+    //채팅방 생성
+    public ChattingRoom createRoom(String roomId,String myname,String yourName){
+
+        ChattingRoom room = ChattingRoom.builder()
+                        .roomId(roomId)
+                        .myName(myname)
+                .yourName(yourName)
+                        .build();
+        chattingRoom.put(roomId, room);
+        chattingRoomRepository.save(room);
+
+        return room;
+    }
+
+    public Chatting saveChat(Chatting chatting){
+        Chatting chat = new Chatting();
+        chat.setMessage(chatting.getMessage());
+        chat.setRoomId(chatting.getRoomId());
+        chat.setType(chatting.getType());
+        chat.setSender(chatting.getSender());
+        chattingRepository.save(chat);
+        return chat;
+    }
+
+    public ChattingRoom findByUser(String myName, String yourName) {
+        ChattingRoom room = chattingRoomRepository.findByMyNameAndYourName(myName,yourName);
+        return room;
+    }
+
+    public List<Chatting> getMessage(String roomId) {
+       return chattingRepository.findByRoomId(roomId);
     }
 }

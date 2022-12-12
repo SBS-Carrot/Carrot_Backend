@@ -104,9 +104,9 @@ public class JobsImageService {
                 JobsImages images = jobs.get(i);
                 jobsImageRepository.delete(images);
             }
-            customizedJobsRepository.deleteQslJobsAndImagesByJobsId(jobsId);
+            customizedJobsRepository.deleteQslJobsAndImagesByJobId(jobsId);
         }else{
-            customizedJobsRepository.deleteQslJobsAndImagesByJobsId(jobsId);
+            customizedJobsRepository.deleteQslJobsAndImagesByJobId(jobsId);
         }
     }
     public void deleteS3File(String fileName, String bucketFolder){

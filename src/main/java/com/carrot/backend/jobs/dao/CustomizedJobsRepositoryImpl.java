@@ -18,7 +18,7 @@ public class CustomizedJobsRepositoryImpl implements CustomizedJobsRepository{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public JobsDto getQslJobsAndImagesByJobsId(Integer jobsId) {
+    public JobsDto getQslJobsAndImagesByJobId(Integer jobsId) {
         Jobs jobs = jpaQueryFactory
                 .select(QJobs.jobs)
                 .from(QJobs.jobs)
@@ -55,7 +55,7 @@ public class CustomizedJobsRepositoryImpl implements CustomizedJobsRepository{
 
     @Override
     @Transactional
-    public void deleteQslJobsAndImagesByJobsId(Integer jobsId) {
+    public void deleteQslJobsAndImagesByJobId(Integer jobsId) {
         Long jobs = jpaQueryFactory
                 .delete(QJobsLike.jobsLike)
                 .where(QJobsLike.jobsLike.jobs.jobid.eq(jobsId))

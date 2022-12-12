@@ -7,14 +7,14 @@ import com.carrot.backend.jobs.domain.Jobs;
 import com.carrot.backend.user.dao.UserRepository;
 import com.carrot.backend.user.domain.User;
 import com.carrot.backend.util.DataNotFoundException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
 @Service
 @Transactional
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JobsLikeService {
     private final JobsLikeRepository jobsLikeRepository;
     private final UserRepository userRepository;

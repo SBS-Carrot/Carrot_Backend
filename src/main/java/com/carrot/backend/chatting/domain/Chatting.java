@@ -1,16 +1,28 @@
 package com.carrot.backend.chatting.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class Chatting {
     public enum MessageType{
-        ENTER, COMM
+        ENTER, TALK
     }
-    private MessageType messageType;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer chatId;
+    private MessageType type;
     private String roomId;
     private String sender;
     private String message;
+
+
 }
