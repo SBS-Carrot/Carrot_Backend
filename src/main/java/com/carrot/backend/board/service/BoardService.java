@@ -63,4 +63,12 @@ public class BoardService {
 
         return  boards;
     }
+
+    public void boardView(Integer boardId) {
+        Board board = boardRepository.findByBoardId(boardId).orElseThrow(()-> new DataNotFoundException("board not found"));
+
+        board.setBoardView(board.getBoardView() + 1);
+
+        boardRepository.save(board);
+    }
 }

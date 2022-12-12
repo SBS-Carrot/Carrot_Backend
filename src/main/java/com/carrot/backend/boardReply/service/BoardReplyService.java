@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -38,9 +39,12 @@ public class BoardReplyService {
         boardReply.setUser(user);
         boardReply.setReplyUserAddress(user.getAddress());
         boardReply.setProfileImage(user.getProfileImage());
+        boardReply.setReplyNickname(user.getNickname());
         boardReply.setBoard(board);
         boardReply.setBoardReply(boardReplyDto.getBoardReply());
         boardReply.setCreateDate(yymmdd);
+        board.setBoardChattingNum(board.getBoardChattingNum() + 1);
+        boardRepository.save(board);
         boardReplyRepository.save(boardReply);
       }catch (Exception e){
           return false;
@@ -48,8 +52,9 @@ public class BoardReplyService {
         return true;
     }
 
-    public BoardReplyDto getBoardAndReply(Integer boardId) {
-        BoardReplyDto boardReplyDto = customizedBoardReplyRepository.getQslBoardAndReplyByBoardId(boardId);
-        return boardReplyDto;
+    public List<BoardReplyDto> getBoardAndReply(Integer boardId) {
+        Board board = boardRepository.findByBoardId(boardId).get();
+        List<BoardReplyDto> boardReply = customizedBoardReplyRepository.getQslReplyByBoard(board);
+        return boardReply;
     }
 }

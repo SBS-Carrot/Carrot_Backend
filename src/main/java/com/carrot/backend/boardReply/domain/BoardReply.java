@@ -43,4 +43,7 @@ public class BoardReply {
     @Column
     String ReplyUserAddress;
 
+    @Column
+    String ReplyNickname;
+
 }

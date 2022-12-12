@@ -95,7 +95,6 @@ public class RealtyService {
 
     public void _realtyCheck(Integer realtyId) {
         Realty realty = realtyRepository.findByRealtyId(realtyId).orElseThrow(()-> new DataNotFoundException("realty not found"));
-
         realty.setRealtyCheck(realty.getRealtyCheck() +1);
         realtyRepository.save(realty);
     }

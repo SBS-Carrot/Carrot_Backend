@@ -55,9 +55,9 @@ public class BoardController {
         return boardService.getBoardWithImage(boardId);
     }
 
-//    BoardReply
+//  BoardReply
     @GetMapping("/getBoardReply/{boardId}")
-    public BoardReplyDto getBoardAndReply(@PathVariable Integer boardId){
+    public List<BoardReplyDto> getBoardAndReply(@PathVariable Integer boardId){
         return boardReplyService.getBoardAndReply(boardId);
     }
     @PostMapping("/boardCreateReply/{boardId}")
@@ -65,5 +65,11 @@ public class BoardController {
         boolean id = boardReplyService.createReply(boardReplyDto, boardId);
         return  id;
     }
+
+    //board Like
+    @PostMapping("/boardView/{boardId}")
+    public void boardView(@PathVariable Integer boardId){boardService.boardView(boardId);
+    }
+
 
 }

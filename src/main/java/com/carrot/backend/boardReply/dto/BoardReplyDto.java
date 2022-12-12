@@ -17,4 +17,6 @@ public class BoardReplyDto {
     String profileImage;
 
     String ReplyUserAddress;
+
+    String ReplyNickname;
 }
