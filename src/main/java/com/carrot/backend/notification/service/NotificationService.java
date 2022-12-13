@@ -114,6 +114,7 @@ public class NotificationService {
 
     @Transactional
     public List<NotificationDto> findAllNotifications(String userId) {
+
         List<Notification> notifications = notificationRepository.findAllByUser(userId);
 
 
@@ -148,8 +149,9 @@ public class NotificationService {
 
     @Transactional
     public void deleteAllByNotifications(String userid) {
+        User user = userRepository.findByUserid(userid).get();
 
-        notificationRepository.deleteAllByUser(userid);
+        notificationRepository.deleteAllByUser(user);
 
     }
     @Transactional
@@ -187,15 +189,10 @@ public class NotificationService {
                     .build();
             notificationRepository.save(notification);
         }
-//        String emitterId = makeTimeIncludeId(notificationRequestDto.getUserid());
-//        Long timeout = 60L * 1000L * 60L;
-//        SseEmitter emitter = emitterRepository.save(emitterId, new SseEmitter(timeout));
-//
-//
-//        emitter.send(SseEmitter.event().name("new").data(notification).reconnectTime(0));
-//        emitter.onCompletion(() -> emitterRepository.deleteById(emitterId));
-//        emitter.onTimeout(() -> emitterRepository.deleteById(emitterId));
-//        emitter.complete();
+
     }
 
+    public void _addApply (NotificationRequestDto notificationRequestDto) throws Exception {
+
+    }
 }

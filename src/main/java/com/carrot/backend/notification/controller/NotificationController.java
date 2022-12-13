@@ -43,7 +43,7 @@ public class NotificationController {
 
     }
     //알림 조회 - 구독자가 현재 읽지않은 알림 갯수
-    @GetMapping(value = "/notifications/count")
+    @GetMapping("/notifications/count")
     public long countUnReadNotifications(@RequestParam("userid") String userid) {
 
 
@@ -51,17 +51,18 @@ public class NotificationController {
     }
 
     //알림 전체 삭제
-    @DeleteMapping(value = "/notification/delete")
+    @DeleteMapping("/notification/delete")
     public ResponseEntity<Object> deleteNotifications(@RequestParam("userid") String userid){
 
         notificationService.deleteAllByNotifications(userid);
         return new ResponseEntity<>(new StatusResponseDto("알림 목록 전체삭제 성공",""), HttpStatus.OK);
     }
     //단일 알림 삭제
-    @DeleteMapping(value = "/notification/delete/{notificationId}")
-    public ResponseEntity<Object> deleteNotification(@PathVariable Long notificationId){
+    @DeleteMapping("/notifications/delete/{notificationId}")
+    public List<NotificationDto> deleteNotification(@PathVariable Long notificationId, @RequestBody String userid){
 
         notificationService.deleteByNotifications(notificationId);
-        return new ResponseEntity<>(new StatusResponseDto("알림 목록 삭제 성공",""), HttpStatus.OK);
+        List<NotificationDto> notifications = notificationService.findAllNotifications(userid);
+        return notifications;
     }
 }

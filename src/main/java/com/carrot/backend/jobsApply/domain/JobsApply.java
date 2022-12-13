@@ -14,7 +14,6 @@ public class JobsApply {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-
     @Column
     String name;
 
@@ -32,6 +31,9 @@ public class JobsApply {
 
     String applyDate;
 
+    String imgURL;
+
+    String userid;
 
     @ManyToOne
     private Jobs jobs;

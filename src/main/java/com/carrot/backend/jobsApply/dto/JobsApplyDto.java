@@ -13,23 +13,21 @@ import lombok.NoArgsConstructor;
 public class JobsApplyDto {
     Integer id;
 
-
     Jobs jobsId;
-
 
     String name;
 
-
     String phoneValue;
-
 
     String gender;
 
-
     int year;
-
 
     String introduce;
 
     String applyDate;
+
+    String userid;
+
+    String imgURL;
 }

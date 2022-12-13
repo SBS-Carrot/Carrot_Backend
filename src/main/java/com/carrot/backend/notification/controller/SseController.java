@@ -55,6 +55,19 @@ public class SseController {
 
         return ResponseEntity.ok(emitter);
     }
+    @PostMapping("/addApplyNotification")
+    public ResponseEntity<SseEmitter> addApply(@RequestBody NotificationRequestDto notificationRequestDto, @RequestHeader(value = "Last-Event-ID",required = false, defaultValue = "") String lastEventId) throws Exception{
+        SseEmitter emitter = new SseEmitter();
+        notificationService.subscribe(notificationRequestDto.getUserid(), lastEventId);
+
+        notificationService._addApply(notificationRequestDto);
+        Notification notification = notificationService.getNewOne(notificationRequestDto.getUserid(),notificationRequestDto.getSender());
+
+//        emitter.send(SseEmitter.event().name("new").data(notification).reconnectTime(0));
+//        emitter.complete();
+
+        return ResponseEntity.ok(emitter);
+    }
     @PostMapping(value="/applyJobs")
     public Notification apply (@RequestBody UserDto userDto){
     return null;
