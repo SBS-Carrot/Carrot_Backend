@@ -60,15 +60,25 @@ public class BoardService {
             }
                    boards.add(getBoardCate.get(i));
         }
-
         return  boards;
     }
 
+    public List<Board> getQueBoard(Integer qnum) {
+        List<Board> getQueBoard = boardRepository.findAllByBoardCategory("동네 질문");
+        List<Board> boardList = new ArrayList<>();
+        for(int i = qnum; i < qnum + 7; i++){
+            if(i > getQueBoard.size()){
+                break;
+            }
+            boardList.add(getQueBoard.get(i));
+        }
+        return boardList;
+    }
+
+
     public void boardView(Integer boardId) {
         Board board = boardRepository.findByBoardId(boardId).orElseThrow(()-> new DataNotFoundException("board not found"));
-
         board.setBoardView(board.getBoardView() + 1);
-
         boardRepository.save(board);
     }
 }

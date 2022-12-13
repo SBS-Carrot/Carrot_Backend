@@ -31,6 +31,13 @@ public class BoardController {
         System.out.println("num" + num);
         return boardService.getBoardCate(num);
     }
+
+    @GetMapping("/Qboards")
+    public List<Board> getQueBoards(@RequestParam(value = "qnum") Integer qnum){
+        System.out.println("Qnum" + qnum);
+        return boardService.getQueBoard(qnum);
+    }
+
     @GetMapping("/board/{boardId}")
     public Board getBoard(@PathVariable Integer boardId){
         return boardService.getBoard(boardId);
@@ -66,7 +73,6 @@ public class BoardController {
         return  id;
     }
 
-    //board Like
     @PostMapping("/boardView/{boardId}")
     public void boardView(@PathVariable Integer boardId){boardService.boardView(boardId);
     }
