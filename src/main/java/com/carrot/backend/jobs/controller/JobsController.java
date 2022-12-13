@@ -78,9 +78,12 @@ public class JobsController {
         boolean rs = jobsApplyService.apply(jobsId, applyJobsDto);
 
         return rs;
-
     }
-
+    @GetMapping("/jobssearch/{search}")
+    public List<Jobs> jobsSearch(@PathVariable String search){
+        List<Jobs> jobs = jobsService.jobSearch(search);
+        return jobs;
+    }
 
 }
 

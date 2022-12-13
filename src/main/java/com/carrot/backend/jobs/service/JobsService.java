@@ -65,4 +65,9 @@ public class JobsService {
          JobsDto jobs = customizedJobsRepository.getQslJobsAndImagesByJobId(jobsId);
          return jobs;
    }
+
+    public List<Jobs> jobSearch(String search) {
+      List<Jobs> jobs = jobsRepository.findByJobPlaceContaining(search);
+       return jobs;
+    }
 }
