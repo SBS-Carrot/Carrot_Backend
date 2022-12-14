@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -44,5 +46,19 @@ public class JobsApplyService {
         } catch(Exception e) {
             return false;
         }
+    }
+
+    public List<JobsApply> getJobApply(Jobs jobs) {
+        List<JobsApply> jobsApplies = jobsApplyRepository.findAllByJobs(jobs);
+        return jobsApplies;
+    }
+
+    public boolean isExist(Integer num, String userid) {
+        Jobs jobs = jobsRepository.findById(num).get();
+        Optional<JobsApply> jobsApply = jobsApplyRepository.findByJobsAndUserid(jobs,userid);
+        if(jobsApply.isPresent()){
+            return true;
+        }
+        return false;
     }
 }

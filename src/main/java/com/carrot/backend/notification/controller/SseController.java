@@ -4,7 +4,6 @@ import com.carrot.backend.notification.NotificationDto.NotificationDto;
 import com.carrot.backend.notification.NotificationDto.NotificationRequestDto;
 import com.carrot.backend.notification.domain.Notification;
 import com.carrot.backend.notification.service.NotificationService;
-import com.carrot.backend.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,6 +59,7 @@ public class SseController {
         SseEmitter emitter = new SseEmitter();
         notificationService.subscribe(notificationRequestDto.getUserid(), lastEventId);
 
+
         notificationService._addApply(notificationRequestDto);
         Notification notification = notificationService.getNewOne(notificationRequestDto.getUserid(),notificationRequestDto.getSender());
 
@@ -68,9 +68,5 @@ public class SseController {
 
         return ResponseEntity.ok(emitter);
     }
-    @PostMapping(value="/applyJobs")
-    public Notification apply (@RequestBody UserDto userDto){
-    return null;
-        //        return notificationService._applyJobs(userDto);
-    }
+
 }

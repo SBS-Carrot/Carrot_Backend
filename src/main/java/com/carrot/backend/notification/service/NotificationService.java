@@ -178,21 +178,35 @@ public class NotificationService {
                     .build();
             notificationRepository.save(notification);
         }else{
-            notificationRepository.delete(isExistNotification);
-             notification = Notification.builder()
-                    .user(user)
-                    .sender(sender)
-                    .notificationType(notificationRequestDto.getNotificationType())
-                    .content(notificationRequestDto.getContent())
-                    .url(notificationRequestDto.getUrl())
-                    .isRead(false)
-                    .build();
-            notificationRepository.save(notification);
-        }
-
+        notificationRepository.delete(isExistNotification);
+        notification = Notification.builder()
+                .user(user)
+                .sender(sender)
+                .notificationType(notificationRequestDto.getNotificationType())
+                .content(notificationRequestDto.getContent())
+                .url(notificationRequestDto.getUrl())
+                .isRead(false)
+                .build();
+        notificationRepository.save(notification);
     }
 
-    public void _addApply (NotificationRequestDto notificationRequestDto) throws Exception {
+}
 
+    public void _addApply (NotificationRequestDto notificationRequestDto) throws Exception {
+        User user = userRepository.findByUserid(notificationRequestDto.getUserid()).get();
+        User sender = userRepository.findByUserid(notificationRequestDto.getSender()).get();
+
+
+
+
+        Notification notification = Notification.builder()
+                .user(user)
+                .sender(sender)
+                .notificationType(notificationRequestDto.getNotificationType())
+                .content(notificationRequestDto.getContent())
+                .url(notificationRequestDto.getUrl())
+                .isRead(false)
+                .build();
+        notificationRepository.save(notification);
     }
 }

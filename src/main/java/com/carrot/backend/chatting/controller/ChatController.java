@@ -22,9 +22,6 @@ public class ChatController {
     private static final Set<String> SESSION_IDS = new HashSet<>();
 
 
-    //nosql 몽고DB 사용해서 채팅구현할것,
-
-
     @MessageMapping("/chat")
     public Chatting sendMessage(Chatting chatting, SimpMessageHeaderAccessor accessor){
         String roomNum = chatting.getRoomId();
@@ -82,7 +79,11 @@ public class ChatController {
         return messages;
     }
 
-
+    @GetMapping("/getChatList")
+    public List<ChattingRoom> getChatList(@RequestParam String userid){
+        List<ChattingRoom> rooms = chattingService.findAllRoomByUser(userid);
+        return rooms;
+    }
 
 
 }

@@ -80,4 +80,8 @@ Collections.reverse(result);
     public List<Chatting> getMessage(String roomId) {
        return chattingRepository.findByRoomId(roomId);
     }
+
+    public List<ChattingRoom> findAllRoomByUser(String userid) {
+        List<ChattingRoom> rooms = chattingRoomRepository.
+    }
 }
