@@ -83,5 +83,8 @@ public class BoardController {
         boardImageService.boardDelete(boardId , "board");
     }
 
-
+    @PostMapping("/boardedit/{boardId}")
+    public Board boardEdit(@PathVariable Integer boardId, @RequestBody BoardDto boardDto){
+        return boardService.setBoard(boardId, boardDto);
+    }
 }
