@@ -62,21 +62,26 @@ public class Realty {
     String realtyCategory;
 
     @Column
+    @NotNull
     String realtySpace;
 
     @Column
+    @NotNull
     String realtyArea;
 
     @Column
     String realtyWhole;
 
     @Column
+    @NotNull
     String realtyFloor;
 
     @Column
+    @NotNull
     String realtyRoom;
 
     @Column
+    @NotNull
     String realtyBath;
 
     @Column

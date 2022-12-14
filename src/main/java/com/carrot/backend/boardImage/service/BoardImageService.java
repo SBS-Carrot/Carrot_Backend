@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.carrot.backend.board.dao.BoardRepository;
+import com.carrot.backend.board.dao.CustomizedBoardRepositoryImpl;
 import com.carrot.backend.board.domain.Board;
 import com.carrot.backend.board.service.BoardService;
 import com.carrot.backend.boardImage.dao.BoardImageRepository;
@@ -33,7 +34,7 @@ public class BoardImageService {
     private final AmazonS3Client amazonS3Client;
     private final BoardImageRepository boardImageRepository;
     private final BoardService boardService;
-
+    private final CustomizedBoardRepositoryImpl customizedBoardRepository;
     private final BoardRepository boardRepository;
 
 
@@ -92,6 +93,31 @@ public class BoardImageService {
         return amazonS3Client.getUrl(bucket, fileName).toString();
     }
 
+    public void boardDelete(Integer boardId, String dirName) {
+        List<BoardImage> boardImages = boardImageRepository.findByBoardBoardId(boardId);
+
+        if (boardImages.size() > 0){
+            String[] image = new String[boardImages.size()];
+            for(int i =0; i<boardImages.size(); i++){
+                image[i] = boardImages.get(i).getBoardPath();
+                String[] filename = image[i].split(dirName + "/");
+                deleteS3File(filename[1], dirName);
+
+                BoardImage boardImage = boardImages.get(i);
+                boardImageRepository.delete(boardImage);
+            }
+
+            customizedBoardRepository.deleteQslBoardAndImageByBoardId(boardId);
+        }
+        else{
+            customizedBoardRepository.deleteQslBoardAndImageByBoardId(boardId);
+        }
+    }
+    public void deleteS3File(String fileName, String bucketFolder){
+        String file = bucketFolder+"/"+fileName;
+        amazonS3Client.deleteObject(bucket,file);
+    }
+
     private void removeNewFile (File targetFile){
         if (targetFile.delete()) {
             log.info("파일이 삭제되었습니다.");
@@ -112,4 +138,5 @@ public class BoardImageService {
         }
         return Optional.empty();
     }
+
 }

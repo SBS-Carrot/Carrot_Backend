@@ -7,6 +7,7 @@ import com.carrot.backend.boardImage.domain.QBoardImage;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,5 +42,19 @@ public class CustomizedBoardRepositoryImpl  implements CustomizedBoardRepository
                 .build();
 
         return boardDto;
+    }
+
+
+    @Override
+    @Transactional
+    public void deleteQslBoardAndImageByBoardId(Integer boardId) {
+//        Long boards = jpaQueryFactory
+//                .delete(QRealtyLike.realtyLike)
+//                .where(QRealtyLike.realtyLike.realty.realtyId.eq(boardId))
+//                .execute();
+        Long board = jpaQueryFactory
+                .delete(QBoard.board)
+                .where(QBoard.board.boardId.eq(boardId))
+                .execute();
     }
 }

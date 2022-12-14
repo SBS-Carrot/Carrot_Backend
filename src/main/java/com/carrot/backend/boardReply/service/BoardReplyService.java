@@ -57,4 +57,9 @@ public class BoardReplyService {
         List<BoardReplyDto> boardReply = customizedBoardReplyRepository.getQslReplyByBoard(board);
         return boardReply;
     }
+
+    public void delete(Integer boardId) {
+        Board board  = boardRepository.findByBoardId(boardId).get();
+        boardReplyRepository.deleteAllByBoard(board);
+    }
 }

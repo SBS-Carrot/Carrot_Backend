@@ -77,5 +77,11 @@ public class BoardController {
     public void boardView(@PathVariable Integer boardId){boardService.boardView(boardId);
     }
 
+    @PostMapping("/boardDelete/{boardId}")
+    public void boardDelete(@PathVariable Integer boardId){
+        boardReplyService.delete(boardId);
+        boardImageService.boardDelete(boardId , "board");
+    }
+
 
 }
