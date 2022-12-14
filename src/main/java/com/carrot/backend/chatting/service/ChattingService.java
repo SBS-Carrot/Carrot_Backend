@@ -81,7 +81,7 @@ Collections.reverse(result);
        return chattingRepository.findByRoomId(roomId);
     }
 
-    public List<ChattingRoom> findAllRoomByUser(String userid) {
-        List<ChattingRoom> rooms = chattingRoomRepository.
-    }
+//    public List<ChattingRoom> findAllRoomByUser(String userid) {
+//        List<ChattingRoom> rooms = chattingRoomRepository.
+//    }
 }
