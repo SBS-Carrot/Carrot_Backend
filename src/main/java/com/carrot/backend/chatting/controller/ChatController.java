@@ -79,11 +79,11 @@ public class ChatController {
         return messages;
     }
 
-    @GetMapping("/getChatList")
-    public List<ChattingRoom> getChatList(@RequestParam String userid){
-        List<ChattingRoom> rooms = chattingService.findAllRoomByUser(userid);
-        return rooms;
-    }
+//    @GetMapping("/getChatList")
+//    public List<ChattingRoom> getChatList(@RequestParam String userid){
+//        List<ChattingRoom> rooms = chattingService.findAllRoomByUser(userid);
+//        return rooms;
+//    }
 
 
 }
