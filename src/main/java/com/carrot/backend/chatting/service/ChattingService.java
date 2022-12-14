@@ -4,6 +4,7 @@ import com.carrot.backend.chatting.dao.ChattingRepository;
 import com.carrot.backend.chatting.dao.ChattingRoomRepository;
 import com.carrot.backend.chatting.domain.Chatting;
 import com.carrot.backend.chatting.domain.ChattingRoom;
+import com.carrot.backend.user.dao.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,8 @@ public class ChattingService {
 
     private final ChattingRepository chattingRepository;
     private final ChattingRoomRepository chattingRoomRepository;
+
+    private final UserRepository userRepository;
     @PostConstruct
     private void init(){
         chattingRoom = new LinkedHashMap<>();
@@ -51,10 +54,11 @@ Collections.reverse(result);
     //채팅방 생성
     public ChattingRoom createRoom(String roomId,String myname,String yourName){
 
+
         ChattingRoom room = ChattingRoom.builder()
                         .roomId(roomId)
                         .myName(myname)
-                .yourName(yourName)
+                        .yourName(yourName)
                         .build();
         chattingRoom.put(roomId, room);
         chattingRoomRepository.save(room);
@@ -81,7 +85,10 @@ Collections.reverse(result);
        return chattingRepository.findByRoomId(roomId);
     }
 
-//    public List<ChattingRoom> findAllRoomByUser(String userid) {
-//        List<ChattingRoom> rooms = chattingRoomRepository.
-//    }
+    public List<ChattingRoom> findAllRoomByUser(String userid) {
+        List<ChattingRoom> rooms = chattingRoomRepository.findByMyNameOrYourNameContaining(userid,userid);
+
+
+        return  rooms;
+    }
 }

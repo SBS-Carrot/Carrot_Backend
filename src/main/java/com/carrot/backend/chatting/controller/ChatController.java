@@ -37,6 +37,7 @@ public class ChatController {
         String myname = chattingRoom.getMyName();
         String yourName = chattingRoom.getYourName();
         String roomId = chattingRoom.getRoomId();
+
         return chattingService.createRoom(roomId,myname,yourName);
 
     }
@@ -79,11 +80,11 @@ public class ChatController {
         return messages;
     }
 
-//    @GetMapping("/getChatList")
-//    public List<ChattingRoom> getChatList(@RequestParam String userid){
-//        List<ChattingRoom> rooms = chattingService.findAllRoomByUser(userid);
-//        return rooms;
-//    }
+    @GetMapping("/getChatList")
+    public List<ChattingRoom> getChatList(@RequestParam String userid){
+        List<ChattingRoom> rooms = chattingService.findAllRoomByUser(userid);
+        return rooms;
+    }
 
 
 }

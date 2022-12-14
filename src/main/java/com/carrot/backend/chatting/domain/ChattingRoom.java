@@ -26,6 +26,7 @@ public class ChattingRoom {
         this.myName=myName;
         this.yourName=yourName;
         this.roomId=roomId;
+
     }
 
 
