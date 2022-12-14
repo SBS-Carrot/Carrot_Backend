@@ -91,4 +91,20 @@ public class BoardService {
         board.setBoardView(board.getBoardView() + 1);
         boardRepository.save(board);
     }
+
+    public Board setBoard(Integer boardId, BoardDto boardDto) {
+        Board board = boardRepository.findByBoardId(boardId).orElseThrow(()-> new DataNotFoundException("board not found"));
+
+        board.setBoardAddress(boardDto.getBoardAddress());
+        board.setBoardContent(boardDto.getBoardContent());
+        board.setBoardCategory(boardDto.getBoardCategory());
+        LocalDateTime date = LocalDateTime.now();
+        String dates = date.toString();
+        String yymmdd = dates.substring(0, 10);
+        System.out.println(yymmdd);
+        board.setCreateDate(yymmdd);
+
+        return boardRepository.save(board);
+
+    }
 }

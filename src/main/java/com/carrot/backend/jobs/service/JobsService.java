@@ -70,4 +70,24 @@ public class JobsService {
       List<Jobs> jobs = jobsRepository.findByJobPlaceContaining(search);
        return jobs;
     }
+
+    public Jobs setJobs(Integer jobsId, JobsDto jobsDto) {
+      Jobs jobs = jobsRepository.findByJobid(jobsId).orElseThrow(()-> new DataNotFoundException("jobs not found"));
+
+      jobs.setJobSubject(jobsDto.getJobSubject());
+      jobs.setJobCategory(jobs.getJobCategory());
+      jobs.setJobDay(jobsDto.getJobDay());
+      jobs.setJobStartTime(jobs.getJobStartTime());
+      jobs.setJobEndTime(jobs.getJobEndTime());
+      jobs.setJobName(jobsDto.getJobName());
+      jobs.setJobPlace(jobsDto.getJobPlace());
+      jobs.setJobContent(jobsDto.getJobContent());
+       LocalDateTime date = LocalDateTime.now();
+       String dates = date.toString();
+       String yymmdd = dates.substring(0, 10);
+       System.out.println(yymmdd);
+       jobs.setCreateDate(yymmdd);
+
+       return jobsRepository.save(jobs);
+   }
 }
