@@ -10,4 +10,6 @@ public interface BoardRepository extends JpaRepository<Board, Integer> , Customi
     List<Board> findAllByBoardCategory(String boardCategory);
 
     Optional<Board> findByBoardId(Integer boardId);
+
+
 }

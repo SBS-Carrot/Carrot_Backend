@@ -67,4 +67,11 @@ public class RealtyController {
     public void realtyDelete(@PathVariable Integer realtyId){
         realtyImageService.realtyDelete(realtyId, "realtyImages");
     }
+
+    @GetMapping("/realtysearch/{search}")
+    public List<Realty> realtySearch(@PathVariable String search){
+        List<Realty> realties = realtyService.getSearch(search);
+        return realties;
+    }
+
 }

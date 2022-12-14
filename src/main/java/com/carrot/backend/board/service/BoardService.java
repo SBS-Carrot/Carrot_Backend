@@ -54,21 +54,41 @@ public class BoardService {
     public List<Board> getBoardCate(Integer num){
         List<Board> getBoardCate = boardRepository.findAllByBoardCategory("동네 카페");
         List<Board> boards = new ArrayList<>();
-        for (int i = num; i < num + 7; i++){
-            if (i >= getBoardCate.size()){
-                break;
-            }
-                   boards.add(getBoardCate.get(i));
-        }
+        if(getBoardCate.size() - (num + 1) * 7 > 0) {
+            for (int i = getBoardCate.size() - (num * 7) - 1; i > getBoardCate.size() - (num + 1) * 7 - 1; i--) {
 
+                boards.add(getBoardCate.get(i));
+            }
+        }else{
+            for (int i = getBoardCate.size() - (num * 7) - 1; i >= 0; i--){
+                boards.add(getBoardCate.get(i));
+
+            }
+        }
         return  boards;
     }
 
+    public List<Board> getQueBoard(Integer qnum) {
+        List<Board> getQueBoard = boardRepository.findAllByBoardCategory("동네 질문");
+        List<Board> boardList = new ArrayList<>();
+        if(getQueBoard.size() - (qnum + 1) * 7 > 0) {
+            for (int i = getQueBoard.size() - (qnum * 7) - 1; i > getQueBoard.size() - (qnum + 1) * 7 - 1; i--) {
+
+                boardList.add(getQueBoard.get(i));
+            }
+        }else{
+            for (int i = getQueBoard.size() - (qnum * 7) - 1; i >= 0; i--){
+                boardList.add(getQueBoard.get(i));
+
+            }
+        }
+        return boardList;
+    }
+
+
     public void boardView(Integer boardId) {
         Board board = boardRepository.findByBoardId(boardId).orElseThrow(()-> new DataNotFoundException("board not found"));
-
         board.setBoardView(board.getBoardView() + 1);
-
         boardRepository.save(board);
     }
 }

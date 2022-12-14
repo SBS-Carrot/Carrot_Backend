@@ -87,7 +87,6 @@ public class RealtyService {
 
     }
 
-
     public RealtyDto getRealtyAndImage(Integer realtyId) {
         RealtyDto realtyDto = customizedRealtyRepository.getQslRealtyAndImagesByRealtyId(realtyId);
         return realtyDto;
@@ -99,5 +98,9 @@ public class RealtyService {
         realtyRepository.save(realty);
     }
 
+    public List<Realty> getSearch(String search) {
+        List<Realty> realties = realtyRepository.findByRealtyAddressContaining(search);
+        return realties;
+    }
 }
 

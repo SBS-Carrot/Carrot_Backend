@@ -27,7 +27,7 @@ public class CustomizedBoardReplyRepositoryImpl implements CustomizedBoardReplyR
                 for(int i = 0; i < boardReply.size(); i++){
                     BoardReplyDto boardReplys = BoardReplyDto.builder()
                 .ReplyUserAddress(boardReply.get(i).getReplyUserAddress())
-                .replyUserid(boardReply.get(i).getBoardReply())
+                .replyUserid(boardReply.get(i).getUser().getUserid())
                 .boardReply(boardReply.get(i).getBoardReply())
                 .id(boardReply.get(i).getId())
                 .profileImage(boardReply.get(i).getProfileImage())
