@@ -2,8 +2,10 @@ package com.carrot.backend.chatting.service;
 
 import com.carrot.backend.chatting.dao.ChattingRepository;
 import com.carrot.backend.chatting.dao.ChattingRoomRepository;
+import com.carrot.backend.chatting.dao.CustomizedChattingRoomRepositoryImpl;
 import com.carrot.backend.chatting.domain.Chatting;
 import com.carrot.backend.chatting.domain.ChattingRoom;
+import com.carrot.backend.chatting.dto.ChattingRoomDto;
 import com.carrot.backend.user.dao.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -22,6 +25,8 @@ public class ChattingService {
 
     private final ChattingRepository chattingRepository;
     private final ChattingRoomRepository chattingRoomRepository;
+
+    private final CustomizedChattingRoomRepositoryImpl customizedChattingRoomRepository;
 
     private final UserRepository userRepository;
     @PostConstruct
@@ -52,14 +57,18 @@ Collections.reverse(result);
     }
 
     //채팅방 생성
-    public ChattingRoom createRoom(String roomId,String myname,String yourName){
+    public ChattingRoom createRoom(String roomId,String myname,String yourName,String myURL, String yourURL, String type, Integer articleId){
 
 
         ChattingRoom room = ChattingRoom.builder()
-                        .roomId(roomId)
-                        .myName(myname)
-                        .yourName(yourName)
-                        .build();
+                .roomId(roomId)
+                .myName(myname)
+                .yourName(yourName)
+                .myURL(myURL)
+                .yourURL(yourURL)
+                .type(type)
+                .articleId(articleId)
+                .build();
         chattingRoom.put(roomId, room);
         chattingRoomRepository.save(room);
 
@@ -72,6 +81,8 @@ Collections.reverse(result);
         chat.setRoomId(chatting.getRoomId());
         chat.setType(chatting.getType());
         chat.setSender(chatting.getSender());
+        LocalDateTime date = LocalDateTime.now();
+        chat.setCreateDate(date);
         chattingRepository.save(chat);
         return chat;
     }
@@ -88,7 +99,11 @@ Collections.reverse(result);
     public List<ChattingRoom> findAllRoomByUser(String userid) {
         List<ChattingRoom> rooms = chattingRoomRepository.findByMyNameOrYourNameContaining(userid,userid);
 
-
         return  rooms;
+    }
+
+    public List<ChattingRoom> findRoomsByTypeAndId(ChattingRoomDto chattingRoomDto) {
+//        List<ChattingRoom> rooms = chattingRoomRepository.findByTypeAndArticleId(chattingRoomDto.getType(),chattingRoomDto.getArticleId());
+        return null;
     }
 }

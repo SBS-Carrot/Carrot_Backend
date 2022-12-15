@@ -4,6 +4,8 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.carrot.backend.board.dto.BoardDto;
+import com.carrot.backend.chatting.dao.ChattingRoomRepository;
+import com.carrot.backend.chatting.domain.ChattingRoom;
 import com.carrot.backend.jobs.dto.JobsDto;
 import com.carrot.backend.product.dto.ProductDto;
 import com.carrot.backend.realty.dto.RealtyDto;
@@ -39,6 +41,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AmazonS3Client amazonS3Client;
+
+    private final ChattingRoomRepository chattingRoomRepository;
 
     private final CustomizedUserRepositoryImpl customizedUserRepository;
 
@@ -161,6 +165,9 @@ public void changeUserProfileImage(UserDto userdto, List<MultipartFile> multipar
                 user.setProfileImage(path);
                 user.setNickname(userdto.getNickname());
                 userRepository.save(user);
+
+            changeRoomImage(user,path);
+
         }
         private String putS3 (File uploadFile, String fileName){
             amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(
@@ -193,6 +200,8 @@ public void changeUserProfileImage(UserDto userdto, List<MultipartFile> multipar
         deleteS3File(filename[1], bucketFolder);
         user.setProfileImage(null);
         userRepository.save(user);
+        resetRoomImage(user);
+
     }
 
     public void resetUserImage(UserDto userdto,String bucketFolder){
@@ -202,9 +211,34 @@ public void changeUserProfileImage(UserDto userdto, List<MultipartFile> multipar
         deleteS3File(filename[1],bucketFolder);
         user.setProfileImage(null);
         userRepository.save(user);
+        resetRoomImage(user);
+
     }
 
-
+    public void resetRoomImage (User user){
+        List<ChattingRoom> chattingRooms = chattingRoomRepository.findByMyNameOrYourNameContaining(user.getUserid(),user.getUserid());
+        for(int i=0;i<chattingRooms.size(); i++){
+            if(chattingRooms.get(i).getMyName().equals(user.getUserid())){
+                chattingRooms.get(i).setMyURL(null);
+                chattingRoomRepository.save(chattingRooms.get(i));
+            }else{
+                chattingRooms.get(i).setYourURL(null);
+                chattingRoomRepository.save(chattingRooms.get(i));
+            }
+        }
+    }
+    public void changeRoomImage (User user,String URL){
+        List<ChattingRoom> chattingRooms = chattingRoomRepository.findByMyNameOrYourNameContaining(user.getUserid(),user.getUserid());
+        for(int i=0;i<chattingRooms.size(); i++){
+            if(chattingRooms.get(i).getMyName().equals(user.getUserid())){
+                chattingRooms.get(i).setMyURL(URL);
+                chattingRoomRepository.save(chattingRooms.get(i));
+            }else{
+                chattingRooms.get(i).setYourURL(URL);
+                chattingRoomRepository.save(chattingRooms.get(i));
+            }
+        }
+    }
     public boolean checkpassword(UserDto userDto) {
         User user = userRepository.findByUserid(userDto.getUserid()).orElseThrow(()-> new DataNotFoundException("user not found"));
         if(user==null){

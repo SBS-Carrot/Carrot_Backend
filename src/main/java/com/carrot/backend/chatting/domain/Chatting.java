@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -23,6 +24,6 @@ public class Chatting {
     private String roomId;
     private String sender;
     private String message;
-
+    private LocalDateTime createDate;
 
 }

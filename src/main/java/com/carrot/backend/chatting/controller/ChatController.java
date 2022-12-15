@@ -2,6 +2,7 @@ package com.carrot.backend.chatting.controller;
 
 import com.carrot.backend.chatting.domain.Chatting;
 import com.carrot.backend.chatting.domain.ChattingRoom;
+import com.carrot.backend.chatting.dto.ChattingRoomDto;
 import com.carrot.backend.chatting.service.ChattingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -37,8 +38,11 @@ public class ChatController {
         String myname = chattingRoom.getMyName();
         String yourName = chattingRoom.getYourName();
         String roomId = chattingRoom.getRoomId();
-
-        return chattingService.createRoom(roomId,myname,yourName);
+        String myURL = chattingRoom.getMyURL();
+        String yourURL = chattingRoom.getYourURL();
+        String type = chattingRoom.getType();
+        Integer articleId = chattingRoom.getArticleId();
+        return chattingService.createRoom(roomId,myname,yourName,myURL,yourURL,type, articleId);
 
     }
 
@@ -71,7 +75,12 @@ public class ChatController {
     public ChattingRoom findRoom(@RequestParam String myName, @RequestParam String yourName){
         ChattingRoom room = chattingService.findByUser(myName,yourName);
         return room;
+    }
 
+    @GetMapping("/getRooms")
+    public List<ChattingRoom> getRooms(@RequestBody ChattingRoomDto chattingRoomDto){
+        List<ChattingRoom> rooms = chattingService.findRoomsByTypeAndId(chattingRoomDto);
+        return rooms;
     }
 
     @GetMapping("/getMessage")

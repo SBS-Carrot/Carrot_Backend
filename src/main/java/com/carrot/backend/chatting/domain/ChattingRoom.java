@@ -19,13 +19,23 @@ public class ChattingRoom {
 
     private String yourName;
 
+    private String myURL;
+
+    private String yourURL;
+
+    private Integer articleId;
+    private String type;
 
 
     @Builder
-    public ChattingRoom(String roomId,String myName, String yourName){
+    public ChattingRoom(String roomId,String myName, String yourName,String myURL,String yourURL, String type, Integer articleId){
         this.myName=myName;
         this.yourName=yourName;
         this.roomId=roomId;
+        this.myURL = myURL;
+        this.yourURL=yourURL;
+        this.type = type;
+        this.articleId=articleId;
 
     }
 
