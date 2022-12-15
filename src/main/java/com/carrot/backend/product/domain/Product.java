@@ -47,7 +47,8 @@ public class Product {
     @NotEmpty
     String productCategory;
 
-
+    @Column
+    String productDeal;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     @JsonIgnore

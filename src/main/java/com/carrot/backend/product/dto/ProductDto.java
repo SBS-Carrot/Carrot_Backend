@@ -25,9 +25,13 @@ public class ProductDto {
 
     Integer productLike;
 
+    String productDeal;
+
     String productUserid;
 
     String productCreateTime;
+
+    String profileImage;
 
     String productCategory;
 

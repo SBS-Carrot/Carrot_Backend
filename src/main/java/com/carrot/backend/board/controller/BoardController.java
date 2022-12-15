@@ -87,4 +87,10 @@ public class BoardController {
     public Board boardEdit(@PathVariable Integer boardId, @RequestBody BoardDto boardDto){
         return boardService.setBoard(boardId, boardDto);
     }
+
+    @PostMapping("/replyDelete/{replyId}")
+    public void replyDelete(@PathVariable Integer replyId){
+        boardReplyService.replyDelete(replyId);
+    }
+
 }

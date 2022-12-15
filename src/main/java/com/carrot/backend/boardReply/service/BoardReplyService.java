@@ -62,4 +62,14 @@ public class BoardReplyService {
         Board board  = boardRepository.findByBoardId(boardId).get();
         boardReplyRepository.deleteAllByBoard(board);
     }
+
+    public void replyDelete(Integer replyId) {
+
+        BoardReply boardReply = boardReplyRepository.findById(replyId).orElseThrow(()->new DataNotFoundException("reply not found"));
+        Board board = boardReply.getBoard();
+        board.setBoardChattingNum(board.getBoardChattingNum() - 1);
+        boardRepository.save(board);
+        boardReplyRepository.deleteById(replyId);
+
+    }
 }
