@@ -32,7 +32,7 @@ public class BoardController {
         return boardService.getBoardCate(num);
     }
 
-    @GetMapping("/Qboards")
+    @GetMapping("/qboards")
     public List<Board> getQueBoards(@RequestParam(value = "qnum") Integer qnum){
         System.out.println("Qnum" + qnum);
         return boardService.getQueBoard(qnum);
