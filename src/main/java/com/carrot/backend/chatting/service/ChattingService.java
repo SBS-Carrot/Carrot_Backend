@@ -70,6 +70,7 @@ Collections.reverse(result);
                 .articleId(articleId)
                 .build();
         chattingRoom.put(roomId, room);
+
         chattingRoomRepository.save(room);
 
         return room;
@@ -84,6 +85,10 @@ Collections.reverse(result);
         LocalDateTime date = LocalDateTime.now();
         chat.setCreateDate(date);
         chattingRepository.save(chat);
+        ChattingRoom room = findById(chatting.getRoomId());
+        room.setLastMessage(chatting.getMessage());
+        chattingRoomRepository.save(room);
+
         return chat;
     }
 
@@ -102,8 +107,9 @@ Collections.reverse(result);
         return  rooms;
     }
 
-    public List<ChattingRoom> findRoomsByTypeAndId(ChattingRoomDto chattingRoomDto) {
-//        List<ChattingRoom> rooms = chattingRoomRepository.findByTypeAndArticleId(chattingRoomDto.getType(),chattingRoomDto.getArticleId());
-        return null;
+    public ChattingRoom findRoomsByTypeAndId(ChattingRoomDto chattingRoomDto) {
+        ChattingRoom rooms = customizedChattingRoomRepository.getQslChattingRoomByTypeAndIdWithUser(chattingRoomDto.getType(), chattingRoomDto.getArticleId(), chattingRoomDto.getMyName(),chattingRoomDto.getYourName());
+
+        return rooms;
     }
 }

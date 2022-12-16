@@ -4,6 +4,8 @@ import com.carrot.backend.chatting.domain.Chatting;
 import com.carrot.backend.chatting.domain.ChattingRoom;
 import com.carrot.backend.chatting.dto.ChattingRoomDto;
 import com.carrot.backend.chatting.service.ChattingService;
+import com.carrot.backend.product.Service.ProductService;
+import com.carrot.backend.realty.service.RealtyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
@@ -19,6 +21,10 @@ import java.util.Set;
 public class ChatController {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final ChattingService chattingService;
+
+    private final ProductService productService;
+
+    private final RealtyService realtyService;
 
     private static final Set<String> SESSION_IDS = new HashSet<>();
 
@@ -42,6 +48,11 @@ public class ChatController {
         String yourURL = chattingRoom.getYourURL();
         String type = chattingRoom.getType();
         Integer articleId = chattingRoom.getArticleId();
+        if(type.equals("product")) {
+            productService.addChatNumProduct(articleId);
+        }else if(type.equals("realty")){
+            realtyService.addChatNumRealty(articleId);
+        }
         return chattingService.createRoom(roomId,myname,yourName,myURL,yourURL,type, articleId);
 
     }
@@ -71,17 +82,22 @@ public class ChatController {
         return chattingService.findById(roomId);
     }
 
+    @PostMapping("/getRoomByType/{roomId}")
+    public ChattingRoom getRoomByTypes (@PathVariable String roomId,@RequestBody ChattingRoomDto chattingRoomDto ){
+        return chattingService.findRoomsByTypeAndId(chattingRoomDto);
+    }
+
     @GetMapping("/getChattingRoom")
     public ChattingRoom findRoom(@RequestParam String myName, @RequestParam String yourName){
         ChattingRoom room = chattingService.findByUser(myName,yourName);
         return room;
     }
 
-    @GetMapping("/getRooms")
-    public List<ChattingRoom> getRooms(@RequestBody ChattingRoomDto chattingRoomDto){
-        List<ChattingRoom> rooms = chattingService.findRoomsByTypeAndId(chattingRoomDto);
-        return rooms;
-    }
+//    @GetMapping("/getRooms")
+//    public List<ChattingRoom> getRooms(@RequestBody ChattingRoomDto chattingRoomDto){
+//        List<ChattingRoom> rooms = chattingService.findRoomsByTypeAndId(chattingRoomDto);
+//        return rooms;
+//    }
 
     @GetMapping("/getMessage")
     public List<Chatting> getMessages(@RequestParam String roomId){

@@ -131,6 +131,13 @@ public class ProductService {
                 .productUserid(product.getProductUserid())
                 .build();
     }
+
+    public void addChatNumProduct(Integer articleId) {
+        Product product = productRepository.findByProductId(articleId).get();
+        product.setProductChatting(product.getProductChatting()+1);
+        productRepository.save(product);
+
+    }
 //
 //    public ProductDto setProductWithImage(Integer productId) {
 //        ProductDto product = customizedProductRepository.setQslProductsAndImagesByProductId(productId);

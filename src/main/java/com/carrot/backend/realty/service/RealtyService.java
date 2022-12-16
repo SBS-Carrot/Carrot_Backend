@@ -102,5 +102,11 @@ public class RealtyService {
         List<Realty> realties = realtyRepository.findByRealtyAddressContaining(search);
         return realties;
     }
+
+    public void addChatNumRealty(Integer articleId) {
+        Realty realty = realtyRepository.findByRealtyId(articleId).get();
+        realty.setRealtyChatting(realty.getRealtyChatting()+1);
+        realtyRepository.save(realty);
+    }
 }
 

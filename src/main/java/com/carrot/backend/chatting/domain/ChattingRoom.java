@@ -26,6 +26,7 @@ public class ChattingRoom {
     private Integer articleId;
     private String type;
 
+    private String lastMessage;
 
     @Builder
     public ChattingRoom(String roomId,String myName, String yourName,String myURL,String yourURL, String type, Integer articleId){
