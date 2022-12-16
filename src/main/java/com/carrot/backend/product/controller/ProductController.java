@@ -5,6 +5,9 @@ import com.carrot.backend.product.domain.Product;
 import com.carrot.backend.product.dto.ProductDto;
 import com.carrot.backend.productImage.Service.ProductImageService;
 import com.carrot.backend.productLike.service.ProductLikeService;
+import com.carrot.backend.productReview.domain.ProductReview;
+import com.carrot.backend.productReview.dto.ProductReviewDto;
+import com.carrot.backend.productReview.service.ProductReviewService;
 import lombok.AllArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,8 @@ public class ProductController {
     private final ProductService productService;
     private final ProductLikeService productLikeService;
     private final ProductImageService productImageService;
+
+    private final ProductReviewService productReviewService;
 
     @GetMapping("")
     public List<Product> getProducts(){
@@ -89,5 +94,12 @@ public class ProductController {
         System.out.println("1번" + keyword);
 
         return productService.searchProduct(keyword);
+    }
+
+
+    @PostMapping("/productReview")
+    public ProductReview productReview(@RequestBody ProductReviewDto productReviewDto){
+        System.out.println("pr" + productReviewDto.getProductId() + productReviewDto.getProductReview() + productReviewDto.getSellUserId());
+        return productReviewService.addReview(productReviewDto);
     }
 }
