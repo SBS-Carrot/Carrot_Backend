@@ -9,4 +9,6 @@ import javax.transaction.Transactional;
 public interface BoardReplyRepository extends JpaRepository<BoardReply, Integer>,CustomizedBoardReplyRepository {
     @Transactional
     void deleteAllByBoard(Board board);
+
+    BoardReply findByBoardBoardId(Integer boardId);
 }

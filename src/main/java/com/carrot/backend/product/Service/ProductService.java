@@ -59,6 +59,7 @@ public class ProductService {
         newProduct.setProductChatting(0);
         newProduct.setProductLike(0);
         newProduct.setProductView(0);
+        newProduct.setProductDeal("판매중");
         newProduct.setProductUserid(productDto.getProductUserid());
         LocalDateTime date = LocalDateTime.now();
         String dates = date.toString();
@@ -108,15 +109,11 @@ public class ProductService {
     public List<ProductDto> searchProduct(String keyword) {
         List<Product> products = productRepository.findByProductSubject(keyword);
         List<ProductDto> productDtoList = new ArrayList<>();
-        System.out.println("2번" + products);
         if(products.isEmpty()){
             return productDtoList;
-
         }
-        System.out.println("3번"+ productDtoList);
         for(Product product : products) {
             productDtoList.add(this.searchDto(product));
-            System.out.println("4번");
         }
         return productDtoList;
     }

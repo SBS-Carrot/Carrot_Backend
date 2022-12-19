@@ -104,6 +104,9 @@ public class CustomizedUserRepositoryImpl implements CustomizedUserRepository{
                     .productDealAddress(product.getProductDealAddress())
                     .profileImage(product.getProfileImage())
                     .productUserid(product.getProductUserid())
+
+                    .productDeal(product.getProductDeal())
+
                     .build();
             productDto.add(productdto);
         }

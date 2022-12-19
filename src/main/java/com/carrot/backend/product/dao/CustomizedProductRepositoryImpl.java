@@ -7,7 +7,6 @@ import com.carrot.backend.productImage.domain.QProductImages;
 import com.carrot.backend.productLike.domain.QProductLike;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.ColumnTransformer;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -52,6 +51,7 @@ public class CustomizedProductRepositoryImpl implements CustomizedProductReposit
                 .productPrice(product.getProductPrice())
                 .productDealAddress(product.getProductDealAddress())
                 .productUserid(product.getProductUserid())
+                .productDeal(product.getProductDeal())
                 .images(imagePaths)
                 .build();
 
