@@ -73,7 +73,6 @@ public class ProductController {
 
     @PostMapping("/productEdit/{productId}")
     public Product productEdit(@PathVariable Integer productId, @RequestBody ProductDto productDto){
-        System.out.println("5번확인");
         return productService.setProduct(productId, productDto);
     }
 

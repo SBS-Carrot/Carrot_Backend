@@ -85,5 +85,10 @@ public class JobsController {
         return jobs;
     }
 
+    @PostMapping("/jobsEdit/{jobsId}")
+    public Jobs jobsEdit(@PathVariable Integer jobsId, @RequestBody JobsDto jobsDto){
+        return  jobsService.setJobs(jobsId, jobsDto);
+    }
+
 }
 
