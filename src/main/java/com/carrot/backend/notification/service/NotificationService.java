@@ -1,11 +1,13 @@
 package com.carrot.backend.notification.service;
 
+import com.carrot.backend.chatting.dao.ChattingRoomRepository;
 import com.carrot.backend.notification.NotificationDto.NotificationDto;
 import com.carrot.backend.notification.NotificationDto.NotificationRequestDto;
 import com.carrot.backend.notification.dao.EmitterRepository;
 import com.carrot.backend.notification.dao.NotificationRepository;
 import com.carrot.backend.notification.domain.Notification;
 import com.carrot.backend.notification.domain.NotificationType;
+import com.carrot.backend.notification.domain.RelatedURL;
 import com.carrot.backend.user.dao.UserRepository;
 import com.carrot.backend.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,8 @@ import java.util.stream.Collectors;
 public class NotificationService {
 
     private final EmitterRepository emitterRepository;
+
+    private final ChattingRoomRepository chattingRoomRepository;
 
     private final UserRepository userRepository;
 
@@ -161,10 +165,13 @@ public class NotificationService {
 
     @Transactional
     public void _addChat(NotificationRequestDto notificationRequestDto) throws Exception {
+        String url = notificationRequestDto.getUrl();
         User user = userRepository.findByUserid(notificationRequestDto.getUserid()).get();
         User sender = userRepository.findByUserid(notificationRequestDto.getSender()).get();
+        RelatedURL relatedURL1 = new RelatedURL(url);
 
-        Notification isExistNotification = notificationRepository.findByNotificationTypeAndSender(notificationRequestDto.getNotificationType(),sender).orElse(new Notification());
+        Notification isExistNotification = notificationRepository.findByUrl(relatedURL1).orElse(new Notification());
+
         Notification notification;
 
         if(isExistNotification.getUser() == null){

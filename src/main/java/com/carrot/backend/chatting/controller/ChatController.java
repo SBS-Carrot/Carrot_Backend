@@ -88,8 +88,9 @@ public class ChatController {
     }
 
     @GetMapping("/getChattingRoom")
-    public ChattingRoom findRoom(@RequestParam String myName, @RequestParam String yourName){
-        ChattingRoom room = chattingService.findByUser(myName,yourName);
+    public List<ChattingRoom> findRoom(@RequestParam String myName, @RequestParam String yourName){
+        List<ChattingRoom> room = chattingService.findByUser(myName,yourName);
+
         return room;
     }
 

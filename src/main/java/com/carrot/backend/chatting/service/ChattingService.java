@@ -92,8 +92,9 @@ Collections.reverse(result);
         return chat;
     }
 
-    public ChattingRoom findByUser(String myName, String yourName) {
-        ChattingRoom room = chattingRoomRepository.findByMyNameAndYourName(myName,yourName);
+    public List<ChattingRoom> findByUser(String myName, String yourName) {
+        List<ChattingRoom> room = chattingRoomRepository.findByMyNameAndYourName(myName,yourName);
+
         return room;
     }
 

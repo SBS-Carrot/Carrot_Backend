@@ -2,6 +2,7 @@ package com.carrot.backend.notification.dao;
 
 import com.carrot.backend.notification.domain.Notification;
 import com.carrot.backend.notification.domain.NotificationType;
+import com.carrot.backend.notification.domain.RelatedURL;
 import com.carrot.backend.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,4 +25,5 @@ public interface NotificationRepository extends JpaRepository<Notification,Long>
     void deleteAllByUser(User user);
     void deleteById(Long notificationId);
 
+    Optional<Notification> findByUrl(RelatedURL url);
 }
