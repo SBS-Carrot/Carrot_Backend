@@ -82,6 +82,10 @@ public class ChatController {
         return chattingService.findById(roomId);
     }
 
+    @GetMapping("/getRoomByProductId/{productId}")
+    public List<ChattingRoom> getRoomByProductId(@PathVariable Integer productId){
+        return chattingService.findByArticleId(productId);
+    }
     @PostMapping("/getRoomByType/{roomId}")
     public ChattingRoom getRoomByTypes (@PathVariable String roomId,@RequestBody ChattingRoomDto chattingRoomDto ){
         return chattingService.findRoomsByTypeAndId(chattingRoomDto);

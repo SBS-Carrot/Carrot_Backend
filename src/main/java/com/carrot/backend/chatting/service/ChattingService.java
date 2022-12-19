@@ -113,4 +113,9 @@ Collections.reverse(result);
 
         return rooms;
     }
+
+    public List<ChattingRoom> findByArticleId(Integer productId) {
+        List<ChattingRoom> room = chattingRoomRepository.findByArticleIdAndType(productId,"product");
+        return room;
+    }
 }

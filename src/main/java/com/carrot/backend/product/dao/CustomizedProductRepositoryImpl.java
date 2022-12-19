@@ -51,6 +51,7 @@ public class CustomizedProductRepositoryImpl implements CustomizedProductReposit
                 .productPrice(product.getProductPrice())
                 .productDealAddress(product.getProductDealAddress())
                 .productUserid(product.getProductUserid())
+                .productBuyUserid(product.getProductBuyUserid())
                 .productDeal(product.getProductDeal())
                 .images(imagePaths)
                 .build();

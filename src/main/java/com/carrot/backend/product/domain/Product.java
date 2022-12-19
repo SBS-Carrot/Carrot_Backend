@@ -38,7 +38,8 @@ public class Product {
     Integer productLike;
     @Column
     String productUserid;
-
+    @Column
+    String productBuyUserid;
     @Column
     String profileImage;
 
@@ -56,5 +57,7 @@ public class Product {
 
     @Column
     String productDealAddress;
+
+
 
 }

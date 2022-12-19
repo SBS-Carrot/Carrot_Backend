@@ -29,6 +29,8 @@ public class ProductDto {
 
     String productUserid;
 
+    String productBuyUserid;
+
     String productCreateTime;
 
     String profileImage;
@@ -36,8 +38,6 @@ public class ProductDto {
     String productCategory;
 
     List<String> images;
-
-    String profileImage;
 
     String productDealAddress;
 

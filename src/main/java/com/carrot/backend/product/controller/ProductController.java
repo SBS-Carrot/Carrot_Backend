@@ -102,4 +102,10 @@ public class ProductController {
         System.out.println("pr" + productReviewDto.getProductId() + productReviewDto.getProductReview() + productReviewDto.getSellUserId());
         return productReviewService.addReview(productReviewDto);
     }
+
+    @PostMapping("/productBuyReview")
+    public ProductReview productBuyReview(@RequestBody ProductReviewDto productReviewDto){
+
+        return productReviewService.addBuyReview(productReviewDto);
+    }
 }
