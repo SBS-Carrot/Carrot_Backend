@@ -19,7 +19,6 @@ public class CustomizedChattingRoomRepositoryImpl implements CustomizedChattingR
                 .where(QChattingRoom.chattingRoom.myName.eq(myname))
                 .where(QChattingRoom.chattingRoom.yourName.eq(yourname))
                 .fetchOne();
-
 //        ChattingRoomDto chattingRoomDto
 //        JobsDto jobsDto = JobsDto.builder()
 //                .jobid(jobs.getJobid())
