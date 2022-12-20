@@ -1,4 +1,4 @@
-package com.carrot.backend.productReview.dto;
+package com.carrot.backend.reatlyReview.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,19 +9,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductReviewDto {
+public class RealtyReviewDto {
+
     Integer id;
 
-    String productReview;
+    String realtyReview;
 
-    Integer productId;
+    Integer realtyId;
 
     String buyUserId;
 
     String sellUserId;
-
-    String reqReviewId;
-
-    String resReviewId;
-
 }

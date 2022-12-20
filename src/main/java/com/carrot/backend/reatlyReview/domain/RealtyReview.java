@@ -1,6 +1,6 @@
-package com.carrot.backend.productReview.domain;
+package com.carrot.backend.reatlyReview.domain;
 
-import com.carrot.backend.product.domain.Product;
+import com.carrot.backend.realty.domain.Realty;
 import com.carrot.backend.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AllArgsConstructor;
@@ -15,15 +15,15 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="product_review")
+@Table(name="realty_review")
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class ProductReview {
+public class RealtyReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch =FetchType.LAZY)
-    private Product product;
+    private Realty realty;
 
     @ManyToOne(fetch =FetchType.LAZY)
     private User buyUser;
@@ -32,13 +32,6 @@ public class ProductReview {
     private User sellUser;
 
     @Column
-    private String productReview;
-
-    @ManyToOne(fetch =FetchType.LAZY)
-    private User reqReview;
-
-    @ManyToOne(fetch =FetchType.LAZY)
-    private User resReview;
-
+    private String realtyReview;
 
 }

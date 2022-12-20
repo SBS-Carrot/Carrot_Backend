@@ -5,6 +5,9 @@ import com.carrot.backend.realty.dto.RealtyDto;
 import com.carrot.backend.realty.service.RealtyService;
 import com.carrot.backend.realtyImage.service.RealtyImageService;
 import com.carrot.backend.realtyLike.service.RealtyLikeService;
+import com.carrot.backend.reatlyReview.domain.RealtyReview;
+import com.carrot.backend.reatlyReview.dto.RealtyReviewDto;
+import com.carrot.backend.reatlyReview.service.RealtyReviewService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +23,8 @@ public class RealtyController {
     private final RealtyImageService realtyImageService;
 
     private final RealtyLikeService realtyLikeService;
+
+    private final RealtyReviewService realtyReviewService;
     @GetMapping("/realty")
     public List<Realty> getsRealty(){
         return realtyService.getsRealty();
@@ -74,4 +79,8 @@ public class RealtyController {
         return realties;
     }
 
+    @PostMapping("/realtyReview")
+    public RealtyReview realtyReview(@RequestBody RealtyReviewDto realtyReviewDto){
+        return realtyReviewService.addRealtyReview(realtyReviewDto);
+    }
 }

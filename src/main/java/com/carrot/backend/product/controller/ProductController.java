@@ -95,8 +95,6 @@ public class ProductController {
 
         return productService.searchProduct(keyword);
     }
-
-
     @PostMapping("/productReview")
     public ProductReview productReview(@RequestBody ProductReviewDto productReviewDto){
         System.out.println("pr" + productReviewDto.getProductId() + productReviewDto.getProductReview() + productReviewDto.getSellUserId());

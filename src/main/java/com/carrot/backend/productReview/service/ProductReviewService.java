@@ -63,16 +63,19 @@ public class ProductReviewService {
         Product product = productRepository.findByProductId(productReviewDto.getProductId()).get();
         productReview.setProduct(product);
         product.setProductDeal("거래 완료");
-        System.out.println("dkdk" + productReviewDto.getProductReview());
+
+        productReview.setReqReview(sellUser);
+        productReview.setResReview(buyUser);
+
         if(productReview.getProductReview().equals("별로예요")){
             buyUser.setTemp(buyUser.getTemp() - 0.5);
-            System.out.println("1" + buyUser);
+
         }else if(productReview.getProductReview().equals("좋아요")){
             buyUser.setTemp(buyUser.getTemp() + 0.5);
-            System.out.println("2" + buyUser);
+
         }else if(productReview.getProductReview().equals("최고예요")){
             buyUser.setTemp(buyUser.getTemp() + 1);
-            System.out.println("3" + buyUser);
+
         }
         userRepository.save(buyUser);
 
