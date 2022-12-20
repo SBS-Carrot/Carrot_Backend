@@ -34,7 +34,11 @@ public class ProductReview {
     @Column
     private String productReview;
 
+    @ManyToOne(fetch =FetchType.LAZY)
+    private User reqReview;
 
+    @ManyToOne(fetch =FetchType.LAZY)
+    private User resReview;
 
 
 }

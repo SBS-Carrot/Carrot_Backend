@@ -20,5 +20,8 @@ public class ProductReviewDto {
 
     String sellUserId;
 
+    String reqReviewId;
+
+    String resReviewId;
 
 }
