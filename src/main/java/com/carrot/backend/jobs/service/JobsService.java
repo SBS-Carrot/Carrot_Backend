@@ -75,13 +75,15 @@ public class JobsService {
       Jobs jobs = jobsRepository.findByJobid(jobsId).orElseThrow(()-> new DataNotFoundException("jobs not found"));
 
       jobs.setJobSubject(jobsDto.getJobSubject());
-      jobs.setJobCategory(jobs.getJobCategory());
+      jobs.setJobCategory(jobsDto.getJobCategory());
       jobs.setJobDay(jobsDto.getJobDay());
-      jobs.setJobStartTime(jobs.getJobStartTime());
-      jobs.setJobEndTime(jobs.getJobEndTime());
+      jobs.setJobStartTime(jobsDto.getJobStartTime());
+      jobs.setJobEndTime(jobsDto.getJobEndTime());
       jobs.setJobName(jobsDto.getJobName());
       jobs.setJobPlace(jobsDto.getJobPlace());
       jobs.setJobContent(jobsDto.getJobContent());
+      jobs.setJobPrice(jobsDto.getJobPrice());
+
        LocalDateTime date = LocalDateTime.now();
        String dates = date.toString();
        String yymmdd = dates.substring(0, 10);

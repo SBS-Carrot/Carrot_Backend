@@ -20,4 +20,8 @@ public class RealtyReviewDto {
     String buyUserId;
 
     String sellUserId;
+
+    String reqReviewId;
+
+    String resReviewId;
 }
