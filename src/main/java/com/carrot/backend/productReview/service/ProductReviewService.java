@@ -66,10 +66,10 @@ public class ProductReviewService {
         productReview.setProductReview(productReviewDto.getProductReview());
         Product product = productRepository.findByProductId(productReviewDto.getProductId()).get();
         productReview.setProduct(product);
-        product.setProductDeal("거래 완료");
 
-        productReview.setReqReview(sellUser);
-        productReview.setResReview(buyUser);
+
+        productReview.setReqReview(buyUser);
+        productReview.setResReview(sellUser);
 
         if(productReview.getProductReview().equals("별로예요")){
             buyUser.setTemp(buyUser.getTemp() - 0.5);
