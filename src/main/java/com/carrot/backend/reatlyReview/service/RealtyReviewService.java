@@ -41,7 +41,6 @@ public class RealtyReviewService {
             buyUser.setTemp(buyUser.getTemp() + 1);
         }
         userRepository.save(buyUser);
-
         return realtyReviewRepository.save(review);
     }
 }
