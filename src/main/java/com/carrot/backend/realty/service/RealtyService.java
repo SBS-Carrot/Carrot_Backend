@@ -98,7 +98,6 @@ public class RealtyService {
         realty.setRealtyCheck(realty.getRealtyCheck() +1);
         realtyRepository.save(realty);
     }
-
     public List<Realty> getSearch(String search) {
         List<Realty> realties = realtyRepository.findByRealtyAddressContaining(search);
         return realties;
