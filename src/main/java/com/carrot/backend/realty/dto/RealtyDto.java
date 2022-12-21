@@ -16,6 +16,8 @@ public class RealtyDto {
 
     String realtyUserid;
 
+    String realtyBuyUserid;
+
     String createDate;
 
     String realtyWho;
@@ -91,4 +93,8 @@ public class RealtyDto {
     List<String> images;
 
     String realtyIntroduce;
+
+    boolean reviewFinished;
+
+    String isRealtyDeal;
 }

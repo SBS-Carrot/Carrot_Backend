@@ -83,4 +83,10 @@ public class RealtyController {
     public RealtyReview realtyReview(@RequestBody RealtyReviewDto realtyReviewDto){
         return realtyReviewService.addRealtyReview(realtyReviewDto);
     }
+
+    @PostMapping("/realtyBuyReview")
+    public RealtyReview realtyBuyReview(@RequestBody RealtyReviewDto realtyReviewDto){
+
+        return realtyReviewService.addBuyRealtyReview(realtyReviewDto);
+    }
 }

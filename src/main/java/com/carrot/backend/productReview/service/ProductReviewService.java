@@ -67,7 +67,7 @@ public class ProductReviewService {
         Product product = productRepository.findByProductId(productReviewDto.getProductId()).get();
         productReview.setProduct(product);
 
-
+        product.setReviewFinished(true);
         productReview.setReqReview(buyUser);
         productReview.setResReview(sellUser);
 

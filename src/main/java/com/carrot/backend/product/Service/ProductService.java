@@ -67,6 +67,7 @@ public class ProductService {
         System.out.println(yymmdd);
         newProduct.setProductCreateTime(yymmdd);
         newProduct.setProductDealAddress(productDto.getProductDealAddress());
+        newProduct.setReviewFinished(false);
         productRepository.save(newProduct);
         return newProduct.getProductId();
     }

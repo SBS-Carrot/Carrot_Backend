@@ -22,19 +22,22 @@ public class RealtyReviewService {
     public RealtyReview addRealtyReview(RealtyReviewDto realtyReviewDto) {
         RealtyReview review = new RealtyReview();
 
+        String userid = realtyReviewDto.getRealtySellUserId();
+        User sellUser = userRepository.findByUserid(userid).get();
+        review.setSellUser(sellUser);
+        User buyUser = userRepository.findByUserid(realtyReviewDto.getRealtyBuyUserId()).get();
+        review.setBuyUser(buyUser);
+
         review.setRealtyReview(realtyReviewDto.getRealtyReview());
         Realty realty = realtyRepository.findByRealtyId(realtyReviewDto.getRealtyId()).get();
         review.setRealty(realty);
-        realty.setRealtyDeal("거래 완료");
-
-        String userid = realtyReviewDto.getSellUserId();
-        User sellUser = userRepository.findByUserid(userid).get();
-        review.setSellUser(sellUser);
-        User buyUser = userRepository.findByUserid(realtyReviewDto.getBuyUserId()).get();
-        review.setBuyUser(buyUser);
+        realty.setRealtyBuyUserid(buyUser.getUserid());
+        realty.setIsRealtyDeal("거래 완료");
 
         review.setReqReview(sellUser);
         review.setResReview(buyUser);
+
+        realtyRepository.save(realty);
 
         if(review.getRealtyReview().equals("별로예요")){
             buyUser.setTemp(buyUser.getTemp() - 0.5);
@@ -45,5 +48,40 @@ public class RealtyReviewService {
         }
         userRepository.save(buyUser);
         return realtyReviewRepository.save(review);
+    }
+
+    public RealtyReview addBuyRealtyReview(RealtyReviewDto realtyReviewDto) {
+        RealtyReview realtyReview = new RealtyReview();
+
+        String userid = realtyReviewDto.getRealtySellUserId();
+        User sellUser = userRepository.findByUserid(userid).get();
+        realtyReview.setSellUser(sellUser);
+        User buyUser = userRepository.findByUserid(realtyReviewDto.getRealtyBuyUserId()).get();
+        realtyReview.setBuyUser(buyUser);
+
+        realtyReview.setRealtyReview(realtyReviewDto.getRealtyReview());
+        Realty realty = realtyRepository.findByRealtyId(realtyReviewDto.getRealtyId()).get();
+        realtyReview.setRealty(realty);
+
+        realty.setReviewFinished(true);
+        realtyReview.setReqReview(buyUser);
+        realtyReview.setResReview(sellUser);
+
+
+
+        if(realtyReviewDto.getRealtyReview().equals("별로예요")){
+            sellUser.setTemp(sellUser.getTemp() - 0.5);
+
+
+        }else if(realtyReviewDto.getRealtyReview().equals("좋아요")){
+            sellUser.setTemp(sellUser.getTemp() + 0.5);
+
+        }else if(realtyReviewDto.getRealtyReview().equals("최고예요")){
+            sellUser.setTemp(sellUser.getTemp() + 1);
+
+        }
+        userRepository.save(sellUser);
+
+        return realtyReviewRepository.save(realtyReview);
     }
 }

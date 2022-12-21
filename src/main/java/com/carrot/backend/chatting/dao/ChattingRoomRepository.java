@@ -10,7 +10,7 @@ public interface ChattingRoomRepository extends JpaRepository<ChattingRoom, Stri
 
     List<ChattingRoom> findByMyNameOrYourNameContaining(String myName,String yourName);
 
-    List<ChattingRoom> findByArticleIdAndType(Integer productId, String type);
+    List<ChattingRoom> findByArticleIdAndType(Integer articleId, String type);
 
 //    List<ChattingRoom> findByMyNameOrYourNameContainingAndTypeAndArticleId(String type, Integer articleId);
 }
