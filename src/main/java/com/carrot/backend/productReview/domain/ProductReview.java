@@ -3,10 +3,7 @@ package com.carrot.backend.productReview.domain;
 import com.carrot.backend.product.domain.Product;
 import com.carrot.backend.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -39,6 +36,7 @@ public class ProductReview {
 
     @ManyToOne(fetch =FetchType.LAZY)
     private User resReview;
+
 
 
 }

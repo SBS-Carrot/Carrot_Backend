@@ -53,6 +53,7 @@ public class CustomizedProductRepositoryImpl implements CustomizedProductReposit
                 .productUserid(product.getProductUserid())
                 .productBuyUserid(product.getProductBuyUserid())
                 .productDeal(product.getProductDeal())
+                .reviewFinished(product.isReviewFinished())
                 .images(imagePaths)
                 .build();
 

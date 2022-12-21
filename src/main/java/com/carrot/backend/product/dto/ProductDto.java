@@ -41,4 +41,5 @@ public class ProductDto {
 
     String productDealAddress;
 
+    boolean reviewFinished;
 }

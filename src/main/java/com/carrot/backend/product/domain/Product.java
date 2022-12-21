@@ -58,6 +58,7 @@ public class Product {
     @Column
     String productDealAddress;
 
-
+    @Column
+    private boolean reviewFinished;
 
 }
