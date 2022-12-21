@@ -17,7 +17,10 @@ public class RealtyReviewDto {
 
     Integer realtyId;
 
-    String buyUserId;
+    String realtyBuyUserId;
 
-    String sellUserId;
+    String realtySellUserId;
+    String reqReviewId;
+
+    String resReviewId;
 }

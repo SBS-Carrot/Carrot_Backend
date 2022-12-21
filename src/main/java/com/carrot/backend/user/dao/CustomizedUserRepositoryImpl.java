@@ -75,6 +75,9 @@ public class CustomizedUserRepositoryImpl implements CustomizedUserRepository{
                     .realtyLike(realty.getRealtyLike())
                     .realtyCheck(realty.getRealtyCheck())
                     .profileImage(realty.getProfileImage())
+                    .isRealtyDeal(realty.getIsRealtyDeal())
+                    .reviewFinished(realty.isReviewFinished())
+                    .realtyBuyUserid(realty.getRealtyBuyUserid())
                     .build();
             realtyDto.add(realtydto);
         }

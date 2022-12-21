@@ -45,6 +45,8 @@ public class RealtyService {
         newRealty.setRealtyPet(realtyDto.getRealtyPet());
         newRealty.setRealtyParking(realtyDto.getRealtyParking());
         newRealty.setRealtyElevator(realtyDto.getRealtyElevator());
+        newRealty.setReviewFinished(false);
+        newRealty.setIsRealtyDeal("판매중");
         String[] insideArr = new String[realtyDto.getRealtyInside().length];
         String[] inside =  realtyDto.getRealtyInside();
         if(insideArr.length == 0){

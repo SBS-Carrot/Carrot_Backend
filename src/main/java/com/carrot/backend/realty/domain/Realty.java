@@ -25,6 +25,9 @@ public class Realty {
     @Column
     String realtyUserid;
 
+    @Column
+    String realtyBuyUserid;
+
     String createDate;
 
     @Column
@@ -146,4 +149,10 @@ public class Realty {
 
     @Column
     String realtyIntroduce;
+
+    @Column
+    boolean reviewFinished;
+
+    @Column
+    String isRealtyDeal;
 }
