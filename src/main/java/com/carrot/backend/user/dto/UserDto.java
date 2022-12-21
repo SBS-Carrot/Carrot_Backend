@@ -2,6 +2,7 @@ package com.carrot.backend.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Data;
+
 @Data
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class UserDto {
@@ -24,5 +25,11 @@ public class UserDto {
     private String phone;
 
     private String profileImage;
+
+    private Integer sadReview;
+
+    private Integer smileReview;
+
+    private Integer happyReview;
 
 }
