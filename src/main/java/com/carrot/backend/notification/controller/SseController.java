@@ -21,14 +21,15 @@ public class SseController {
     private final NotificationService notificationService;
 
     ExecutorService taskExecutor = Executors.newSingleThreadExecutor();
-    @GetMapping(value="/sse/{userid}")
+
+    @GetMapping(value = "/sse/{userid}")
     public ResponseEntity<SseEmitter> publish(@PathVariable String userid,
-                                             @RequestHeader(value = "Last-Event-ID",required = false, defaultValue = "") String lastEventId) throws Exception {
+                                              @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) throws Exception {
         SseEmitter emitter = new SseEmitter();
 
         notificationService.subscribe(userid, lastEventId);
 
-        List<NotificationDto> dto =  notificationService.findAllNotifications(userid);
+        List<NotificationDto> dto = notificationService.findAllNotifications(userid);
         emitter.send(SseEmitter.event().name("get").data(dto)
 //                .reconnectTime(0)
         );
@@ -40,13 +41,14 @@ public class SseController {
 
 
     }
+
     @PostMapping("/addChatNotification")
-    public ResponseEntity<SseEmitter> addChat(@RequestBody NotificationRequestDto notificationRequestDto, @RequestHeader(value = "Last-Event-ID",required = false, defaultValue = "") String lastEventId) throws Exception{
+    public ResponseEntity<SseEmitter> addChat(@RequestBody NotificationRequestDto notificationRequestDto, @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) throws Exception {
         SseEmitter emitter = new SseEmitter();
         notificationService.subscribe(notificationRequestDto.getUserid(), lastEventId);
 
         notificationService._addChat(notificationRequestDto);
-        Notification notification = notificationService.getNewOne(notificationRequestDto.getUserid(),notificationRequestDto.getSender());
+        Notification notification = notificationService.getNewOne(notificationRequestDto.getUserid(), notificationRequestDto.getSender());
 
 //        emitter.send(SseEmitter.event().name("new").data(notification).reconnectTime(0));
 //        emitter.complete();
@@ -54,14 +56,15 @@ public class SseController {
 
         return ResponseEntity.ok(emitter);
     }
+
     @PostMapping("/addApplyNotification")
-    public ResponseEntity<SseEmitter> addApply(@RequestBody NotificationRequestDto notificationRequestDto, @RequestHeader(value = "Last-Event-ID",required = false, defaultValue = "") String lastEventId) throws Exception{
+    public ResponseEntity<SseEmitter> addApply(@RequestBody NotificationRequestDto notificationRequestDto, @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) throws Exception {
         SseEmitter emitter = new SseEmitter();
         notificationService.subscribe(notificationRequestDto.getUserid(), lastEventId);
 
 
         notificationService._addApply(notificationRequestDto);
-        Notification notification = notificationService.getNewOne(notificationRequestDto.getUserid(),notificationRequestDto.getSender());
+        Notification notification = notificationService.getNewOne(notificationRequestDto.getUserid(), notificationRequestDto.getSender());
 
 //        emitter.send(SseEmitter.event().name("new").data(notification).reconnectTime(0));
 //        emitter.complete();
@@ -69,4 +72,13 @@ public class SseController {
         return ResponseEntity.ok(emitter);
     }
 
+    @PostMapping("/addReviewNotification")
+    public ResponseEntity<SseEmitter> addReview(@RequestBody NotificationRequestDto notificationRequestDto, @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) throws Exception {
+        SseEmitter emitter = new SseEmitter();
+        notificationService.subscribe(notificationRequestDto.getUserid(), lastEventId);
+
+        notificationService._addReview(notificationRequestDto);
+        return ResponseEntity.ok(emitter);
+    }
 }
+
