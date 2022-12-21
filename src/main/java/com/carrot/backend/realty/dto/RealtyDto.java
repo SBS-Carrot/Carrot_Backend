@@ -96,5 +96,5 @@ public class RealtyDto {
 
     boolean reviewFinished;
 
-    String isRealtyDeal;
+
 }

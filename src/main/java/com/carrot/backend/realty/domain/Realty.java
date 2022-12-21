@@ -153,6 +153,5 @@ public class Realty {
     @Column
     boolean reviewFinished;
 
-    @Column
-    String isRealtyDeal;
+
 }
