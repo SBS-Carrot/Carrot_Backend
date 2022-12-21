@@ -33,6 +33,9 @@ public class RealtyReviewService {
         User buyUser = userRepository.findByUserid(realtyReviewDto.getBuyUserId()).get();
         review.setBuyUser(buyUser);
 
+        review.setReqReview(sellUser);
+        review.setResReview(buyUser);
+
         if(review.getRealtyReview().equals("별로예요")){
             buyUser.setTemp(buyUser.getTemp() - 0.5);
         }else if(review.getRealtyReview().equals("좋아요")){

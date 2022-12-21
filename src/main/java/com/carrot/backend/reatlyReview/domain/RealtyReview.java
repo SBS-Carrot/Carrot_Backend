@@ -34,4 +34,10 @@ public class RealtyReview {
     @Column
     private String realtyReview;
 
+    @ManyToOne(fetch =FetchType.LAZY)
+    private User reqReview;
+
+    @ManyToOne(fetch =FetchType.LAZY)
+    private User resReview;
+
 }
