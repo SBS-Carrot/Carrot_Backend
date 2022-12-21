@@ -65,18 +65,18 @@ public class RealtyReviewService {
         realtyReview.setReqReview(buyUser);
         realtyReview.setResReview(sellUser);
 
-        System.out.println("테스트트세트트트ㅡ세트");
+
 
         if(realtyReviewDto.getRealtyReview().equals("별로예요")){
             sellUser.setTemp(sellUser.getTemp() - 0.5);
-            System.out.println("여기여기");
+
 
         }else if(realtyReviewDto.getRealtyReview().equals("좋아요")){
             sellUser.setTemp(sellUser.getTemp() + 0.5);
-            System.out.println("저기저기");
+
         }else if(realtyReviewDto.getRealtyReview().equals("최고예요")){
             sellUser.setTemp(sellUser.getTemp() + 1);
-            System.out.println("거기거ㅣ");
+
         }
         userRepository.save(sellUser);
 
