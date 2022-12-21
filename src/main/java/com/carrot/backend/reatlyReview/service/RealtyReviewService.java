@@ -32,7 +32,7 @@ public class RealtyReviewService {
         Realty realty = realtyRepository.findByRealtyId(realtyReviewDto.getRealtyId()).get();
         review.setRealty(realty);
         realty.setRealtyBuyUserid(buyUser.getUserid());
-        realty.setIsRealtyDeal("거래 완료");
+        realty.setRealtyDeal("거래 완료");
 
         review.setReqReview(sellUser);
         review.setResReview(buyUser);

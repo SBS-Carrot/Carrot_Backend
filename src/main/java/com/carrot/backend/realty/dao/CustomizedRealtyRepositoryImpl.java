@@ -71,7 +71,6 @@ public class CustomizedRealtyRepositoryImpl implements CustomizedRealtyRepositor
                 .profileImage(realty.getProfileImage())
                 .reviewFinished(realty.isReviewFinished())
                 .realtyBuyUserid(realty.getRealtyBuyUserid())
-
                 .images(imagePaths)
                 .build();
         return realtyDto;
