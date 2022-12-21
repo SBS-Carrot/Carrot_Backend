@@ -85,14 +85,11 @@ public class RealtyService {
         realtyRepository.save(newRealty);
 
         return newRealty.getRealtyId();
-
     }
-
     public RealtyDto getRealtyAndImage(Integer realtyId) {
         RealtyDto realtyDto = customizedRealtyRepository.getQslRealtyAndImagesByRealtyId(realtyId);
         return realtyDto;
     }
-
     public void _realtyCheck(Integer realtyId) {
         Realty realty = realtyRepository.findByRealtyId(realtyId).orElseThrow(()-> new DataNotFoundException("realty not found"));
         realty.setRealtyCheck(realty.getRealtyCheck() +1);
