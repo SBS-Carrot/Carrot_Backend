@@ -35,19 +35,21 @@ public class ProductReviewService {
         productReview.setProduct(product);
         product.setProductDeal("거래 완료");
 
-        productReview.setResReview(buyUser);
         productReview.setReqReview(sellUser);
+        productReview.setResReview(buyUser);
 
         productRepository.save(product);
         if(productReview.getProductReview().equals("별로예요")){
             buyUser.setTemp(buyUser.getTemp() - 0.5);
+            buyUser.setSadReview(buyUser.getSadReview() + 1);
 
         }else if(productReview.getProductReview().equals("좋아요")){
             buyUser.setTemp(buyUser.getTemp() + 0.5);
+            buyUser.setSmileReview(buyUser.getSmileReview() + 1);
 
         }else if(productReview.getProductReview().equals("최고예요")){
             buyUser.setTemp(buyUser.getTemp() + 1);
-
+            buyUser.setHappyReview(buyUser.getHappyReview() + 1);
         }
         userRepository.save(buyUser);
 
@@ -67,22 +69,26 @@ public class ProductReviewService {
         Product product = productRepository.findByProductId(productReviewDto.getProductId()).get();
         productReview.setProduct(product);
 
-
+        product.setReviewFinished(true);
         productReview.setReqReview(buyUser);
         productReview.setResReview(sellUser);
 
+        //받은 평가에 대한 변화
         if(productReview.getProductReview().equals("별로예요")){
-            buyUser.setTemp(buyUser.getTemp() - 0.5);
+            sellUser.setTemp(sellUser.getTemp() - 0.5);
+            sellUser.setSadReview(sellUser.getSadReview() + 1);
 
         }else if(productReview.getProductReview().equals("좋아요")){
-            buyUser.setTemp(buyUser.getTemp() + 0.5);
+            sellUser.setTemp(sellUser.getTemp() + 0.5);
+            sellUser.setSmileReview(sellUser.getSmileReview() + 1);
 
         }else if(productReview.getProductReview().equals("최고예요")){
-            buyUser.setTemp(buyUser.getTemp() + 1);
-
+            sellUser.setTemp(sellUser.getTemp() + 1);
+            sellUser.setHappyReview(sellUser.getHappyReview() + 1);
         }
-        userRepository.save(buyUser);
+        userRepository.save(sellUser);
 
         return productReviewRepository.save(productReview);
     }
+
 }

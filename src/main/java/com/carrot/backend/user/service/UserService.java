@@ -85,7 +85,11 @@ public class UserService {
                 .phone(phone)
                 .role("ROLE_USER")
                 .temp(36.5)
+                .happyReview(0)
+                .sadReview(0)
+                .smileReview(0)
                 .build();
+
         userRepository.save(user);
         return user;
     }

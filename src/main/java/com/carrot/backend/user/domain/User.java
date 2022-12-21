@@ -55,6 +55,16 @@ public class User implements UserDetails{
 
     @Column
     private String profileImage;
+
+    @Column
+    private Integer sadReview;
+
+    @Column
+    private Integer smileReview;
+
+    @Column
+    private Integer happyReview;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collect = new ArrayList<>();
@@ -67,8 +77,6 @@ public class User implements UserDetails{
         });
         return collect;
     }
-
-
 
     @Override
     public boolean isAccountNonExpired() {
