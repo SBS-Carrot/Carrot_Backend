@@ -203,9 +203,6 @@ public class NotificationService {
         User user = userRepository.findByUserid(notificationRequestDto.getUserid()).get();
         User sender = userRepository.findByUserid(notificationRequestDto.getSender()).get();
 
-
-
-
         Notification notification = Notification.builder()
                 .user(user)
                 .sender(sender)
@@ -217,11 +214,9 @@ public class NotificationService {
         notificationRepository.save(notification);
     }
 
-    public void _addReview(NotificationRequestDto notificationRequestDto) {
+    public void _addReview(NotificationRequestDto notificationRequestDto)  throws Exception{
         User user = userRepository.findByUserid(notificationRequestDto.getUserid()).get();
         User sender = userRepository.findByUserid(notificationRequestDto.getSender()).get();
-
-
 
 
         Notification notification = Notification.builder()

@@ -72,7 +72,7 @@ public class SseController {
         return ResponseEntity.ok(emitter);
     }
 
-    @PostMapping("/addReviewNotification")
+   @PostMapping("/addReviewNotification")
     public ResponseEntity<SseEmitter> addReview(@RequestBody NotificationRequestDto notificationRequestDto, @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) throws Exception {
         SseEmitter emitter = new SseEmitter();
         notificationService.subscribe(notificationRequestDto.getUserid(), lastEventId);
@@ -80,5 +80,7 @@ public class SseController {
         notificationService._addReview(notificationRequestDto);
         return ResponseEntity.ok(emitter);
     }
+
+
 }
 

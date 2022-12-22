@@ -104,4 +104,10 @@ public class ProductController {
     public ProductReview productBuyReview(@RequestBody ProductReviewDto productReviewDto){
         return productReviewService.addBuyReview(productReviewDto);
     }
+
+    @GetMapping("/hotProduct")
+    public List<Product> hotProduct(){
+        return productService.hotProduct();
+    }
+
 }

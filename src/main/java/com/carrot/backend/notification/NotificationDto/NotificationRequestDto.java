@@ -13,7 +13,6 @@ public class NotificationRequestDto {
     private NotificationType notificationType;
     private String content;
     private String url;
-
     private String sender;
 
 
