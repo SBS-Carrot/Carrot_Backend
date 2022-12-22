@@ -60,6 +60,18 @@ public class CustomizedProductRepositoryImpl implements CustomizedProductReposit
         return productDto;
     }
 
+    public List<ProductDto> getQslProductsBySearch(String search){
+
+//        List<Product> products = jpaQueryFactory
+//                .select(QProduct.product)
+//                .from(QProduct.product)
+//                .innerJoin(QProductImages.productImages)
+//                .on(QProduct.product.productId.eq(productId))
+//                .fetchOne();
+
+        return null;
+    }
+
     @Override
     @Transactional
     public void deleteQslProductAndLikeByProductId(Integer productId) {

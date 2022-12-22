@@ -11,4 +11,6 @@ public interface RealtyRepository extends JpaRepository<Realty, Integer>, Custom
 
 
     List<Realty> findByRealtyAddressContaining(String search);
+
+    List<Realty> findByRealtyAddressContainingOrRealtyCategoryContainingOrRealtyContentContainingOrRealtyDealingContainingOrRealtyIntroduceContaining(String keyword,String keyword1,String keyword2,String keyword3,String keyword4);
 }

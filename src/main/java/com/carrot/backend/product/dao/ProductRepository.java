@@ -11,6 +11,8 @@ public interface ProductRepository extends JpaRepository <Product, Integer>, Cus
 
     Optional<Product> findByProductId(Integer productId);
 
-
     List<Product> findByProductSubject(String keyword);
+
+    List<Product> findByProductSubjectContainingOrProductContentContainingOrProductCategoryContainingOrProductDealAddressContaining(String keyword,String keyword1,String keyword2,String keyword3);
+
 }

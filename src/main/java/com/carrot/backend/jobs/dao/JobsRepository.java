@@ -10,4 +10,6 @@ public interface JobsRepository extends JpaRepository<Jobs, Integer>,CustomizedJ
     Optional<Jobs> findByJobid(Integer jobid);
 
     List<Jobs> findByJobPlaceContaining(String search);
+
+    List<Jobs> findByJobContentContainingOrJobDayContainingOrJobNameContainingOrJobPlaceContainingOrJobSubjectContaining(String keyword,String keyword1,String keyword2,String keyword3,String keyword4);
 }
