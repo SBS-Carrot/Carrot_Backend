@@ -139,7 +139,7 @@ public class ProductService {
     }
 
     public List<Product> hotProduct() {
-       return productRepository.findAll(Sort.by(Sort.Direction.ASC, "productView"));
+       return productRepository.findAll(Sort.by(Sort.Direction.ASC, "productView","productCreateTime"));
 
     }
 //

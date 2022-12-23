@@ -8,6 +8,7 @@ import com.carrot.backend.productLike.service.ProductLikeService;
 import com.carrot.backend.productReview.domain.ProductReview;
 import com.carrot.backend.productReview.dto.ProductReviewDto;
 import com.carrot.backend.productReview.service.ProductReviewService;
+import com.carrot.backend.realty.domain.Realty;
 import lombok.AllArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -109,5 +110,7 @@ public class ProductController {
     public List<Product> hotProduct(){
         return productService.hotProduct();
     }
+
+
 
 }

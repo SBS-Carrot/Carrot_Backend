@@ -6,6 +6,7 @@ import com.carrot.backend.realty.domain.Realty;
 import com.carrot.backend.realty.dto.RealtyDto;
 import com.carrot.backend.util.DataNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -104,6 +105,10 @@ public class RealtyService {
         Realty realty = realtyRepository.findByRealtyId(articleId).get();
         realty.setRealtyChatting(realty.getRealtyChatting()+1);
         realtyRepository.save(realty);
+    }
+
+    public List<Realty> realtyDong() {
+        return realtyRepository.findAll(Sort.by(Sort.Direction.ASC,  "createDate"));
     }
 }
 
