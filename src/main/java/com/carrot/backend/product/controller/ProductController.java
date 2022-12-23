@@ -65,6 +65,11 @@ public class ProductController {
         return productService.getProductWithImage(productId);
     }
 
+    @GetMapping("/getProductByDongGu")
+    public List<Product> getDongGu(){
+        return productService.getProductDongGu();
+    }
+
     @PostMapping("/productView/{productId}")
     public void productView(@PathVariable Integer productId){
         productService.View(productId);

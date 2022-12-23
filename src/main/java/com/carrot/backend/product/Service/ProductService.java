@@ -136,6 +136,10 @@ public class ProductService {
         productRepository.save(product);
 
     }
+
+    public List<Product> getProductDongGu() {
+        return productRepository.findByProductDealAddressContaining("동구");
+    }
 //
 //    public ProductDto setProductWithImage(Integer productId) {
 //        ProductDto product = customizedProductRepository.setQslProductsAndImagesByProductId(productId);

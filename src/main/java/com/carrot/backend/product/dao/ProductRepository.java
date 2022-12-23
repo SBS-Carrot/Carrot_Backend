@@ -15,4 +15,5 @@ public interface ProductRepository extends JpaRepository <Product, Integer>, Cus
 
     List<Product> findByProductSubjectContainingOrProductContentContainingOrProductCategoryContainingOrProductDealAddressContaining(String keyword,String keyword1,String keyword2,String keyword3);
 
+    List<Product> findByProductDealAddressContaining(String keyword);
 }
