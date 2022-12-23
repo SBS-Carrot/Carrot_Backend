@@ -9,6 +9,7 @@ import com.carrot.backend.productImage.domain.ProductImages;
 import com.carrot.backend.util.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -139,6 +140,10 @@ public class ProductService {
 
     public List<Product> getProductDongGu() {
         return productRepository.findByProductDealAddressContaining("동구");
+    }
+    public List<Product> hotProduct(){
+       return productRepository.findAll(Sort.by(Sort.Direction.ASC, "productView","productCreateTime"));
+
     }
 //
 //    public ProductDto setProductWithImage(Integer productId) {

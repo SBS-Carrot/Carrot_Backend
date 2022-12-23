@@ -49,10 +49,18 @@ public class BoardController {
 
         return boardService.getBoard(id);
     }
-
     @PostMapping("/createBoardImages")
     public Board createBoardImages(@RequestPart(value = "boardDto") BoardDto boardDto, @RequestPart(value = "file") List<MultipartFile> multipartFile) throws IOException {
         Integer id = boardService.createBoard(boardDto);
+        boardImageService.uploads(id, multipartFile, "board");
+
+        return boardService.getBoard(id);
+    }
+
+    @PostMapping("/boardEditImages")
+    public Board editBoardImages(@RequestPart(value = "boardDto") BoardDto boardDto, @RequestPart(value = "file") List<MultipartFile> multipartFile) throws IOException {
+        Board board = boardService.setBoard(boardDto.getBoardId(),boardDto);
+        Integer id = board.getBoardId();
         boardImageService.uploads(id,multipartFile, "board" );
 
         return boardService.getBoard(id);

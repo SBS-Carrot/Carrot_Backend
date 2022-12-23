@@ -17,5 +17,6 @@ public interface CustomizedProductRepository {
 
     List<ProductDto> getQslProductsBySearch(String search);
 
+
 }
 
