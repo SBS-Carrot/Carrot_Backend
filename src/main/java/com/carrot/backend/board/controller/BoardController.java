@@ -4,6 +4,7 @@ import com.carrot.backend.board.domain.Board;
 import com.carrot.backend.board.dto.BoardDto;
 import com.carrot.backend.board.service.BoardService;
 import com.carrot.backend.boardImage.service.BoardImageService;
+import com.carrot.backend.boardLike.service.BoardLikeService;
 import com.carrot.backend.boardReply.dto.BoardReplyDto;
 import com.carrot.backend.boardReply.service.BoardReplyService;
 import lombok.AllArgsConstructor;
@@ -19,8 +20,9 @@ public class BoardController {
 
     private final BoardService boardService;
     private final BoardImageService boardImageService;
-
     private final BoardReplyService boardReplyService;
+
+    private final BoardLikeService boardLikeService;
 
     @GetMapping("/board")
     public List<Board> getBoards(){
@@ -101,6 +103,15 @@ public class BoardController {
         boardReplyService.replyDelete(replyId);
     }
 
+    @GetMapping("/likeBoard/{boardId}")
+    public boolean boardLike(@RequestParam Integer boardId, @RequestParam String userid){
+        return boardLikeService.addBoardLike(boardId, userid);
+    }
+
+    @GetMapping("/likeBoardCheck/{boardId}")
+    public boolean boardCheck(@RequestParam Integer boardId, @RequestParam String userid){
+        return boardLikeService.likeCheck(boardId, userid);
+    }
 
 
 }
