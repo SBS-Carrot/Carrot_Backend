@@ -110,5 +110,9 @@ public class RealtyService {
     public List<Realty> realtyDong() {
         return realtyRepository.findAll(Sort.by(Sort.Direction.ASC,  "createDate"));
     }
+
+    public List<Realty> hotRealty() {
+        return realtyRepository.findAll(Sort.by(Sort.Direction.ASC, "realtyCheck", "createDate"));
+    }
 }
 
