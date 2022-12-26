@@ -89,9 +89,13 @@ public class RealtyController {
 
         return realtyReviewService.addBuyRealtyReview(realtyReviewDto);
     }
-
     @GetMapping("/realtyDong")
     public List<Realty> realtyDong(){
         return realtyService.realtyDong();
+    }
+
+    @GetMapping("/hotRealty")
+    public List<Realty> hotRealty(){
+        return realtyService.hotRealty();
     }
 }

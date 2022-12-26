@@ -7,6 +7,7 @@ import com.carrot.backend.jobs.dto.JobsDto;
 import com.carrot.backend.util.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -92,4 +93,8 @@ public class JobsService {
 
        return jobsRepository.save(jobs);
    }
+
+    public List<Jobs> getHotJobs() {
+       return jobsRepository.findAll(Sort.by(Sort.Direction.ASC, "jobCheck","createDate"));
+    }
 }

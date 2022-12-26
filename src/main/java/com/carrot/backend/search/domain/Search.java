@@ -1,6 +1,5 @@
 package com.carrot.backend.search.domain;
 
-import com.carrot.backend.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,8 +22,6 @@ public class Search {
     @Column
     String searchWord;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    User user;
 
     @Column
     String category;

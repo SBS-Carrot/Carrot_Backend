@@ -12,7 +12,6 @@ import com.carrot.backend.search.dao.SearchRepository;
 import com.carrot.backend.search.domain.Search;
 import com.carrot.backend.search.dto.SearchDto;
 import com.carrot.backend.user.dao.UserRepository;
-import com.carrot.backend.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -43,8 +42,6 @@ public class SearchService {
             Search search2 = new Search();
             search2.setSearchWord(searchDto.getSearchWord());
             search2.setSearchNum(1);
-            User user = userRepository.findByUserid(searchDto.getUserid()).get();
-            search2.setUser(user);
             searchRepository.save(search2);
         }
 
@@ -64,8 +61,7 @@ public class SearchService {
             Search search2 = new Search();
             search2.setSearchWord(searchDto.getSearchWord());
             search2.setSearchNum(1);
-            User user = userRepository.findByUserid(searchDto.getUserid()).get();
-            search2.setUser(user);
+
             searchRepository.save(search2);
         }
 
@@ -85,8 +81,7 @@ public class SearchService {
             Search search2 = new Search();
             search2.setSearchWord(searchDto.getSearchWord());
             search2.setSearchNum(1);
-            User user = userRepository.findByUserid(searchDto.getUserid()).get();
-            search2.setUser(user);
+
             searchRepository.save(search2);
         }
 
@@ -105,8 +100,7 @@ public class SearchService {
             Search search2 = new Search();
             search2.setSearchWord(searchDto.getSearchWord());
             search2.setSearchNum(1);
-            User user = userRepository.findByUserid(searchDto.getUserid()).get();
-            search2.setUser(user);
+
             searchRepository.save(search2);
         }
 

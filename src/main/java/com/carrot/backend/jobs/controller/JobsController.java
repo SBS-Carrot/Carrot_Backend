@@ -90,5 +90,10 @@ public class JobsController {
         return  jobsService.setJobs(jobsId, jobsDto);
     }
 
+    @GetMapping("/hotJobs")
+    public List<Jobs> hotJobs(){
+        return jobsService.getHotJobs();
+    }
+
 }
 

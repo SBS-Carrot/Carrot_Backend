@@ -14,7 +14,5 @@ public class SearchDto {
 
     String searchWord;
 
-    String userid;
-
     String category;
 }
