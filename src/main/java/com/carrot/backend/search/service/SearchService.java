@@ -14,6 +14,7 @@ import com.carrot.backend.search.dto.SearchDto;
 import com.carrot.backend.user.dao.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -108,5 +109,9 @@ public class SearchService {
 
 
         return boards;
+    }
+
+    public List<Search> _getHotSearch() {
+        return searchRepository.findAll(Sort.by(Sort.Direction.ASC,"searchNum"));
     }
 }
