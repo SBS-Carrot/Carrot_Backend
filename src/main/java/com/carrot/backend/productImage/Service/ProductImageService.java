@@ -39,6 +39,7 @@ public class ProductImageService {
     private final AmazonS3Client amazonS3Client;
     private final ProductLikeRepository productLikeRepository;
 
+
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
