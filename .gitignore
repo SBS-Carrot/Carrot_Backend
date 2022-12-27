@@ -1,4 +1,5 @@
 HELP.md
+application-credentials.yml
 .gradle
 application-credentials.yml
 build/
