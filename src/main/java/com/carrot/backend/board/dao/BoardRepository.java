@@ -13,4 +13,5 @@ public interface BoardRepository extends JpaRepository<Board, Integer> , Customi
 
     List<Board> findByBoardAddressContainingOrBoardContentContaining(String keyword,String keyword1);
 
+
 }
