@@ -4,6 +4,8 @@ import com.carrot.backend.board.domain.Board;
 import com.carrot.backend.board.domain.QBoard;
 import com.carrot.backend.board.dto.BoardDto;
 import com.carrot.backend.boardImage.domain.QBoardImage;
+import com.carrot.backend.boardLike.domain.QBoardLike;
+import com.carrot.backend.boardReply.domain.QBoardReply;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -48,10 +50,14 @@ public class CustomizedBoardRepositoryImpl  implements CustomizedBoardRepository
     @Override
     @Transactional
     public void deleteQslBoardAndImageByBoardId(Integer boardId) {
-//        Long boards = jpaQueryFactory
-//                .delete(QRealtyLike.realtyLike)
-//                .where(QRealtyLike.realtyLike.realty.realtyId.eq(boardId))
-//                .execute();
+        Long board2 = jpaQueryFactory
+                .delete(QBoardLike.boardLike)
+                .where(QBoardLike.boardLike.board.boardId.eq(boardId))
+                .execute();
+        Long boards = jpaQueryFactory
+                .delete(QBoardReply.boardReply1)
+                .where(QBoardReply.boardReply1.board.boardId.eq(boardId))
+                .execute();
         Long board = jpaQueryFactory
                 .delete(QBoard.board)
                 .where(QBoard.board.boardId.eq(boardId))

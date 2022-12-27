@@ -5,6 +5,7 @@ import com.carrot.backend.jobLike.domain.QJobsLike;
 import com.carrot.backend.jobs.domain.Jobs;
 import com.carrot.backend.jobs.domain.QJobs;
 import com.carrot.backend.jobs.dto.JobsDto;
+import com.carrot.backend.jobsApply.domain.QJobsApply;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -56,11 +57,15 @@ public class CustomizedJobsRepositoryImpl implements CustomizedJobsRepository{
     @Override
     @Transactional
     public void deleteQslJobsAndImagesByJobId(Integer jobsId) {
-        Long jobs = jpaQueryFactory
+         Long jobs1 =  jpaQueryFactory
+                .delete(QJobsApply.jobsApply)
+                .where(QJobsApply.jobsApply.jobs.jobid.eq(jobsId))
+                .execute();
+         Long jobs =  jpaQueryFactory
                 .delete(QJobsLike.jobsLike)
                 .where(QJobsLike.jobsLike.jobs.jobid.eq(jobsId))
                 .execute();
-        Long job = jpaQueryFactory
+         Long job = jpaQueryFactory
                 .delete(QJobs.jobs)
                 .where(QJobs.jobs.jobid.eq(jobsId))
                 .execute();
