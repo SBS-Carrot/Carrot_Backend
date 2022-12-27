@@ -228,6 +228,23 @@ public class NotificationService {
                 .isRead(false)
                 .build();
         notificationRepository.save(notification);
-        System.out.println("굳!");
+
+    }
+
+    public void _addReply(NotificationRequestDto notificationRequestDto) {
+        User user = userRepository.findByUserid(notificationRequestDto.getUserid()).get();
+        User sender = userRepository.findByUserid(notificationRequestDto.getSender()).get();
+
+
+        Notification notification = Notification.builder()
+                .user(user)
+                .sender(sender)
+                .notificationType(notificationRequestDto.getNotificationType())
+                .content(notificationRequestDto.getContent())
+                .url(notificationRequestDto.getUrl())
+                .isRead(false)
+                .build();
+        notificationRepository.save(notification);
+
     }
 }

@@ -1,6 +1,7 @@
 HELP.md
 application-credentials.yml
 .gradle
+application-credentials.yml
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/

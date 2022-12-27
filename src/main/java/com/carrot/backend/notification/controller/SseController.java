@@ -81,6 +81,15 @@ public class SseController {
         return ResponseEntity.ok(emitter);
     }
 
+    @PostMapping("/addReplyNotification")
+    public ResponseEntity<SseEmitter> addReply(@RequestBody NotificationRequestDto notificationRequestDto, @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId) throws Exception {
+        SseEmitter emitter = new SseEmitter();
+        notificationService.subscribe(notificationRequestDto.getUserid(), lastEventId);
+        notificationService._addReply(notificationRequestDto);
+
+        return ResponseEntity.ok(emitter);
+    }
+
 
 }
 
