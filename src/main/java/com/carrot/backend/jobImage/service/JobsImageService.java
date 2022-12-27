@@ -10,6 +10,7 @@ import com.carrot.backend.jobs.dao.CustomizedJobsRepositoryImpl;
 import com.carrot.backend.jobs.dao.JobsRepository;
 import com.carrot.backend.jobs.domain.Jobs;
 import com.carrot.backend.jobs.service.JobsService;
+import com.carrot.backend.jobsApply.dao.JobsApplyRepository;
 import com.carrot.backend.util.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +39,7 @@ public class JobsImageService {
     private final JobsRepository jobsRepository;
 
     private final CustomizedJobsRepositoryImpl customizedJobsRepository;
+    private final JobsApplyRepository jobsApplyRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -91,6 +93,7 @@ public class JobsImageService {
 
         return amazonS3Client.getUrl(bucket, fileName).toString();
     }
+
     public void jobsDelete(Integer jobsId, String dirName){
         List<JobsImages> jobs = jobsImageRepository.findAllByJobsJobid(jobsId);
         if(jobs.size() > 0){

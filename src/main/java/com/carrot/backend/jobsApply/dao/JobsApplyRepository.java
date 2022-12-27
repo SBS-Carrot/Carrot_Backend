@@ -12,4 +12,6 @@ public interface JobsApplyRepository extends JpaRepository <JobsApply, Integer> 
 
 
     Optional<JobsApply> findByJobsAndUserid(Jobs jobs, String userid);
+
+
 }
