@@ -72,4 +72,10 @@ public class BoardReplyService {
         boardReplyRepository.deleteById(replyId);
 
     }
+
+    public int test(String a,String p){
+        int answer = 0;
+
+        return answer;
+    }
 }
