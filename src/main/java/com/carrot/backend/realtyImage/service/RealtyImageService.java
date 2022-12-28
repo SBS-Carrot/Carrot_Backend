@@ -134,4 +134,24 @@ public class RealtyImageService {
         return Optional.empty();
     }
 
+
+    public void deleteImage(Integer realtyId, String dirName) {
+        List<RealtyImage> realtyImage = realtyImageRepository.findByRealtyRealtyId(realtyId);
+        if(realtyImage.size() > 0){
+            String[] productimages = new String[realtyImage.size()];
+            for(int i = 0; i < realtyImage.size(); i++){
+                productimages[i] = realtyImage.get(i).getRealtyPath();
+                String[] filename = productimages[i].split(dirName + "/");
+                deleteS3File(filename[1], dirName);
+
+                RealtyImage realty = realtyImage.get(i);
+                realtyImageRepository.delete(realty);
+
+            }
+
+
+        }else {
+            System.out.println("4번 확인");
+        }
+    }
 }

@@ -98,4 +98,19 @@ public class RealtyController {
     public List<Realty> hotRealty(){
         return realtyService.hotRealty();
     }
+    @PostMapping("/realtyEdit/{realtyId}")
+    public Realty realtyEdit(@PathVariable Integer realtyId, @RequestBody RealtyDto realtyDto){
+        return realtyService.setRealty(realtyId , realtyDto);
+    }
+
+    @PostMapping("/RealtyImagesEdit/{realtyId}")
+    public void productImageEdit(@PathVariable Integer realtyId, @RequestPart(value = "realtyDto") RealtyDto realtyDto, @RequestPart(value = "file", required = false) List<MultipartFile> multipartFile) throws IOException {
+        realtyService.setRealty(realtyId , realtyDto);
+        if(multipartFile != null){
+            realtyImageService.deleteImage(realtyId,"realtyImages");
+
+            realtyImageService.uploads(realtyId, multipartFile, "realtyImages");
+        }
+    }
+
 }

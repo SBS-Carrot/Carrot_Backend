@@ -46,7 +46,6 @@ public class NotificationController {
     @GetMapping("/notifications/count")
     public long countUnReadNotifications(@RequestParam("userid") String userid) {
 
-
         return notificationService.countUnReadNotifications(userid);
     }
 

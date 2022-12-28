@@ -114,5 +114,63 @@ public class RealtyService {
     public List<Realty> hotRealty() {
         return realtyRepository.findAll(Sort.by(Sort.Direction.ASC, "realtyCheck", "createDate"));
     }
+
+    public Realty setRealty(Integer realtyId, RealtyDto realtyDto) {
+        Realty newRealty = realtyRepository.findByRealtyId(realtyId).get();
+
+        newRealty.setRealtyWho(realtyDto.getRealtyWho());
+        newRealty.setRealtyCategory(realtyDto.getRealtyCategory());
+        newRealty.setRealtySpace(realtyDto.getRealtySpace());
+        newRealty.setRealtyArea(realtyDto.getRealtyArea());
+        newRealty.setRealtyRoom(realtyDto.getRealtyRoom());
+        newRealty.setRealtyBath(realtyDto.getRealtyBath());
+        newRealty.setRealtyAddress(realtyDto.getRealtyAddress());
+        newRealty.setRealtyWhole(realtyDto.getRealtyWhole());
+        newRealty.setRealtyFloor(realtyDto.getRealtyFloor());
+        newRealty.setRealtyMove(realtyDto.getRealtyMove());
+        newRealty.setRealtyMoveDate(realtyDto.getRealtyMoveDate());
+        newRealty.setRealtyLoan(realtyDto.getRealtyLoan());
+        newRealty.setRealtyPet(realtyDto.getRealtyPet());
+        newRealty.setRealtyParking(realtyDto.getRealtyParking());
+        newRealty.setRealtyElevator(realtyDto.getRealtyElevator());
+        String[] insideArr = new String[realtyDto.getRealtyInside().length];
+        String[] inside =  realtyDto.getRealtyInside();
+        if(insideArr.length == 0){
+            newRealty.setRealtyInside(null);
+        }else {
+            for(int i = 0; i < insideArr.length; i++){
+                if(i == insideArr.length-1){
+                    insideArr[i] = inside[i];
+                    break;
+                }
+                insideArr[i] = inside[i] + ", ";
+            }
+        }
+
+        newRealty.setRealtyInside(insideArr);
+        newRealty.setRealtyContent(realtyDto.getRealtyContent());
+        LocalDateTime date = LocalDateTime.now();
+        String dates = date.toString();
+        String yymmdd = dates.substring(0,10);
+        newRealty.setCreateDate(yymmdd);
+        newRealty.setRealtyDeposit(realtyDto.getRealtyDeposit());
+        newRealty.setRealtyMonthly(realtyDto.getRealtyMonthly());
+        newRealty.setRealtyShortTerm(realtyDto.getRealtyShortTerm());
+        newRealty.setRealtyChangePrice(realtyDto.getRealtyChangePrice());
+        newRealty.setRealtyDepositChange(realtyDto.getRealtyDepositChange());
+        newRealty.setRealtyCost(realtyDto.getRealtyCost());
+        newRealty.setRealtyCostContent(realtyDto.getRealtyCostContent());
+        newRealty.setRealtySalePrice(realtyDto.getRealtySalePrice());
+        newRealty.setRealtyDealing(realtyDto.getRealtyDealing());
+
+
+        newRealty.setRealtyUserid(realtyDto.getRealtyUserid());
+
+        newRealty.setRealtyIntroduce(realtyDto.getRealtyIntroduce());
+        newRealty.setRealtyAddressDong(realtyDto.getRealtyAddressDong());
+
+
+        return realtyRepository.save(newRealty);
+    }
 }
 
