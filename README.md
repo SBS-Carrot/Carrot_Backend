@@ -4,7 +4,7 @@
 
 [유튜브](https://www.youtube.com/watch?v=tEu6WCS2XUY)
 
-[프론트 주소](https://github.com/SBS-Carrot/Carrot_Frontend)
+[프론트 주소](https://github.com/SBS-Carrot/Carrot-frontend)
 
 ## 프로젝트 설명
 
