@@ -35,13 +35,12 @@ public class SearchService {
 
     private final UserRepository userRepository;
     public List<Product> searchProduct(SearchDto searchDto){
+
         if(searchRepository.findBySearchWord(searchDto.getSearchWord()).isPresent()){
-            System.out.println("111");
             Search search1 = searchRepository.findBySearchWord(searchDto.getSearchWord()).get();
             search1.setSearchNum(search1.getSearchNum()+1);
             searchRepository.save(search1);
         }else {
-            System.out.println("222");
             Search search2 = new Search();
             search2.setSearchWord(searchDto.getSearchWord());
             search2.setSearchNum(1);
